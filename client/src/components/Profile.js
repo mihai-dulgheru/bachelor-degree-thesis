@@ -23,6 +23,13 @@ import './css/Profile.css'
 import swal from 'sweetalert'
 import { styled } from '@mui/material/styles'
 import Stack from '@mui/material/Stack'
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert from '@mui/material/Alert'
+import Slide from '@mui/material/Slide'
+
+const Alert = React.forwardRef(function Alert (props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
 
 const BootstrapButton = styled(Button)({
   display: 'inline-block',
@@ -81,6 +88,16 @@ function Profile () {
   const [accessToken, setAccessToken] = useState('')
   const [user, setUser] = useState({})
   const tempAccessToken = localStorage.getItem('accessToken')
+  const [state, setState] = useState({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+    transition: function (props) {
+      return <Slide {...props} direction='up' />
+    },
+    message: 'Profile photo updated!'
+  })
+  const { vertical, horizontal, open, transition, message } = state
 
   useEffect(() => {
     getUser()
@@ -120,6 +137,10 @@ function Profile () {
     }
   }
 
+  const handleClose = () => {
+    setState({ ...state, open: false })
+  }
+
   const getUser = async () => {
     const response = await fetch('http://localhost:8080/api/auth/user', {
       method: 'GET',
@@ -148,9 +169,8 @@ function Profile () {
     })
     const data = await response.json()
     if (data.status === 'ok') {
-      swal('Success', data.message, 'success').then((value) => {
-        setUser(data.user)
-      })
+      setUser(data.user)
+      setState({ ...state, open: true })
     } else {
       swal('Failed', data.message, 'error').then((value) => {
         navigate('/login')
@@ -252,7 +272,7 @@ function Profile () {
               <TableRow>
                 <TableCell colSpan={1}>Personal Information</TableCell>
                 <TableCell align='right'>
-                  <Button variant='contained' size='medium'>
+                  <Button variant='contained' size='medium' onClick={() => navigate('/edit-personal-information')}>
                     Edit
                   </Button>
                 </TableCell>
@@ -283,7 +303,7 @@ function Profile () {
               <TableRow>
                 <TableCell colSpan={1}>Other Information</TableCell>
                 <TableCell align='right'>
-                  <Button variant='contained' size='medium'>
+                  <Button variant='contained' size='medium' onClick={() => navigate('/edit-other-information')}>
                     Edit
                   </Button>
                 </TableCell>
@@ -310,11 +330,27 @@ function Profile () {
       <CardContent>
         <Stack direction='row' justifyContent='center' alignItems='center'>
           <BootstrapButton variant='outlined' color='error' size='medium' onClick={deleteUser}>
-            Delete
+            Delete account
           </BootstrapButton>
         </Stack>
       </CardContent>
     </Card>
+  )
+
+  const snackbar = (
+    <Stack spacing={2} sx={{ width: '100%' }}>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        TransitionComponent={transition}
+      >
+        <Alert onClose={handleClose} severity='success' spacing={2} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
+    </Stack>
   )
 
   return (
@@ -324,6 +360,7 @@ function Profile () {
       {personalInfoCard}
       {otherInfoCard}
       {deleteAccountCard}
+      {snackbar}
     </div>
   )
 }

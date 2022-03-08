@@ -1,14 +1,11 @@
-const jsscompress = require('js-string-compression')
-const hm = new jsscompress.Hauffman()
+const LZString = require('lz-string')
 
-function compress(rawText) {
-  const compressed = hm.compress(rawText)
-  return compressed
+function compress (string) {
+  return LZString.compress(string)
 }
 
-function decompress(compressed) {
-  const decompressed = hm.decompress(compressed)
-  return decompressed
+function decompress (compressed) {
+  return LZString.decompress(compressed)
 }
 
 module.exports = { compress, decompress }

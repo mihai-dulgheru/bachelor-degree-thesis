@@ -1,11 +1,6 @@
-const Device = require('../models/device')
-const Prize = require('../models/prize')
 const User = require('../models/user')
-const UserDevice = require('../models/user-device')
-const { Op } = require('sequelize')
 const apiRouter = require('express').Router()
 const crypto = require('crypto')
-const { compress, decompress } = require('../string-compression')
 
 apiRouter.route('/login').post(async (req, res, next) => {
   try {

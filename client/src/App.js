@@ -1,9 +1,12 @@
-import './App.css'
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Signin from './components/Sigin'
 import Profile from './components/Profile'
 import Home from './components/Home'
+import Signup from './components/Signup'
+import './App.css'
+import PersonalInformation from './components/PersonalInformation'
+import OtherInformation from './components/OtherInformation'
 
 function App () {
   const [accessToken, setAccessToken] = useState('')
@@ -21,9 +24,12 @@ function App () {
     <div className='wrapper'>
       <BrowserRouter>
         <Routes>
+          <Route path='/signup' element={<Signup />} />
           {!accessToken
             ? (
-              <Route path='*' element={<Signin onSignin={handleSignin} />} />
+              <>
+                <Route path='*' element={<Signin onSignin={handleSignin} />} />
+              </>
               )
             : (
               <>
@@ -31,6 +37,8 @@ function App () {
                 <Route path='/home' element={<Home />} />
                 <Route path='/login' element={<Signin onSignin={handleSignin} />} />
                 <Route path='/profile' element={<Profile />} />
+                <Route path='/edit-personal-information' element={<PersonalInformation />} />
+                <Route path='/edit-other-information' element={<OtherInformation />} />
               </>
               )}
         </Routes>
