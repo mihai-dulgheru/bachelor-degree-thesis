@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
@@ -10,6 +10,9 @@ import swal from 'sweetalert'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import './css/Signin.css'
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import Visibility from '@mui/icons-material/Visibility'
 
 async function loginUser (credentials) {
   return fetch('/api/login', {
@@ -24,8 +27,15 @@ async function loginUser (credentials) {
 function Signin (props) {
   const { onSignin } = props
   const navigate = useNavigate()
-  const [username, setUsername] = useState('dulgherumihai19')
-  const [password, setPassword] = useState('Password123!')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.getItem('username')) {
+      setUsername(localStorage.getItem('username'))
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -50,6 +60,14 @@ function Signin (props) {
     }
   }
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
+
   return (
     <Grid id='container' container>
       <CssBaseline />
@@ -71,21 +89,31 @@ function Signin (props) {
               fullWidth
               name='username'
               label='Username'
-              defaultValue='dulgherumihai19'
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <TextField
-              id='password'
-              type='password'
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              name='password'
-              label='Password'
-              defaultValue='Password123!'
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <FormControl id='password' variant='outlined' margin='normal' required fullWidth name='password'>
+              <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+              <OutlinedInput
+                id='outlined-adornment-password'
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label='Password'
+              />
+            </FormControl>
             <Button id='submit-button' type='submit' fullWidth variant='contained' color='primary'>
               Sign In
             </Button>

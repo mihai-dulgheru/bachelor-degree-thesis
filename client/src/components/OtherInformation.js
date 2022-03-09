@@ -1,4 +1,4 @@
-import { Button, MenuItem, Stack, TextField, Typography } from '@mui/material'
+import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
@@ -45,11 +45,21 @@ function OtherInformation () {
     })
     const data = await response.json()
     if (data.status === 'ok') {
-      setSupplier(data.user.supplier)
-      setCounty(data.user.county)
-      setVoltageLevel(data.user.voltageLevel)
-      setBudget(data.user.budget)
-      setInvoiceUnitValue(data.user.invoiceUnitValue)
+      if (data.user.supplier) {
+        setSupplier(data.user.supplier)
+      }
+      if (data.user.county) {
+        setCounty(data.user.county)
+      }
+      if (data.user.voltageLevel) {
+        setVoltageLevel(data.user.voltageLevel)
+      }
+      if (data.user.budget) {
+        setBudget(data.user.budget)
+      }
+      if (data.user.invoiceUnitValue) {
+        setInvoiceUnitValue(data.user.invoiceUnitValue)
+      }
     } else {
       swal('Failed', data.message, 'error').then((value) => {
         navigate('/login')
@@ -96,7 +106,7 @@ function OtherInformation () {
 
   return (
     <div className='position-absolute top-50 start-50 translate-middle'>
-      <Stack direction='column' spacing={2}>
+      <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
         <Typography variant='h5' textAlign='left'>
           CHANGE YOUR OTHER INFORMATION
         </Typography>

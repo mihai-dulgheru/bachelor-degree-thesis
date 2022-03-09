@@ -1,4 +1,18 @@
-import { Button, Stack, TextField, Typography } from '@mui/material'
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Paper,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
@@ -12,6 +26,7 @@ function PersonalInformation () {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   const getUser = async () => {
     const response = await fetch('http://localhost:8080/api/auth/user', {
@@ -78,14 +93,23 @@ function PersonalInformation () {
         user = { ...user, password: password }
       }
       await updateUser(user)
+      localStorage.setItem('username', username)
     } else {
       swal('Failed', 'Fill in all the required fields!', 'error')
     }
   }
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
+
   return (
     <div className='position-absolute top-50 start-50 translate-middle'>
-      <Stack direction='column' spacing={2}>
+      <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
         <Typography variant='h5' textAlign='left'>
           CHANGE YOUR PERSONAL INFORMATION
         </Typography>
@@ -146,16 +170,32 @@ function PersonalInformation () {
           </div>
           <div className='row mb-3'>
             <div className='col'>
-              <TextField
-                fullWidth
-                type='password'
-                className='form-control'
-                id='inputPassword'
-                label='Password'
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                helperText='The password must contain 8 characters with at least 1 Uppercase [A-Z], 1 lowercase [a-z], and 1 numeric character [0-9]'
-              />
+              <FormControl fullWidth className='form-control' id='inputPassword'>
+                <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+                <OutlinedInput
+                  id='outlined-adornment-password'
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label='Password'
+                />
+                <FormHelperText>
+                  The password must contain 8 characters with at least 1 Uppercase [A-Z], 1 lowercase [a-z], and 1
+                  numeric character [0-9]
+                </FormHelperText>
+              </FormControl>
             </div>
           </div>
           <div className='d-grid gap-2 d-md-flex justify-content-md-end'>

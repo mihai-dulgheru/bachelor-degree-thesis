@@ -187,7 +187,8 @@ function Profile () {
     })
     const data = await response.json()
     if (data.status === 'ok') {
-      swal('Success', data.message, 'success').then((value) => {
+      swal('Success', 'User deleted!', 'success').then((value) => {
+        localStorage.removeItem('username')
         handleLogout()
       })
     } else {
@@ -209,11 +210,11 @@ function Profile () {
   ]
 
   const rowsOtherInfoCard = [
-    createData('Supplier', user.supplier),
-    createData('County', user.county),
-    createData('Voltage Level', user.voltageLevel),
-    createData('Budget', user.budget),
-    createData('Invoice Unit Value', user.invoiceUnitValue)
+    createData('Supplier', user.supplier ? user.supplier : '-'),
+    createData('County', user.county ? user.county : '-'),
+    createData('Voltage Level', user.voltageLevel ? user.voltageLevel : 0),
+    createData('Budget', user.budget ? user.budget : 0),
+    createData('Invoice Unit Value', user.invoiceUnitValue ? user.invoiceUnitValue : 0)
   ]
 
   const appBar = (

@@ -1,18 +1,23 @@
 import React, { useState } from 'react'
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import { CssBaseline, Slide, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  CssBaseline,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography,
+  TextField,
+  Paper,
+  Grid
+} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import Snackbar from '@mui/material/Snackbar'
-import MuiAlert from '@mui/material/Alert'
 import './css/Signup.css'
-
-const Alert = React.forwardRef(function Alert (props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
-})
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import Visibility from '@mui/icons-material/Visibility'
 
 function Signup () {
   const navigate = useNavigate()
@@ -21,20 +26,7 @@ function Signup () {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [state, setState] = useState({
-    open: false,
-    vertical: 'bottom',
-    horizontal: 'center',
-    transition: function (props) {
-      return <Slide {...props} direction='up' />
-    },
-    message: 'User created!'
-  })
-  const { vertical, horizontal, open, transition, message } = state
-
-  const handleClose = () => {
-    setState({ ...state, open: false })
-  }
+  const [showPassword, setShowPassword] = useState(false)
 
   const validation = () => {
     if (firstName === '' || lastName === '' || username === '' || password === '' || email === '') {
@@ -71,14 +63,8 @@ function Signup () {
       const data = await response.json()
       if (data.status === 'ok') {
         clearForm()
-        // setState({ ...state, open: true })
-        // setTimeout(() => {
-        //   navigate('/login')
-        // }, 2000)
-        swal('Success', 'User created!', 'success', {
-          buttons: false,
-          timer: 2000
-        }).then(() => {
+        swal('Success', 'User created!', 'success').then(() => {
+          localStorage.setItem('username', username)
           navigate('/login')
         })
       } else {
@@ -89,21 +75,13 @@ function Signup () {
     }
   }
 
-  const snackbar = (
-    <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-        TransitionComponent={transition}
-      >
-        <Alert onClose={handleClose} severity='success' spacing={2} sx={{ width: '100%' }}>
-          {message}
-        </Alert>
-      </Snackbar>
-    </Stack>
-  )
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
 
   const form = (
     <>
@@ -168,17 +146,32 @@ function Signup () {
         </div>
         <div className='row mb-3'>
           <div className='col'>
-            <TextField
-              fullWidth
-              required
-              type='password'
-              className='form-control'
-              id='inputPassword'
-              label='Password'
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              helperText='The password must contain 8 characters with at least 1 Uppercase [A-Z], 1 lowercase [a-z], and 1 numeric character [0-9]'
-            />
+            <FormControl fullWidth required className='form-control' id='inputPassword'>
+              <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+              <OutlinedInput
+                id='outlined-adornment-password'
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label='Password'
+              />
+              <FormHelperText>
+                The password must contain 8 characters with at least 1 Uppercase [A-Z], 1 lowercase [a-z], and 1 numeric
+                character [0-9]
+              </FormHelperText>
+            </FormControl>
           </div>
         </div>
         <div className='d-grid col-2 mx-auto'>
@@ -214,7 +207,6 @@ function Signup () {
           </Grid>
         </Grid>
       </Box>
-      {snackbar}
     </div>
   )
 }
