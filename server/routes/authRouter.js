@@ -1,3 +1,4 @@
+const Device = require('../models/device')
 const User = require('../models/user')
 const authRouter = require('express').Router()
 
@@ -77,5 +78,55 @@ authRouter
       next(err)
     }
   })
+
+authRouter.route('/devices').get(async (req, res, next) => {
+  try {
+    const devices = await Device.findAll({
+      attributes: { exclude: ['id'] }
+    })
+    const deviceCollection = []
+    for (const device of devices) {
+      const item = {
+        value: `${device.dataValues.deviceType},${device.dataValues.energyClass},${device.dataValues.consumption},${device.dataValues.noWorkingHours}`,
+        label: `${device.dataValues.deviceType}, ${device.dataValues.energyClass}, ${device.dataValues.consumption} kWh, ${device.dataValues.noWorkingHours} h`
+      }
+      if (!deviceCollection.some((element) => element.value === item.value)) {
+        deviceCollection.push(item)
+      }
+    }
+    res.status(200).json({
+      status: 'ok',
+      devices: deviceCollection
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+authRouter.route('/user/devices').post(async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        token: req.headers.authorization
+      }
+    })
+    if (req.body.consumption && req.body.noWorkingHours && req.body.energyClass && req.body.deviceType) {
+      const device = await Device.create(req.body)
+      await user.addDevice(device)
+      res.status(200).json({
+        status: 'ok',
+        message: `Device with ID = ${device.id} is created`,
+        device: device
+      })
+    } else {
+      res.status(400).json({
+        status: 'error',
+        message: 'Missing fields (consumption, noWorkingHours, energyClass and/or deviceType)'
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
 
 module.exports = authRouter

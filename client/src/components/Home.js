@@ -15,17 +15,6 @@ import InputUnstyled from '@mui/base/InputUnstyled'
 import types from '../collections/types.json'
 import energyClasses from '../collections/energy-classes.json'
 
-const devices = [
-  {
-    value: 'Televizor, F, 31 kWh, 6 h',
-    label: 'Televizor, F, 31 kWh, 6 h'
-  },
-  {
-    value: 'Frigider, F, 228 kWh, 24 h',
-    label: 'Frigider, F, 228 kWh, 24 h'
-  }
-]
-
 const StyledInputElement = styled('input')(
   ({ theme }) => `
   display: block;
@@ -60,6 +49,12 @@ function Home () {
   const [energyClass, setEnergyClass] = useState(energyClasses[0].value)
   const [consumption, setConsumption] = useState('')
   const [noOperatingHours, setNoOperatingHours] = useState('')
+  const [devices, setDevices] = useState([
+    {
+      value: '',
+      label: ''
+    }
+  ])
   const [device, setDevice] = useState(devices[0].value)
   const regExp = /^[0-9\b]+$/
 
@@ -106,22 +101,76 @@ function Home () {
   }
 
   const handleChangeCustomInputNoOperatingHours = (event) => {
-    if (event.target.value === '' || regExp.test(event.target.value)) {
+    if (event.target.value === '' || (regExp.test(event.target.value) && parseInt(event.target.value) < 25)) {
       setNoOperatingHours(event.target.value)
     }
   }
 
-  const handleAdd = () => {
-    console.log({
-      consumption: consumption ? parseInt(consumption) : 0,
-      noWorkingHours: noOperatingHours ? parseInt(noOperatingHours) : 0,
-      energyClass: energyClass,
-      deviceType: type
-    })
+  const validation = () => {
+    if (consumption && noOperatingHours) {
+      return true
+    }
+    return false
   }
 
-  const handleChoose = () => {
-    console.log(device)
+  const clearForm = () => {
+    setType(types[0].value)
+    setEnergyClass(energyClasses[0].value)
+    setConsumption('')
+    setNoOperatingHours('')
+  }
+
+  const handleAdd = async () => {
+    if (validation()) {
+      const device = {
+        consumption: consumption ? parseInt(consumption) : 0,
+        noWorkingHours: noOperatingHours ? parseInt(noOperatingHours) : 0,
+        energyClass: energyClass,
+        deviceType: type
+      }
+      const response = await fetch('http://localhost:8080/api/auth/user/devices', {
+        method: 'POST',
+        headers: {
+          authorization: localStorage.getItem('accessToken'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(device)
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        swal('Success', 'Device created!', 'success').then(() => {
+          clearForm()
+          getDevices()
+        })
+      } else {
+        swal('Failed', data.errors[0].message, 'error')
+      }
+    } else {
+      swal('Failed', 'Missing fields (Average hourly consumption (kWh) and/or Number of operating hours)', 'error')
+    }
+  }
+
+  const handleChoose = async () => {
+    const chosenDevice = {
+      deviceType: device.split(',')[0],
+      energyClass: device.split(',')[1],
+      consumption: parseInt(device.split(',')[2]),
+      noWorkingHours: parseInt(device.split(',')[3])
+    }
+    const response = await fetch('http://localhost:8080/api/auth/user/devices', {
+      method: 'POST',
+      headers: {
+        authorization: localStorage.getItem('accessToken'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(chosenDevice)
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      swal('Success', 'Device created!', 'success')
+    } else {
+      swal('Failed', data.errors[0].message, 'error')
+    }
   }
 
   const getUser = async () => {
@@ -141,8 +190,27 @@ function Home () {
     }
   }
 
+  const getDevices = async () => {
+    const response = await fetch('http://localhost:8080/api/auth/devices', {
+      method: 'GET',
+      headers: {
+        authorization: localStorage.getItem('accessToken')
+      }
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      setDevices(data.devices)
+      setDevice(data.devices[0].value)
+    } else {
+      swal('Failed', data.message, 'error').then((value) => {
+        navigate('/login')
+      })
+    }
+  }
+
   useEffect(() => {
     getUser()
+    getDevices()
   }, [])
 
   const appBar = (
@@ -243,7 +311,7 @@ function Home () {
       <form>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Device type:</Typography>
+            <Typography variant='h6'>Device type: *</Typography>
           </div>
           <div className='col'>
             <select
@@ -261,7 +329,7 @@ function Home () {
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Energy class:</Typography>
+            <Typography variant='h6'>Energy class: *</Typography>
           </div>
           <div className='col'>
             <select
@@ -279,7 +347,7 @@ function Home () {
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Average hourly consumption (kWh):</Typography>
+            <Typography variant='h6'>Average hourly consumption (kWh): *</Typography>
           </div>
           <div className='col'>
             <div className='custom-input'>
@@ -289,7 +357,7 @@ function Home () {
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Number of operating hours:</Typography>
+            <Typography variant='h6'>Number of operating hours: *</Typography>
           </div>
           <div className='col'>
             <div className='custom-input'>

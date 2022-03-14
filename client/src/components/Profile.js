@@ -108,7 +108,7 @@ function Profile () {
   }, [tempAccessToken])
 
   const handleBack = () => {
-    navigate('/home')
+    navigate(-1)
   }
 
   const handleLogout = () => {

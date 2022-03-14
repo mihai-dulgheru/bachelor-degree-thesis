@@ -10,7 +10,7 @@ const Device = sequelize.define(
       autoIncrement: true
     },
     consumption: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         isFloat: true,
