@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import './css/Home.css'
 import swal from 'sweetalert'
 import { Button, Container, Menu, MenuItem, Paper, Stack, Tooltip } from '@mui/material'
-import { Box, styled, width } from '@mui/system'
+import { Box, styled } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu'
 import InputUnstyled from '@mui/base/InputUnstyled'
 import types from '../collections/types.json'
@@ -36,11 +36,11 @@ const StyledInputElement = styled('input')(
 `
 )
 
-const CustomInput = forwardRef(function CustomInput (props, ref) {
+const CustomInput = forwardRef(function CustomInput(props, ref) {
   return <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref} />
 })
 
-function Home () {
+function Home() {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -55,7 +55,7 @@ function Home () {
       label: ''
     }
   ])
-  const [device, setDevice] = useState(devices[0].value)
+  const [device, setDevice] = useState('')
   const regExp = /^[0-9\b]+$/
 
   const handleOpenNavMenu = (event) => {
@@ -199,8 +199,10 @@ function Home () {
     })
     const data = await response.json()
     if (data.status === 'ok') {
-      setDevices(data.devices)
-      setDevice(data.devices[0].value)
+      if (data.devices.length > 0) {
+        setDevices(data.devices)
+        setDevice(data.devices[0].value)
+      }
     } else {
       swal('Failed', data.message, 'error').then((value) => {
         navigate('/login')

@@ -10,18 +10,140 @@ import {
   Avatar,
   IconButton,
   Toolbar,
-  Typography
+  Typography,
+  Paper,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TablePagination
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { Box } from '@mui/system'
 import swal from 'sweetalert'
+import PropTypes from 'prop-types'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import { visuallyHidden } from '@mui/utils'
+import './css/DeviceList.css'
 
-function DeviceList () {
+const columns = [
+  {
+    id: 'deviceType',
+    numeric: false,
+    disablePadding: true,
+    label: 'Device type'
+  },
+  {
+    id: 'energyClass',
+    numeric: false,
+    disablePadding: false,
+    label: 'Energy class'
+  },
+  {
+    id: 'consumption',
+    numeric: true,
+    disablePadding: false,
+    label: 'Average hourly consumption (kWh)'
+  },
+  {
+    id: 'noWorkingHours',
+    numeric: true,
+    disablePadding: false,
+    label: 'Number of operating hours'
+  }
+]
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1
+  }
+  return 0
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy)
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index])
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0])
+    if (order !== 0) {
+      return order
+    }
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
+}
+
+EnhancedTableHead.propTypes = {
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  onRequestSort: PropTypes.func.isRequired
+}
+
+function EnhancedTableHead(props) {
+  const { order, orderBy, onRequestSort } = props
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property)
+  }
+
+  return (
+    <TableHead>
+      <TableRow>
+        {columns.map((column) => (
+          <TableCell
+            key={column.id}
+            align={column.numeric ? 'right' : 'left'}
+            padding={column.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === column.id ? order : false}
+            style={{ width: `calc(100% / ${columns.length + 1})` }}
+          >
+            <TableSortLabel
+              active={orderBy === column.id}
+              direction={orderBy === column.id ? order : 'asc'}
+              onClick={createSortHandler(column.id)}
+            >
+              {column.label}
+              {orderBy === column.id ? (
+                <Box component='span' sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+        <TableCell
+          key={'action'}
+          align={'center'}
+          padding={'normal'}
+          style={{ width: `calc(100% / ${columns.length + 1})` }}
+        >
+          Action
+        </TableCell>
+      </TableRow>
+    </TableHead>
+  )
+}
+
+function DeviceList() {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
+  const [order, setOrder] = useState('asc')
+  const [orderBy, setOrderBy] = useState('deviceType')
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rows, setRows] = useState([])
 
   const getUser = async () => {
     const response = await fetch('http://localhost:8080/api/auth/user', {
@@ -40,13 +162,32 @@ function DeviceList () {
     }
   }
 
+  const getDevices = async () => {
+    const response = await fetch('http://localhost:8080/api/auth/user/devices', {
+      method: 'GET',
+      headers: {
+        authorization: localStorage.getItem('accessToken')
+      }
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      setRows(data.devices)
+    } else {
+      swal('Failed', data.message, 'error').then((value) => {
+        navigate('/login')
+      })
+    }
+  }
+
   useEffect(() => {
     getUser()
+    getDevices()
   }, [])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
@@ -177,7 +318,100 @@ function DeviceList () {
     </AppBar>
   )
 
-  return <div>{appBar}DeviceList</div>
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+
+  const table = (
+    <Box sx={{ width: '90%', margin: '8px auto 0px auto' }}>
+      <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
+        <TableContainer>
+          <Table stickyHeader size={'medium'}>
+            <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+            <TableBody>
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  return (
+                    <TableRow key={index} hover tabIndex={-1}>
+                      <TableCell align={'left'} padding={'none'}>
+                        {row.deviceType}
+                      </TableCell>
+                      <TableCell align={'left'}>{row.energyClass}</TableCell>
+                      <TableCell align={'right'}>{row.consumption}</TableCell>
+                      <TableCell align={'right'}>{row.noWorkingHours}</TableCell>
+                      <TableCell align={'center'}>
+                        <Button
+                          variant='outlined'
+                          color='error'
+                          onClick={async (event) => {
+                            const response = await fetch(`http://localhost:8080/api/auth/user/devices/${row.id}`, {
+                              method: 'DELETE',
+                              headers: {
+                                authorization: localStorage.getItem('accessToken')
+                              }
+                            })
+                            const data = await response.json()
+                            if (data.status === 'ok') {
+                              getDevices()
+                            } else {
+                              swal('Failed', data.message, 'error').then((value) => {
+                                navigate('/login')
+                              })
+                            }
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: 53 * emptyRows
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          className='table-pagination'
+          rowsPerPageOptions={[5, 10, 15]}
+          component='div'
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </Box>
+  )
+
+  return (
+    <div>
+      {appBar}
+      {table}
+    </div>
+  )
 }
 
 export default DeviceList

@@ -5,7 +5,7 @@ import swal from 'sweetalert'
 import suppliers from '../collections/suppliers.json'
 import counties from '../collections/counties.json'
 
-function OtherInformation () {
+function OtherInformation() {
   const navigate = useNavigate()
   const [accessToken, setAccessToken] = useState('')
   const tempAccessToken = localStorage.getItem('accessToken')

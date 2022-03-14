@@ -20,7 +20,7 @@ import './css/Signup.css'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
 
-function Signup () {
+function Signup() {
   const navigate = useNavigate()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -188,8 +188,7 @@ function Signup () {
         <br />
         Already have an account?{' '}
         <a
-          href='#'
-          className='link-dark'
+          className='link-dark a'
           onClick={(e) => {
             e.preventDefault()
             navigate('/login')

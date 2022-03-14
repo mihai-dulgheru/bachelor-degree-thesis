@@ -17,7 +17,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { Box } from '@mui/system'
 import swal from 'sweetalert'
 
-function Prizes () {
+function Prizes() {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -128,11 +128,7 @@ function Prizes () {
             <Button key='Home' onClick={handleClickNavMenuHome} sx={{ my: 2, color: 'white', display: 'block' }}>
               Home
             </Button>
-            <Button
-              key='Devices'
-              onClick={handleClickNavMenuDevices}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
+            <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ my: 2, color: 'white', display: 'block' }}>
               Devices
             </Button>
             <Typography

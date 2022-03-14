@@ -10,7 +10,7 @@ import OtherInformation from './components/OtherInformation'
 import DeviceList from './components/DeviceList'
 import Prizes from './components/Prizes'
 
-function App () {
+function App() {
   const [accessToken, setAccessToken] = useState('')
   const tempAccessToken = localStorage.getItem('accessToken')
 
@@ -27,24 +27,22 @@ function App () {
       <BrowserRouter>
         <Routes>
           <Route path='/signup' element={<Signup />} />
-          {!accessToken
-            ? (
-              <>
-                <Route path='*' element={<Signin onSignin={handleSignin} />} />
-              </>
-              )
-            : (
-              <>
-                <Route path='/' element={<Home />} />
-                <Route path='/home' element={<Home />} />
-                <Route path='/login' element={<Signin onSignin={handleSignin} />} />
-                <Route path='/profile' element={<Profile />} />
-                <Route path='/edit-personal-information' element={<PersonalInformation />} />
-                <Route path='/edit-other-information' element={<OtherInformation />} />
-                <Route path='/device-list' element={<DeviceList />} />
-                <Route path='/prizes' element={<Prizes />} />
-              </>
-              )}
+          {!accessToken ? (
+            <>
+              <Route path='*' element={<Signin onSignin={handleSignin} />} />
+            </>
+          ) : (
+            <>
+              <Route path='/' element={<Home />} />
+              <Route path='/home' element={<Home />} />
+              <Route path='/login' element={<Signin onSignin={handleSignin} />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/edit-personal-information' element={<PersonalInformation />} />
+              <Route path='/edit-other-information' element={<OtherInformation />} />
+              <Route path='/device-list' element={<DeviceList />} />
+              <Route path='/prizes' element={<Prizes />} />
+            </>
+          )}
         </Routes>
       </BrowserRouter>
     </div>

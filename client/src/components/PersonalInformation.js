@@ -17,7 +17,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 
-function PersonalInformation () {
+function PersonalInformation() {
   const navigate = useNavigate()
   const [accessToken, setAccessToken] = useState('')
   const tempAccessToken = localStorage.getItem('accessToken')

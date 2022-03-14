@@ -1,0 +1,9 @@
+.table-pagination p {
+  margin: auto 0px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}

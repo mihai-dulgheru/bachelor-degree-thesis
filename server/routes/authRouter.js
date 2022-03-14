@@ -103,25 +103,77 @@ authRouter.route('/devices').get(async (req, res, next) => {
   }
 })
 
-authRouter.route('/user/devices').post(async (req, res, next) => {
+authRouter
+  .route('/user/devices')
+  .get(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Device
+      })
+      const devices = user.Devices
+      const tempDevices = []
+      for (const device of devices) {
+        const { User_Device, ...tempDevice } = device.dataValues
+        tempDevices.push(tempDevice)
+      }
+      res.status(200).json({
+        status: 'ok',
+        devices: tempDevices
+      })
+    } catch (err) {
+      next(err)
+    }
+  })
+  .post(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        }
+      })
+      if (req.body.consumption && req.body.noWorkingHours && req.body.energyClass && req.body.deviceType) {
+        const device = await Device.create(req.body)
+        await user.addDevice(device)
+        res.status(200).json({
+          status: 'ok',
+          message: `Device with ID = ${device.id} is created`,
+          device: device
+        })
+      } else {
+        res.status(400).json({
+          status: 'error',
+          message: 'Missing fields (consumption, noWorkingHours, energyClass and/or deviceType)'
+        })
+      }
+    } catch (err) {
+      next(err)
+    }
+  })
+
+authRouter.route('/user/devices/:deviceId').delete(async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
         token: req.headers.authorization
-      }
+      },
+      include: Device
     })
-    if (req.body.consumption && req.body.noWorkingHours && req.body.energyClass && req.body.deviceType) {
-      const device = await Device.create(req.body)
-      await user.addDevice(device)
+    const devices = user.Devices
+    const deviceId = parseInt(req.params.deviceId)
+    const device = devices.map((element) => element.dataValues).find((element) => element.id === deviceId)
+    if (device) {
+      await (await Device.findByPk(deviceId)).destroy()
       res.status(200).json({
         status: 'ok',
-        message: `Device with ID = ${device.id} is created`,
-        device: device
+        message: `Device with ID = ${deviceId} is deleted`
       })
     } else {
-      res.status(400).json({
+      res.status(404).json({
         status: 'error',
-        message: 'Missing fields (consumption, noWorkingHours, energyClass and/or deviceType)'
+        message: `Device with ID = ${deviceId} not found`
       })
     }
   } catch (err) {

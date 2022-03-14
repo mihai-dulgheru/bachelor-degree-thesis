@@ -14,7 +14,7 @@ import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } fr
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
 
-async function loginUser (credentials) {
+async function loginUser(credentials) {
   return fetch('/api/login', {
     method: 'POST',
     headers: {
@@ -24,7 +24,7 @@ async function loginUser (credentials) {
   }).then((data) => data.json())
 }
 
-function Signin (props) {
+function Signin(props) {
   const { onSignin } = props
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
@@ -53,6 +53,7 @@ function Signin (props) {
         })
         .then((value) => {
           onSignin(response.accessToken)
+          localStorage.setItem('username', username)
           navigate('/home')
         })
     } else {
@@ -125,8 +126,7 @@ function Signin (props) {
             <Typography textAlign='center'>
               No account?{' '}
               <a
-                href='#'
-                className='link-dark'
+                className='link-dark a'
                 onClick={(e) => {
                   e.preventDefault()
                   navigate('/signup')

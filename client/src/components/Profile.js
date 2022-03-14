@@ -27,7 +27,7 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import Slide from '@mui/material/Slide'
 
-const Alert = React.forwardRef(function Alert (props, ref) {
+const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
@@ -83,7 +83,7 @@ const BootstrapButton = styled(Button)({
   }
 })
 
-function Profile () {
+function Profile() {
   const navigate = useNavigate()
   const [accessToken, setAccessToken] = useState('')
   const [user, setUser] = useState({})
@@ -198,7 +198,7 @@ function Profile () {
     }
   }
 
-  function createData (property, value) {
+  function createData(property, value) {
     return { property, value }
   }
 
