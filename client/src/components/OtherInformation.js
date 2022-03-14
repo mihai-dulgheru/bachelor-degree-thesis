@@ -2,8 +2,8 @@ import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/mate
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import suppliers from '../json/suppliers.json'
-import counties from '../json/counties.json'
+import suppliers from '../collections/suppliers.json'
+import counties from '../collections/counties.json'
 
 function OtherInformation () {
   const navigate = useNavigate()
@@ -105,7 +105,7 @@ function OtherInformation () {
   }
 
   return (
-    <div className='position-absolute top-50 start-50 translate-middle'>
+    <div className='position-absolute top-50 start-50 translate-middle col-6'>
       <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
         <Typography variant='h5' textAlign='left'>
           CHANGE YOUR OTHER INFORMATION

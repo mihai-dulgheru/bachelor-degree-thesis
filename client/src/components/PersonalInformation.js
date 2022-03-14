@@ -202,9 +202,15 @@ function PersonalInformation () {
             <Button variant='contained' color='success' onClick={handleSave}>
               Save
             </Button>
+            {/* <button type='button' className='btn btn-success text-uppercase' onClick={handleSave}>
+              Save
+            </button> */}
             <Button variant='contained' onClick={() => navigate('/profile')}>
               Back
-            </Button>
+            </Button>{' '}
+            {/* <button type='button' className='btn btn-primary text-uppercase' onClick={() => navigate('/profile')}>
+              Back
+            </button> */}
           </div>
         </form>
       </Stack>

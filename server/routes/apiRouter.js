@@ -139,4 +139,45 @@ apiRouter
     }
   })
 
+apiRouter
+  .route('/users/:id/devices')
+  .get(async (req, res, next) => {
+    try {
+      // TODO
+    } catch (err) {
+      next(err)
+    }
+  })
+  .post(async (req, res, next) => {
+    try {
+      // TODO
+    } catch (err) {
+      next(err)
+    }
+  })
+
+apiRouter
+  .route('/users/:userId/devices/:deviceId')
+  .get(async (req, res, next) => {
+    try {
+      // TODO
+    } catch (err) {
+      next(err)
+    }
+  })
+  .put(async (req, res, next) => {
+    try {
+      // TODO
+    } catch (err) {
+      next(err)
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      // TODO
+    } catch (err) {
+      next(err)
+    }
+  })
+
 module.exports = apiRouter

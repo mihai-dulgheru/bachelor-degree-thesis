@@ -7,6 +7,8 @@ import Signup from './components/Signup'
 import './App.css'
 import PersonalInformation from './components/PersonalInformation'
 import OtherInformation from './components/OtherInformation'
+import DeviceList from './components/DeviceList'
+import Prizes from './components/Prizes'
 
 function App () {
   const [accessToken, setAccessToken] = useState('')
@@ -39,6 +41,8 @@ function App () {
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/edit-personal-information' element={<PersonalInformation />} />
                 <Route path='/edit-other-information' element={<OtherInformation />} />
+                <Route path='/device-list' element={<DeviceList />} />
+                <Route path='/prizes' element={<Prizes />} />
               </>
               )}
         </Routes>

@@ -11,7 +11,8 @@ import {
   Typography,
   TextField,
   Paper,
-  Grid
+  Grid,
+  Button
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
@@ -175,9 +176,12 @@ function Signup () {
           </div>
         </div>
         <div className='d-grid col-2 mx-auto'>
-          <button className='btn btn-outline-primary' type='button' onClick={createUser}>
+          {/* <button type='button' className='btn btn-primary text-uppercase' onClick={createUser}>
             Sign Up
-          </button>
+          </button> */}
+          <Button type='button' variant='contained' color='primary' onClick={createUser}>
+            Sign Up
+          </Button>
         </div>
       </form>
       <Typography textAlign='center'>

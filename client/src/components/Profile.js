@@ -276,6 +276,13 @@ function Profile () {
                   <Button variant='contained' size='medium' onClick={() => navigate('/edit-personal-information')}>
                     Edit
                   </Button>
+                  {/* <button
+                    type='button'
+                    className='btn btn-primary text-uppercase'
+                    onClick={() => navigate('/edit-personal-information')}
+                  >
+                    Edit
+                  </button> */}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -307,6 +314,13 @@ function Profile () {
                   <Button variant='contained' size='medium' onClick={() => navigate('/edit-other-information')}>
                     Edit
                   </Button>
+                  {/* <button
+                    type='button'
+                    className='btn btn-primary text-uppercase'
+                    onClick={() => navigate('/edit-other-information')}
+                  >
+                    Edit
+                  </button> */}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -330,7 +344,13 @@ function Profile () {
     <Card>
       <CardContent>
         <Stack direction='row' justifyContent='center' alignItems='center'>
-          <BootstrapButton variant='outlined' color='error' size='medium' onClick={deleteUser}>
+          <BootstrapButton
+            variant='outlined'
+            color='error'
+            size='medium'
+            onClick={deleteUser}
+            className='text-uppercase'
+          >
             Delete account
           </BootstrapButton>
         </Stack>

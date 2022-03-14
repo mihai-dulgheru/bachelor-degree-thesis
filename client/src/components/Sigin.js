@@ -114,9 +114,14 @@ function Signin (props) {
                 label='Password'
               />
             </FormControl>
-            <Button id='submit-button' type='submit' fullWidth variant='contained' color='primary'>
-              Sign In
-            </Button>
+            <div className='d-flex justify-content-center'>
+              <Button id='submit-button' type='submit' variant='contained' color='primary' fullWidth>
+                Sign In
+              </Button>
+              {/* <button id='submit-button' type='submit' className='btn btn-primary text-uppercase w-100'>
+                Sign In
+              </button> */}
+            </div>
             <Typography textAlign='center'>
               No account?{' '}
               <a
