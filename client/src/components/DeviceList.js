@@ -31,28 +31,34 @@ import './css/DeviceList.css'
 
 const columns = [
   {
-    id: 'deviceType',
+    id: 'category',
     numeric: false,
     disablePadding: true,
-    label: 'Device type'
+    label: 'Device Category'
   },
   {
-    id: 'energyClass',
+    id: 'efficiencyClass',
     numeric: false,
     disablePadding: false,
-    label: 'Energy class'
+    label: 'Efficiency Class'
   },
   {
-    id: 'consumption',
+    id: 'energyConsumption',
     numeric: true,
     disablePadding: false,
-    label: 'Average hourly consumption (kWh)'
+    label: 'Power / Energy Consumption'
   },
   {
-    id: 'noWorkingHours',
+    id: 'unitMeasurement',
+    numeric: false,
+    disablePadding: false,
+    label: 'Unit of Measurement'
+  },
+  {
+    id: 'noOperatingHours',
     numeric: true,
     disablePadding: false,
-    label: 'Number of operating hours'
+    label: 'No. operating hours / day'
   }
 ]
 
@@ -105,7 +111,7 @@ function EnhancedTableHead(props) {
             align={column.numeric ? 'right' : 'left'}
             padding={column.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === column.id ? order : false}
-            style={{ width: `calc(100% / ${columns.length + 1})` }}
+            style={{ width: `calc(100% / ${columns.length + 2})` }}
           >
             <TableSortLabel
               active={orderBy === column.id}
@@ -125,7 +131,7 @@ function EnhancedTableHead(props) {
           key={'action'}
           align={'center'}
           padding={'normal'}
-          style={{ width: `calc(100% / ${columns.length + 1})` }}
+          style={{ width: `calc(100% / ${columns.length + 2} * 2)` }}
         >
           Action
         </TableCell>
@@ -140,7 +146,7 @@ function DeviceList() {
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
   const [order, setOrder] = useState('asc')
-  const [orderBy, setOrderBy] = useState('deviceType')
+  const [orderBy, setOrderBy] = useState('category')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [rows, setRows] = useState([])
@@ -348,12 +354,30 @@ function DeviceList() {
                   return (
                     <TableRow key={index} hover tabIndex={-1}>
                       <TableCell align={'left'} padding={'none'}>
-                        {row.deviceType}
+                        {row.category}
                       </TableCell>
-                      <TableCell align={'left'}>{row.energyClass}</TableCell>
-                      <TableCell align={'right'}>{row.consumption}</TableCell>
-                      <TableCell align={'right'}>{row.noWorkingHours}</TableCell>
-                      <TableCell align={'center'}>
+                      <TableCell align={'left'}>{row.efficiencyClass}</TableCell>
+                      <TableCell align={'right'}>{row.energyConsumption}</TableCell>
+                      <TableCell align={'left'}>{row.unitMeasurement}</TableCell>
+                      <TableCell align={'right'}>{row.noOperatingHours}</TableCell>
+                      <TableCell
+                        align={'center'}
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          columnGap: 4
+                        }}
+                      >
+                        <Button
+                          variant='outlined'
+                          color='inherit'
+                          onClick={(event) => navigate(`/device-list/${row.id}`)}
+                        >
+                          Edit
+                        </Button>
                         <Button
                           variant='outlined'
                           color='error'
@@ -374,7 +398,16 @@ function DeviceList() {
                             }
                           }}
                         >
-                          Delete
+                          Del
+                        </Button>
+                        <Button
+                          variant='outlined'
+                          color='secondary'
+                          onClick={(event) => {
+                            // TODO
+                          }}
+                        >
+                          Alternatives
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -406,10 +439,34 @@ function DeviceList() {
     </Box>
   )
 
+  const buttons = (
+    <Box sx={{ width: '90%', margin: '8px auto 0px auto' }}>
+      <div className='d-flex justify-content-center gap-2' style={{ marginBottom: 8 }}>
+        <Button
+          variant='outlined'
+          color='info'
+          style={{ backgroundColor: '#fff', minWidth: '25%' }}
+          onClick={(event) => {}}
+        >
+          Generates estimated consumption
+        </Button>
+        <Button
+          variant='outlined'
+          color='info'
+          style={{ backgroundColor: '#fff', minWidth: '25%' }}
+          onClick={(event) => {}}
+        >
+          Calculate total costs
+        </Button>
+      </div>
+    </Box>
+  )
+
   return (
     <div>
       {appBar}
       {table}
+      {buttons}
     </div>
   )
 }

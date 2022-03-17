@@ -38,7 +38,7 @@
 }
 
 .icon {
-  color: var(--almost-black);
+  color: var(--almost-black-color);
   position: absolute;
   top: 50%;
   left: 50%;

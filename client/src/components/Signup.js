@@ -176,10 +176,7 @@ function Signup() {
           </div>
         </div>
         <div className='d-grid col-2 mx-auto'>
-          {/* <button type='button' className='btn btn-primary text-uppercase' onClick={createUser}>
-            Sign Up
-          </button> */}
-          <Button type='button' variant='contained' color='primary' onClick={createUser}>
+          <Button type='button' variant='contained' color='primary' onClick={createUser} fullWidth>
             Sign Up
           </Button>
         </div>

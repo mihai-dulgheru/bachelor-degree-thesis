@@ -104,6 +104,10 @@ function OtherInformation() {
     })
   }
 
+  const handleCancel = () => {
+    navigate('/profile')
+  }
+
   return (
     <div className='position-absolute top-50 start-50 translate-middle col-6'>
       <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
@@ -193,11 +197,11 @@ function OtherInformation() {
             </div>
           </div>
           <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-            <Button variant='contained' color='success' onClick={handleSave}>
+            <Button variant='contained' color='success' onClick={handleSave} style={{ minWidth: '10%' }}>
               Save
             </Button>
-            <Button variant='contained' onClick={() => navigate('/profile')}>
-              Back
+            <Button variant='text' color='inherit' onClick={handleCancel} style={{ minWidth: '10%' }}>
+              Cancel
             </Button>
           </div>
         </form>

@@ -9,15 +9,7 @@ const Device = sequelize.define(
       primaryKey: true,
       autoIncrement: true
     },
-    consumption: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isFloat: true,
-        min: 0.0
-      }
-    },
-    noWorkingHours: {
+    energyConsumption: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
@@ -25,11 +17,23 @@ const Device = sequelize.define(
         min: 0
       }
     },
-    energyClass: {
-      type: DataTypes.ENUM('A', 'B', 'C', 'D', 'E', 'F', 'G'),
+    unitMeasurement: {
+      type: DataTypes.STRING,
       allowNull: false
     },
-    deviceType: {
+    noOperatingHours: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        isInt: true,
+        min: 0
+      }
+    },
+    efficiencyClass: {
+      type: DataTypes.ENUM('A+++', 'A++', 'A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G'),
+      allowNull: false
+    },
+    category: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

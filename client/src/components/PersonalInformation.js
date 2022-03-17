@@ -99,6 +99,10 @@ function PersonalInformation() {
     }
   }
 
+  const handleCancel = () => {
+    navigate('/profile')
+  }
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }
@@ -199,18 +203,12 @@ function PersonalInformation() {
             </div>
           </div>
           <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-            <Button variant='contained' color='success' onClick={handleSave}>
+            <Button variant='contained' color='success' onClick={handleSave} style={{ minWidth: '10%' }}>
               Save
             </Button>
-            {/* <button type='button' className='btn btn-success text-uppercase' onClick={handleSave}>
-              Save
-            </button> */}
-            <Button variant='contained' onClick={() => navigate('/profile')}>
-              Back
-            </Button>{' '}
-            {/* <button type='button' className='btn btn-primary text-uppercase' onClick={() => navigate('/profile')}>
-              Back
-            </button> */}
+            <Button variant='text' color='inherit' onClick={handleCancel} style={{ minWidth: '10%' }}>
+              Cancel
+            </Button>
           </div>
         </form>
       </Stack>

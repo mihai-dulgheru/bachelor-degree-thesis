@@ -142,9 +142,7 @@ apiRouter
 
 apiRouter.route('/devices').get(async (req, res, next) => {
   try {
-    const devices = await Device.findAll({
-      // attributes: { exclude: ['id'] }
-    })
+    const devices = await Device.findAll()
     res.status(200).json(devices)
   } catch (err) {
     next(err)
@@ -180,7 +178,13 @@ apiRouter
       const id = parseInt(req.params.id)
       const user = await User.findByPk(id)
       if (user) {
-        if (req.body.consumption && req.body.noWorkingHours && req.body.energyClass && req.body.deviceType) {
+        if (
+          req.body.energyConsumption &&
+          req.body.unitMeasurement &&
+          req.body.noOperatingHours &&
+          req.body.efficiencyClass &&
+          req.body.category
+        ) {
           const device = await Device.create(req.body)
           await user.addDevice(device)
           res.status(200).json({
@@ -191,7 +195,8 @@ apiRouter
         } else {
           res.status(400).json({
             status: 'error',
-            message: 'Missing fields (consumption, noWorkingHours, energyClass and/or deviceType)'
+            message:
+              'Missing fields (energyConsumption, unitMeasurement, noOperatingHours, efficiencyClass and/or category)'
           })
         }
       } else {
@@ -220,10 +225,11 @@ apiRouter
             status: 'ok',
             device: {
               id: device.id,
-              consumption: device.consumption,
-              noWorkingHours: device.noWorkingHours,
-              energyClass: device.energyClass,
-              deviceType: device.deviceType
+              energyConsumption: device.energyConsumption,
+              unitMeasurement: device.unitMeasurement,
+              noOperatingHours: device.noOperatingHours,
+              efficiencyClass: device.efficiencyClass,
+              category: device.category
             }
           })
         } else {
@@ -258,10 +264,11 @@ apiRouter
             message: `Device with ID = ${deviceId} is updated`,
             device: {
               id: updatedDevice.id,
-              consumption: updatedDevice.consumption,
-              noWorkingHours: updatedDevice.noWorkingHours,
-              energyClass: updatedDevice.energyClass,
-              deviceType: updatedDevice.deviceType
+              energyConsumption: updatedDevice.energyConsumption,
+              unitMeasurement: updatedDevice.unitMeasurement,
+              noOperatingHours: updatedDevice.noOperatingHours,
+              efficiencyClass: updatedDevice.efficiencyClass,
+              category: updatedDevice.category
             }
           })
         } else {

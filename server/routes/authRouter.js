@@ -87,8 +87,8 @@ authRouter.route('/devices').get(async (req, res, next) => {
     const deviceCollection = []
     for (const device of devices) {
       const item = {
-        value: `${device.dataValues.deviceType},${device.dataValues.energyClass},${device.dataValues.consumption},${device.dataValues.noWorkingHours}`,
-        label: `${device.dataValues.deviceType}, ${device.dataValues.energyClass}, ${device.dataValues.consumption} kWh, ${device.dataValues.noWorkingHours} h`
+        value: `${device.dataValues.category},${device.dataValues.efficiencyClass},${device.dataValues.energyConsumption},${device.dataValues.unitMeasurement},${device.dataValues.noOperatingHours}`,
+        label: `${device.dataValues.category}, ${device.dataValues.efficiencyClass}, ${device.dataValues.energyConsumption} ${device.dataValues.unitMeasurement}, ${device.dataValues.noOperatingHours} h / day`
       }
       if (!deviceCollection.some((element) => element.value === item.value)) {
         deviceCollection.push(item)
@@ -134,7 +134,13 @@ authRouter
           token: req.headers.authorization
         }
       })
-      if (req.body.consumption && req.body.noWorkingHours && req.body.energyClass && req.body.deviceType) {
+      if (
+        req.body.energyConsumption &&
+        req.body.unitMeasurement &&
+        req.body.noOperatingHours &&
+        req.body.efficiencyClass &&
+        req.body.category
+      ) {
         const device = await Device.create(req.body)
         await user.addDevice(device)
         res.status(200).json({
@@ -145,7 +151,8 @@ authRouter
       } else {
         res.status(400).json({
           status: 'error',
-          message: 'Missing fields (consumption, noWorkingHours, energyClass and/or deviceType)'
+          message:
+            'Missing fields (energyConsumption, unitMeasurement, noOperatingHours, efficiencyClass and/or category)'
         })
       }
     } catch (err) {
@@ -153,32 +160,103 @@ authRouter
     }
   })
 
-authRouter.route('/user/devices/:deviceId').delete(async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        token: req.headers.authorization
-      },
-      include: Device
-    })
-    const devices = user.Devices
-    const deviceId = parseInt(req.params.deviceId)
-    const device = devices.map((element) => element.dataValues).find((element) => element.id === deviceId)
-    if (device) {
-      await (await Device.findByPk(deviceId)).destroy()
-      res.status(200).json({
-        status: 'ok',
-        message: `Device with ID = ${deviceId} is deleted`
+authRouter
+  .route('/user/devices/:deviceId')
+  .get(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Device
       })
-    } else {
-      res.status(404).json({
-        status: 'error',
-        message: `Device with ID = ${deviceId} not found`
-      })
+      const devices = user.Devices
+      const deviceId = parseInt(req.params.deviceId)
+      const device = devices.map((element) => element.dataValues).find((element) => element.id === deviceId)
+      if (device) {
+        res.status(200).json({
+          status: 'ok',
+          device: {
+            id: device.id,
+            energyConsumption: device.energyConsumption,
+            unitMeasurement: device.unitMeasurement,
+            noOperatingHours: device.noOperatingHours,
+            efficiencyClass: device.efficiencyClass,
+            category: device.category
+          }
+        })
+      } else {
+        res.status(404).json({
+          status: 'error',
+          message: `Device with ID = ${deviceId} not found`
+        })
+      }
+    } catch (err) {
+      next(err)
     }
-  } catch (err) {
-    next(err)
-  }
-})
+  })
+  .put(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Device
+      })
+      const devices = user.Devices
+      const deviceId = parseInt(req.params.deviceId)
+      const device = devices.map((element) => element.dataValues).find((element) => element.id === deviceId)
+      if (device) {
+        const updatedDevice = await Device.findByPk(deviceId)
+        await updatedDevice.update(req.body)
+        res.status(200).json({
+          status: 'ok',
+          message: `Device with ID = ${deviceId} is updated`,
+          device: {
+            id: updatedDevice.id,
+            energyConsumption: updatedDevice.energyConsumption,
+            unitMeasurement: updatedDevice.unitMeasurement,
+            noOperatingHours: updatedDevice.noOperatingHours,
+            efficiencyClass: updatedDevice.efficiencyClass,
+            category: updatedDevice.category
+          }
+        })
+      } else {
+        res.status(404).json({
+          status: 'error',
+          message: `Device with ID = ${deviceId} not found`
+        })
+      }
+    } catch (err) {
+      next(err)
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Device
+      })
+      const devices = user.Devices
+      const deviceId = parseInt(req.params.deviceId)
+      const device = devices.map((element) => element.dataValues).find((element) => element.id === deviceId)
+      if (device) {
+        await (await Device.findByPk(deviceId)).destroy()
+        res.status(200).json({
+          status: 'ok',
+          message: `Device with ID = ${deviceId} is deleted`
+        })
+      } else {
+        res.status(404).json({
+          status: 'error',
+          message: `Device with ID = ${deviceId} not found`
+        })
+      }
+    } catch (err) {
+      next(err)
+    }
+  })
 
 module.exports = authRouter

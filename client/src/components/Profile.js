@@ -108,7 +108,7 @@ function Profile() {
   }, [tempAccessToken])
 
   const handleBack = () => {
-    navigate(-1)
+    navigate('/home')
   }
 
   const handleLogout = () => {
@@ -273,16 +273,15 @@ function Profile() {
               <TableRow>
                 <TableCell colSpan={1}>Personal Information</TableCell>
                 <TableCell align='right'>
-                  <Button variant='contained' size='medium' onClick={() => navigate('/edit-personal-information')}>
-                    Edit
-                  </Button>
-                  {/* <button
-                    type='button'
-                    className='btn btn-primary text-uppercase'
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    size='medium'
                     onClick={() => navigate('/edit-personal-information')}
+                    style={{ minWidth: '10%' }}
                   >
                     Edit
-                  </button> */}
+                  </Button>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -311,16 +310,15 @@ function Profile() {
               <TableRow>
                 <TableCell colSpan={1}>Other Information</TableCell>
                 <TableCell align='right'>
-                  <Button variant='contained' size='medium' onClick={() => navigate('/edit-other-information')}>
-                    Edit
-                  </Button>
-                  {/* <button
-                    type='button'
-                    className='btn btn-primary text-uppercase'
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    size='medium'
                     onClick={() => navigate('/edit-other-information')}
+                    style={{ minWidth: '10%' }}
                   >
                     Edit
-                  </button> */}
+                  </Button>
                 </TableCell>
               </TableRow>
             </TableHead>

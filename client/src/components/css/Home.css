@@ -22,22 +22,25 @@
   block-size: fit-content;
 }
 
-.choose-device-select {
-  display: block;
-  margin-left: 8px;
-  width: max-content;
-  padding: 0.5rem 2.25rem 0.5rem 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  font-size: 1.25rem;
-  border-radius: 0.3rem;
+.form-select-power-energy-consumption:focus-visible {
+  outline: none;
 }
 
-.choose-device-select:focus {
-  border-color: #86b7fe;
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+.form-select-power-energy-consumption:focus {
+  box-shadow: none;
+}
+
+.select,
+.select-units-measures,
+.choose-device-select {
+  font-size: 1.25rem;
+}
+
+.select,
+.select-units-measures {
+  width: 100%;
+}
+
+.choose-device-select {
+  margin-left: 8px;
 }

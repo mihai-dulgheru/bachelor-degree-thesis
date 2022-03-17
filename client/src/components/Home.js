@@ -12,14 +12,17 @@ import { Button, Container, Menu, MenuItem, Paper, Stack, Tooltip } from '@mui/m
 import { Box, styled } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu'
 import InputUnstyled from '@mui/base/InputUnstyled'
-import types from '../collections/types.json'
-import energyClasses from '../collections/energy-classes.json'
+import categories from '../collections/categories.json'
+import efficiencyClasses from '../collections/efficiency-classes.json'
+import unitsMeasurementsEnergyConsumption from '../collections/units-measurements-energy-consumption.json'
+import unitsMeasurementsPower from '../collections/units-measurements-power.json'
+import Select from 'react-select'
 
 const StyledInputElement = styled('input')(
   ({ theme }) => `
   display: block;
   width: 100%;
-  padding: 0.5rem 2.25rem 0.5rem 1rem;
+  padding: 2px 8px;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
@@ -27,11 +30,10 @@ const StyledInputElement = styled('input')(
   border: 1px solid #ced4da;
   font-size: 1.25rem;
   border-radius: 0.3rem;
+  height: 44px;
 
-  &:focus {
-    border-color: #86b7fe;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+  &:focus-visible {
+    outline: var(--outline-color) auto 1px;
   }
 `
 )
@@ -45,9 +47,9 @@ function Home() {
   const [user, setUser] = useState({})
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
-  const [type, setType] = useState(types[0].value)
-  const [energyClass, setEnergyClass] = useState(energyClasses[0].value)
-  const [consumption, setConsumption] = useState('')
+  const [category, setCategory] = useState(categories[0])
+  const [efficiencyClass, setEfficiencyClass] = useState(efficiencyClasses[0])
+  const [energyConsumption, setEnergyConsumption] = useState('')
   const [noOperatingHours, setNoOperatingHours] = useState('')
   const [devices, setDevices] = useState([
     {
@@ -55,12 +57,18 @@ function Home() {
       label: ''
     }
   ])
-  const [device, setDevice] = useState('')
+  const [device, setDevice] = useState(devices[0])
+  const [unitMeasureEnergyConsumption, setUnitMeasurementEnergyConsumption] = useState(
+    unitsMeasurementsEnergyConsumption[0]
+  )
+  const [unitMeasurePower, setUnitMeasurementPower] = useState(unitsMeasurementsPower[0])
+  const [isSelectedPower, setIsSelectedPower] = useState(false)
   const regExp = /^[0-9\b]+$/
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
@@ -94,9 +102,9 @@ function Home() {
     navigate('/login')
   }
 
-  const handleChangeCustomInputConsumption = (event) => {
+  const handleChangeCustomInputEnergyConsumption = (event) => {
     if (event.target.value === '' || regExp.test(event.target.value)) {
-      setConsumption(event.target.value)
+      setEnergyConsumption(event.target.value)
     }
   }
 
@@ -107,26 +115,29 @@ function Home() {
   }
 
   const validation = () => {
-    if (consumption && noOperatingHours) {
+    if (energyConsumption && noOperatingHours) {
       return true
     }
     return false
   }
 
   const clearForm = () => {
-    setType(types[0].value)
-    setEnergyClass(energyClasses[0].value)
-    setConsumption('')
+    setCategory(categories[0])
+    setEfficiencyClass(efficiencyClasses[0])
+    setUnitMeasurementEnergyConsumption(unitsMeasurementsEnergyConsumption[0])
+    setUnitMeasurementPower(unitsMeasurementsPower[0])
+    setEnergyConsumption('')
     setNoOperatingHours('')
   }
 
   const handleAdd = async () => {
     if (validation()) {
       const device = {
-        consumption: consumption ? parseInt(consumption) : 0,
-        noWorkingHours: noOperatingHours ? parseInt(noOperatingHours) : 0,
-        energyClass: energyClass,
-        deviceType: type
+        energyConsumption: energyConsumption ? parseInt(energyConsumption) : 0,
+        noOperatingHours: noOperatingHours ? parseInt(noOperatingHours) : 0,
+        efficiencyClass: efficiencyClass.value,
+        category: category.value,
+        unitMeasurement: isSelectedPower ? unitMeasurePower.value : unitMeasureEnergyConsumption.value
       }
       const response = await fetch('http://localhost:8080/api/auth/user/devices', {
         method: 'POST',
@@ -146,16 +157,21 @@ function Home() {
         swal('Failed', data.errors[0].message, 'error')
       }
     } else {
-      swal('Failed', 'Missing fields (Average hourly consumption (kWh) and/or Number of operating hours)', 'error')
+      swal(
+        'Failed',
+        `Missing fields (${isSelectedPower ? 'Power' : 'Energy consumption'} and/or Number of operating hours / day)`,
+        'error'
+      )
     }
   }
 
   const handleChoose = async () => {
     const chosenDevice = {
-      deviceType: device.split(',')[0],
-      energyClass: device.split(',')[1],
-      consumption: parseInt(device.split(',')[2]),
-      noWorkingHours: parseInt(device.split(',')[3])
+      category: device.value.split(',')[0],
+      efficiencyClass: device.value.split(',')[1],
+      energyConsumption: parseInt(device.value.split(',')[2]),
+      unitMeasurement: device.value.split(',')[3],
+      noOperatingHours: parseInt(device.value.split(',')[4])
     }
     const response = await fetch('http://localhost:8080/api/auth/user/devices', {
       method: 'POST',
@@ -201,7 +217,7 @@ function Home() {
     if (data.status === 'ok') {
       if (data.devices.length > 0) {
         setDevices(data.devices)
-        setDevice(data.devices[0].value)
+        setDevice(data.devices[0])
       }
     } else {
       swal('Failed', data.message, 'error').then((value) => {
@@ -308,58 +324,87 @@ function Home() {
   const setUpDevice = (
     <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
       <Typography variant='h5' textAlign='left'>
-        Set up a device
+        SET UP A DEVICE
       </Typography>
       <form>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Device type: *</Typography>
+            <Typography variant='h6'>Device category: *</Typography>
           </div>
           <div className='col'>
-            <select
-              className='form-select form-select-lg'
-              value={type}
-              onChange={(event) => setType(event.target.value)}
-            >
-              {types.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <Select
+              className='select'
+              isSearchable={true}
+              value={category}
+              onChange={(category) => {
+                setCategory(category)
+              }}
+              options={categories}
+            />
           </div>
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Energy class: *</Typography>
+            <Typography variant='h6'>Efficiency class: *</Typography>
           </div>
           <div className='col'>
-            <select
-              className='form-select form-select-lg'
-              value={energyClass}
-              onChange={(event) => setEnergyClass(event.target.value)}
-            >
-              {energyClasses.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <Select
+              className='select'
+              isSearchable={true}
+              value={efficiencyClass}
+              onChange={(efficiencyClass) => {
+                setEfficiencyClass(efficiencyClass)
+              }}
+              options={efficiencyClasses}
+            />
           </div>
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Average hourly consumption (kWh): *</Typography>
+            <select
+              style={{ width: 'fit-content', border: 'none', paddingLeft: 0, fontWeight: 500 }}
+              className='form-select form-select-lg form-select-power-energy-consumption'
+              value={isSelectedPower ? 'Power: *' : 'Energy consumption: *'}
+              onChange={(event) => setIsSelectedPower(event.target.value === 'Power: *')}
+            >
+              <option key={'Energy consumption: *'} value={'Energy consumption: *'}>
+                Energy consumption: *
+              </option>
+              <option key={'Power: *'} value={'Power: *'}>
+                Power: *
+              </option>
+            </select>
           </div>
-          <div className='col'>
+          <div className='col d-flex gap-2'>
             <div className='custom-input'>
-              <CustomInput value={consumption} onChange={handleChangeCustomInputConsumption} />
+              <CustomInput value={energyConsumption} onChange={handleChangeCustomInputEnergyConsumption} />
             </div>
+            {isSelectedPower ? (
+              <Select
+                className='select-units-measures'
+                isSearchable={true}
+                value={unitMeasurePower}
+                onChange={(unitMeasurePower) => {
+                  setUnitMeasurementPower(unitMeasurePower)
+                }}
+                options={unitsMeasurementsPower}
+              />
+            ) : (
+              <Select
+                className='select-units-measures'
+                isSearchable={true}
+                value={unitMeasureEnergyConsumption}
+                onChange={(unitMeasureEnergyConsumption) => {
+                  setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
+                }}
+                options={unitsMeasurementsEnergyConsumption}
+              />
+            )}
           </div>
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Number of operating hours: *</Typography>
+            <Typography variant='h6'>Number of operating hours / day: *</Typography>
           </div>
           <div className='col'>
             <div className='custom-input'>
@@ -368,12 +413,12 @@ function Home() {
           </div>
         </div>
         <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-          <Button variant='contained' style={{ width: '10%' }} onClick={handleAdd}>
+          <Button variant='contained' color='primary' style={{ minWidth: '10%' }} onClick={handleAdd}>
             Add
           </Button>
-          {/* <button type='button' className='btn btn-primary text-uppercase' style={{ width: '10%' }} onClick={handleAdd}>
-            Add
-          </button> */}
+          <Button variant='text' color='inherit' style={{ minWidth: '10%' }} onClick={clearForm}>
+            Reset
+          </Button>
         </div>
       </form>
     </Stack>
@@ -387,27 +432,21 @@ function Home() {
             <Typography variant='h5' textAlign='left' noWrap className='fit-content'>
               Or choose a device from our list:
             </Typography>
-            <select className='choose-device-select' value={device} onChange={(event) => setDevice(event.target.value)}>
-              {devices.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <Select
+              className='choose-device-select'
+              isSearchable={true}
+              value={device}
+              onChange={(device) => {
+                setDevice(device)
+              }}
+              options={devices}
+            />
           </div>
         </div>
         <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-          <Button variant='contained' style={{ width: '10%' }} onClick={handleChoose}>
+          <Button variant='contained' style={{ minWidth: '10%' }} onClick={handleChoose}>
             Choose
           </Button>
-          {/* <button
-            type='button'
-            className='btn btn-primary text-uppercase'
-            style={{ width: '10%' }}
-            onClick={handleChoose}
-          >
-            Choose
-          </button> */}
         </div>
       </form>
     </Stack>

@@ -9,6 +9,7 @@ import PersonalInformation from './components/PersonalInformation'
 import OtherInformation from './components/OtherInformation'
 import DeviceList from './components/DeviceList'
 import Prizes from './components/Prizes'
+import Device from './components/Device'
 
 function App() {
   const [accessToken, setAccessToken] = useState('')
@@ -40,6 +41,7 @@ function App() {
               <Route path='/edit-personal-information' element={<PersonalInformation />} />
               <Route path='/edit-other-information' element={<OtherInformation />} />
               <Route path='/device-list' element={<DeviceList />} />
+              <Route path='/device-list/:deviceId' element={<Device />} />
               <Route path='/prizes' element={<Prizes />} />
             </>
           )}

@@ -119,9 +119,6 @@ function Signin(props) {
               <Button id='submit-button' type='submit' variant='contained' color='primary' fullWidth>
                 Sign In
               </Button>
-              {/* <button id='submit-button' type='submit' className='btn btn-primary text-uppercase w-100'>
-                Sign In
-              </button> */}
             </div>
             <Typography textAlign='center'>
               No account?{' '}
