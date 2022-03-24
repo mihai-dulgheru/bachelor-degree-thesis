@@ -44,20 +44,39 @@ function Signin(props) {
       password
     })
     if ('accessToken' in response) {
-      swal('Success', response.message, 'success', {
+      swal({
+        title: 'Success',
+        text:
+          response.message[0] >= 'a' && response.message[0] <= 'z'
+            ? response.message[0].toLocaleUpperCase() + response.message.substring(1)
+            : response.message,
+        icon: 'success',
         buttons: false,
-        timer: 2000
+        timer: 3000
       })
-        .then((value) => {
+        .then(() => {
           localStorage.setItem('accessToken', response.accessToken)
         })
-        .then((value) => {
+        .then(() => {
           onSignin(response.accessToken)
           localStorage.setItem('username', username)
           navigate('/home')
         })
     } else {
-      swal('Failed', response.message, 'error')
+      swal({
+        title: 'Failed',
+        text:
+          response.message[0] >= 'a' && response.message[0] <= 'z'
+            ? response.message[0].toLocaleUpperCase() + response.message.substring(1)
+            : response.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
     }
   }
 
@@ -102,12 +121,7 @@ function Signin(props) {
                 onChange={(event) => setPassword(event.target.value)}
                 endAdornment={
                   <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge='end'
-                    >
+                    <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
@@ -116,7 +130,13 @@ function Signin(props) {
               />
             </FormControl>
             <div className='d-flex justify-content-center'>
-              <Button id='submit-button' type='submit' variant='contained' color='primary' fullWidth>
+              <Button
+                id='submit-button'
+                type='submit'
+                variant='contained'
+                style={{ backgroundColor: 'var(--very-peri)' }}
+                fullWidth
+              >
                 Sign In
               </Button>
             </div>

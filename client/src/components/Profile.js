@@ -152,7 +152,20 @@ function Profile() {
     if (data.status === 'ok') {
       setUser(data.user)
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
@@ -172,30 +185,70 @@ function Profile() {
       setUser(data.user)
       setState({ ...state, open: true })
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
   }
 
   const deleteUser = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/user', {
-      method: 'DELETE',
-      headers: {
-        authorization: accessToken
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this account!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        const response = await fetch('http://localhost:8080/api/auth/user', {
+          method: 'DELETE',
+          headers: {
+            authorization: accessToken
+          }
+        })
+        const data = await response.json()
+        if (data.status === 'ok') {
+          swal('Your account has been deleted!', {
+            icon: 'success',
+            buttons: false,
+            timer: 3000
+          }).then(() => {
+            localStorage.removeItem('username')
+            handleLogout()
+          })
+        } else {
+          swal({
+            title: 'Failed',
+            text:
+              data.message[0] >= 'a' && data.message[0] <= 'z'
+                ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+                : data.message,
+            icon: 'error',
+            button: {
+              text: 'OK',
+              value: true,
+              visible: true,
+              closeModal: true
+            }
+          }).then(() => {
+            navigate('/login')
+          })
+        }
       }
     })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      swal('Success', 'User deleted!', 'success').then((value) => {
-        localStorage.removeItem('username')
-        handleLogout()
-      })
-    } else {
-      swal('Failed', data.message, 'error').then((value) => {
-        navigate('/login')
-      })
-    }
   }
 
   function createData(property, value) {
@@ -218,9 +271,9 @@ function Profile() {
   ]
 
   const appBar = (
-    <AppBar position='static'>
+    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
       <Toolbar>
-        <IconButton onClick={handleBack} aria-label='back' color='inherit'>
+        <IconButton onClick={handleBack} color='inherit'>
           <ArrowBackIosIcon />
         </IconButton>
         <Typography variant='h6' className='title'>
@@ -268,10 +321,12 @@ function Profile() {
     <Card>
       <CardContent>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={1}>Personal Information</TableCell>
+                <TableCell colSpan={1} width={'50%'}>
+                  Personal Information
+                </TableCell>
                 <TableCell align='right'>
                   <Button
                     variant='outlined'
@@ -305,10 +360,12 @@ function Profile() {
     <Card>
       <CardContent>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={1}>Other Information</TableCell>
+                <TableCell colSpan={1} width={'50%'}>
+                  Other Information
+                </TableCell>
                 <TableCell align='right'>
                   <Button
                     variant='outlined'

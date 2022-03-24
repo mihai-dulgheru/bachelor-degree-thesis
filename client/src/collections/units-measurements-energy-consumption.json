@@ -10,5 +10,9 @@
   {
     "value": "kWh/annum",
     "label": "kWh/annum"
+  },
+  {
+    "value": "kWh/cycle",
+    "label": "kWh/cycle"
   }
 ]

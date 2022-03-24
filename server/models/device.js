@@ -22,11 +22,11 @@ const Device = sequelize.define(
       allowNull: false
     },
     noOperatingHours: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
-        isInt: true,
-        min: 0
+        isFloat: true,
+        min: 0.0
       }
     },
     efficiencyClass: {

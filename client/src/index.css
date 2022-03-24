@@ -7,6 +7,9 @@
   --palette-tertiary-main: #a8dadc;
   --palette-quaternary-main: #457b9d;
   --palette-quinary-main: #1d3557;
+  --very-peri: #6667ab;
+  --blue-iris: #5a5b9f;
+  --ancient-water: #ccd6e6;
 }
 
 body {
@@ -22,3 +25,16 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* .swal-button {
+  background-color: var(--very-peri);
+}
+
+.swal-button:not([disabled]):hover {
+  background-color: var(--blue-iris);
+}
+
+.swal-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--ancient-water);
+} */

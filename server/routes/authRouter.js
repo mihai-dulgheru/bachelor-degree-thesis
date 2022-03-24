@@ -87,7 +87,7 @@ authRouter.route('/devices').get(async (req, res, next) => {
     const deviceCollection = []
     for (const device of devices) {
       const item = {
-        value: `${device.dataValues.category},${device.dataValues.efficiencyClass},${device.dataValues.energyConsumption},${device.dataValues.unitMeasurement},${device.dataValues.noOperatingHours}`,
+        value: `${device.dataValues.category};${device.dataValues.efficiencyClass};${device.dataValues.energyConsumption};${device.dataValues.unitMeasurement};${device.dataValues.noOperatingHours}`,
         label: `${device.dataValues.category}, ${device.dataValues.efficiencyClass}, ${device.dataValues.energyConsumption} ${device.dataValues.unitMeasurement}, ${device.dataValues.noOperatingHours} h / day`
       }
       if (!deviceCollection.some((element) => element.value === item.value)) {

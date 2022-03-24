@@ -7,3 +7,30 @@
   justify-content: center;
   align-items: center;
 }
+
+.dialogContent {
+  display: flex;
+  flex-flow: column;
+}
+
+.or {
+  display: flex;
+  justify-content: center;
+}
+
+.or::before,
+.or::after {
+  display: inline-block;
+  content: '';
+  border-top: 0.1rem solid #797979;
+  width: 100%;
+  margin: auto 0px;
+}
+
+.or::before {
+  margin-right: 4px;
+}
+
+.or::after {
+  margin-left: 4px;
+}

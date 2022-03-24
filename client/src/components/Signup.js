@@ -64,15 +64,44 @@ function Signup() {
       const data = await response.json()
       if (data.status === 'ok') {
         clearForm()
-        swal('Success', 'User created!', 'success').then(() => {
+        swal({
+          title: 'Success',
+          text: 'User has been created!',
+          icon: 'success',
+          buttons: false,
+          timer: 3000
+        }).then(() => {
           localStorage.setItem('username', username)
           navigate('/login')
         })
       } else {
-        swal('Failed', data.errors[0].message, 'error')
+        swal({
+          title: 'Failed',
+          text:
+            data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+              ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+              : data.errors[0].message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        })
       }
     } else {
-      swal('Failed', 'Fill in all the required fields!', 'error')
+      swal({
+        title: 'Failed',
+        text: 'Please fill in all the required fields!',
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
     }
   }
 
@@ -156,12 +185,7 @@ function Signup() {
                 onChange={(event) => setPassword(event.target.value)}
                 endAdornment={
                   <InputAdornment position='end'>
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge='end'
-                    >
+                    <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
@@ -176,7 +200,13 @@ function Signup() {
           </div>
         </div>
         <div className='d-grid col-2 mx-auto'>
-          <Button type='button' variant='contained' color='primary' onClick={createUser} fullWidth>
+          <Button
+            type='button'
+            variant='contained'
+            style={{ backgroundColor: 'var(--very-peri)' }}
+            fullWidth
+            onClick={createUser}
+          >
             Sign Up
           </Button>
         </div>

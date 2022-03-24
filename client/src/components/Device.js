@@ -51,7 +51,6 @@ function Device() {
     value: '',
     label: ''
   })
-  const regExp = /^[0-9\b]+$/
 
   useEffect(async () => {
     const response = await fetch(`http://localhost:8080/api/auth/user/devices/${deviceId}`, {
@@ -89,20 +88,38 @@ function Device() {
         label: data.device.category
       })
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
   }, [])
 
   const handleChangeCustomInputEnergyConsumption = (event) => {
+    const regExp = /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setEnergyConsumption(event.target.value)
     }
   }
 
   const handleChangeCustomInputNoOperatingHours = (event) => {
-    if (event.target.value === '' || (regExp.test(event.target.value) && parseInt(event.target.value) < 25)) {
+    const regExp = /^(?!0\d)(\d+)?\.?(\d+)?$/
+    const condition =
+      event.target.value !== '24.' &&
+      (event.target.value === '' || (regExp.test(event.target.value) && parseFloat(event.target.value) <= 24.0))
+    if (condition) {
       setNoOperatingHours(event.target.value)
     }
   }
@@ -111,7 +128,7 @@ function Device() {
     const device = {
       energyConsumption: parseInt(energyConsumption),
       unitMeasurement: isSelectedPower ? unitMeasurementPower.value : unitMeasurementEnergyConsumption.value,
-      noOperatingHours: parseInt(noOperatingHours),
+      noOperatingHours: parseFloat(noOperatingHours),
       efficiencyClass: efficiencyClass.value,
       category: category.value
     }
@@ -127,7 +144,20 @@ function Device() {
     if (data.status === 'ok') {
       navigate(-1)
     } else {
-      swal('Failed', data.errors[0].message, 'error')
+      swal({
+        title: 'Failed',
+        text:
+          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+            : data.errors[0].message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
     }
   }
 
@@ -227,11 +257,11 @@ function Device() {
           </div>
         </div>
         <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-          <Button variant='contained' color='success' style={{ minWidth: '10%' }} onClick={handleSave}>
-            Save
-          </Button>
           <Button variant='outlined' color='success' style={{ minWidth: '10%' }} onClick={handleCancel}>
             Cancel
+          </Button>
+          <Button variant='contained' color='success' style={{ minWidth: '10%' }} onClick={handleSave}>
+            Save
           </Button>
         </div>
       </form>

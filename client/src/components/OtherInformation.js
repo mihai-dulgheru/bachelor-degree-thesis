@@ -16,14 +16,14 @@ function OtherInformation() {
   const [invoiceUnitValue, setInvoiceUnitValue] = useState('')
 
   const handleChangeInputVoltageLevel = (event) => {
-    const regExp = /^[0-9\b]+$/
+    const regExp = /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setVoltageLevel(event.target.value)
     }
   }
 
   const handleChangeInputBudget = (event) => {
-    const regExp = /^[0-9\b]+$/
+    const regExp = /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setBudget(event.target.value)
     }
@@ -61,7 +61,20 @@ function OtherInformation() {
         setInvoiceUnitValue(data.user.invoiceUnitValue)
       }
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
@@ -80,7 +93,20 @@ function OtherInformation() {
     if (data.status === 'ok') {
       navigate('/profile')
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
@@ -197,11 +223,11 @@ function OtherInformation() {
             </div>
           </div>
           <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-            <Button variant='contained' color='success' onClick={handleSave} style={{ minWidth: '10%' }}>
-              Save
-            </Button>
             <Button variant='text' color='inherit' onClick={handleCancel} style={{ minWidth: '10%' }}>
               Cancel
+            </Button>
+            <Button variant='contained' color='success' onClick={handleSave} style={{ minWidth: '10%' }}>
+              Save
             </Button>
           </div>
         </form>

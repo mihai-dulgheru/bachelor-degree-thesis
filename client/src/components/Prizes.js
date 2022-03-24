@@ -34,7 +34,20 @@ function Prizes() {
     if (data.status === 'ok') {
       setUser(data.user)
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
@@ -81,7 +94,7 @@ function Prizes() {
   }
 
   const appBar = (
-    <AppBar position='static'>
+    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

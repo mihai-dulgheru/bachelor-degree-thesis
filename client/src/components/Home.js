@@ -63,7 +63,6 @@ function Home() {
   )
   const [unitMeasurePower, setUnitMeasurementPower] = useState(unitsMeasurementsPower[0])
   const [isSelectedPower, setIsSelectedPower] = useState(false)
-  const regExp = /^[0-9\b]+$/
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -103,13 +102,18 @@ function Home() {
   }
 
   const handleChangeCustomInputEnergyConsumption = (event) => {
+    const regExp = /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setEnergyConsumption(event.target.value)
     }
   }
 
   const handleChangeCustomInputNoOperatingHours = (event) => {
-    if (event.target.value === '' || (regExp.test(event.target.value) && parseInt(event.target.value) < 25)) {
+    const regExp = /^(?!0\d)(\d+)?\.?(\d+)?$/
+    const condition =
+      event.target.value !== '24.' &&
+      (event.target.value === '' || (regExp.test(event.target.value) && parseFloat(event.target.value) <= 24.0))
+    if (condition) {
       setNoOperatingHours(event.target.value)
     }
   }
@@ -134,7 +138,7 @@ function Home() {
     if (validation()) {
       const device = {
         energyConsumption: energyConsumption ? parseInt(energyConsumption) : 0,
-        noOperatingHours: noOperatingHours ? parseInt(noOperatingHours) : 0,
+        noOperatingHours: noOperatingHours ? parseFloat(noOperatingHours) : 0,
         efficiencyClass: efficiencyClass.value,
         category: category.value,
         unitMeasurement: isSelectedPower ? unitMeasurePower.value : unitMeasureEnergyConsumption.value
@@ -149,29 +153,56 @@ function Home() {
       })
       const data = await response.json()
       if (data.status === 'ok') {
-        swal('Success', 'Device created!', 'success').then(() => {
+        swal({
+          title: 'Success',
+          text: 'Device has been created!',
+          icon: 'success',
+          buttons: false,
+          timer: 3000
+        }).then(() => {
           clearForm()
           getDevices()
         })
       } else {
-        swal('Failed', data.errors[0].message, 'error')
+        swal({
+          title: 'Failed',
+          text:
+            data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+              ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+              : data.errors[0].message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        })
       }
     } else {
-      swal(
-        'Failed',
-        `Missing fields (${isSelectedPower ? 'Power' : 'Energy consumption'} and/or Number of operating hours / day)`,
-        'error'
-      )
+      swal({
+        title: 'Failed',
+        text: `Missing fields (${
+          isSelectedPower ? 'Power' : 'Energy consumption'
+        } and/or Number of operating hours / day)`,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
     }
   }
 
   const handleChoose = async () => {
     const chosenDevice = {
-      category: device.value.split(',')[0],
-      efficiencyClass: device.value.split(',')[1],
-      energyConsumption: parseInt(device.value.split(',')[2]),
-      unitMeasurement: device.value.split(',')[3],
-      noOperatingHours: parseInt(device.value.split(',')[4])
+      category: device.value.split(';')[0],
+      efficiencyClass: device.value.split(';')[1],
+      energyConsumption: parseInt(device.value.split(';')[2]),
+      unitMeasurement: device.value.split(';')[3],
+      noOperatingHours: parseFloat(device.value.split(';')[4])
     }
     const response = await fetch('http://localhost:8080/api/auth/user/devices', {
       method: 'POST',
@@ -183,9 +214,28 @@ function Home() {
     })
     const data = await response.json()
     if (data.status === 'ok') {
-      swal('Success', 'Device created!', 'success')
+      swal({
+        title: 'Success',
+        text: 'Device has been created!',
+        icon: 'success',
+        buttons: false,
+        timer: 3000
+      })
     } else {
-      swal('Failed', data.errors[0].message, 'error')
+      swal({
+        title: 'Failed',
+        text:
+          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+            : data.errors[0].message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
     }
   }
 
@@ -200,7 +250,20 @@ function Home() {
     if (data.status === 'ok') {
       setUser(data.user)
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
@@ -220,7 +283,20 @@ function Home() {
         setDevice(data.devices[0])
       }
     } else {
-      swal('Failed', data.message, 'error').then((value) => {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
         navigate('/login')
       })
     }
@@ -232,7 +308,7 @@ function Home() {
   }, [])
 
   const appBar = (
-    <AppBar position='static'>
+    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography variant='h6' noWrap component='div' sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
@@ -413,11 +489,15 @@ function Home() {
           </div>
         </div>
         <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-          <Button variant='contained' color='primary' style={{ minWidth: '10%' }} onClick={handleAdd}>
-            Add
-          </Button>
           <Button variant='text' color='inherit' style={{ minWidth: '10%' }} onClick={clearForm}>
             Reset
+          </Button>
+          <Button
+            variant='contained'
+            style={{ minWidth: '10%', backgroundColor: 'var(--very-peri)' }}
+            onClick={handleAdd}
+          >
+            Add
           </Button>
         </div>
       </form>
@@ -444,7 +524,11 @@ function Home() {
           </div>
         </div>
         <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-          <Button variant='contained' style={{ minWidth: '10%' }} onClick={handleChoose}>
+          <Button
+            variant='contained'
+            style={{ minWidth: '10%', backgroundColor: 'var(--very-peri)' }}
+            onClick={handleChoose}
+          >
             Choose
           </Button>
         </div>
