@@ -1,170 +1,212 @@
 [
   {
     "value": "Alba",
-    "label": "Alba"
+    "label": "Alba",
+    "distributionArea": "Transilvania Sud"
   },
   {
     "value": "Arad",
-    "label": "Arad"
+    "label": "Arad",
+    "distributionArea": "Banat"
   },
   {
     "value": "Argeș",
-    "label": "Argeș"
+    "label": "Argeș",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Bacău",
-    "label": "Bacău"
+    "label": "Bacău",
+    "distributionArea": "Moldova"
   },
   {
     "value": "Bihor",
-    "label": "Bihor"
+    "label": "Bihor",
+    "distributionArea": "Transilvania Nord"
   },
   {
     "value": "Bistrița-Năsăud",
-    "label": "Bistrița-Năsăud"
+    "label": "Bistrița-Năsăud",
+    "distributionArea": "Transilvania Nord"
   },
   {
     "value": "Botoșani",
-    "label": "Botoșani"
+    "label": "Botoșani",
+    "distributionArea": "Moldova"
   },
   {
     "value": "Brașov",
-    "label": "Brașov"
+    "label": "Brașov",
+    "distributionArea": "Transilvania Sud"
   },
   {
     "value": "Brăila",
-    "label": "Brăila"
+    "label": "Brăila",
+    "distributionArea": "Muntenia Nord"
   },
   {
     "value": "București",
-    "label": "București"
+    "label": "București",
+    "distributionArea": "Muntenia Sud"
   },
   {
     "value": "Buzău",
-    "label": "Buzău"
+    "label": "Buzău",
+    "distributionArea": "Muntenia Nord"
   },
   {
     "value": "Călărași",
-    "label": "Călărași"
+    "label": "Călărași",
+    "distributionArea": "Dobrogea"
   },
   {
     "value": "Caraș-Severin",
-    "label": "Caraș-Severin"
+    "label": "Caraș-Severin",
+    "distributionArea": "Banat"
   },
   {
     "value": "Cluj",
-    "label": "Cluj"
+    "label": "Cluj",
+    "distributionArea": "Transilvania Nord"
   },
   {
     "value": "Constanța",
-    "label": "Constanța"
+    "label": "Constanța",
+    "distributionArea": "Dobrogea"
   },
   {
     "value": "Covasna",
-    "label": "Covasna"
+    "label": "Covasna",
+    "distributionArea": "Transilvania Sud"
   },
   {
     "value": "Dâmbovița",
-    "label": "Dâmbovița"
+    "label": "Dâmbovița",
+    "distributionArea": "Muntenia Nord"
   },
   {
     "value": "Dolj",
-    "label": "Dolj"
+    "label": "Dolj",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Galați",
-    "label": "Galați"
+    "label": "Galați",
+    "distributionArea": "Muntenia Nord"
   },
   {
     "value": "Giurgiu",
-    "label": "Giurgiu"
+    "label": "Giurgiu",
+    "distributionArea": "Muntenia Sud"
   },
   {
     "value": "Gorj",
-    "label": "Gorj"
+    "label": "Gorj",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Harghita",
-    "label": "Harghita"
+    "label": "Harghita",
+    "distributionArea": "Transilvania Sud"
   },
   {
     "value": "Hunedoara",
-    "label": "Hunedoara"
+    "label": "Hunedoara",
+    "distributionArea": "Banat"
   },
   {
     "value": "Iași",
-    "label": "Iași"
+    "label": "Iași",
+    "distributionArea": "Moldova"
   },
   {
     "value": "Ialomița",
-    "label": "Ialomița"
+    "label": "Ialomița",
+    "distributionArea": "Dobrogea"
   },
   {
     "value": "Ilfov",
-    "label": "Ilfov"
+    "label": "Ilfov",
+    "distributionArea": "Muntenia Sud"
   },
   {
     "value": "Maramureș",
-    "label": "Maramureș"
+    "label": "Maramureș",
+    "distributionArea": "Transilvania Nord"
   },
   {
     "value": "Mehedinți",
-    "label": "Mehedinți"
+    "label": "Mehedinți",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Mureș",
-    "label": "Mureș"
+    "label": "Mureș",
+    "distributionArea": "Transilvania Sud"
   },
   {
     "value": "Neamț",
-    "label": "Neamț"
+    "label": "Neamț",
+    "distributionArea": "Moldova"
   },
   {
     "value": "Olt",
-    "label": "Olt"
+    "label": "Olt",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Prahova",
-    "label": "Prahova"
+    "label": "Prahova",
+    "distributionArea": "Muntenia Nord"
   },
   {
     "value": "Sălaj",
-    "label": "Sălaj"
+    "label": "Sălaj",
+    "distributionArea": "Transilvania Nord"
   },
   {
     "value": "Satu Mare",
-    "label": "Satu Mare"
+    "label": "Satu Mare",
+    "distributionArea": "Transilvania Nord"
   },
   {
     "value": "Sibiu",
-    "label": "Sibiu"
+    "label": "Sibiu",
+    "distributionArea": "Transilvania Sud"
   },
   {
     "value": "Suceava",
-    "label": "Suceava"
+    "label": "Suceava",
+    "distributionArea": "Moldova"
   },
   {
     "value": "Teleorman",
-    "label": "Teleorman"
+    "label": "Teleorman",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Timiș",
-    "label": "Timiș"
+    "label": "Timiș",
+    "distributionArea": "Banat"
   },
   {
     "value": "Tulcea",
-    "label": "Tulcea"
+    "label": "Tulcea",
+    "distributionArea": "Dobrogea"
   },
   {
     "value": "Vâlcea",
-    "label": "Vâlcea"
+    "label": "Vâlcea",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Vaslui",
-    "label": "Vaslui"
+    "label": "Vaslui",
+    "distributionArea": "Moldova"
   },
   {
     "value": "Vrancea",
-    "label": "Vrancea"
+    "label": "Vrancea",
+    "distributionArea": "Muntenia Nord"
   }
 ]

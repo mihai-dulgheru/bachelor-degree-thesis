@@ -474,9 +474,68 @@ function DeviceList() {
     const estimatedConsumptionkWhMonth = estimatedConsumptionkWh * month * day
     const estimatedConsumptionkWhYear = estimatedConsumptionkWh * year * day
 
-    const value = invoiceUnitValue ? invoiceUnitValue : 0
+    let value = invoiceUnitValue ? invoiceUnitValue : 0
     if (value === 0) {
-      // TODO: stabileste pretul unui kWh in functie de furnizor si judet
+      /**
+       * Preţul final este exprimat în lei/kWh şi conţine prețul energiei active și următoarele tarife reglementate: tariful de
+       * introducere energie electrică în reţea (TG), tariful de extracţie energie electrică din retea (TL), tariful pentru serviciul
+       * de sistem, tarifele de distribuţie, TVA, certificate verzi, contribuția pentru cogenerare şi acciza necomercială. Costurile
+       * privind certificatele verzi, contribuția pentru cogenerare şi acciza necomercială pot fi consultate aici, iar valoarea
+       * acestora va fi inclusă distinct pe factură.
+       */
+      const tg = 0.00149
+      const tl = 0.02247
+      const systemServiceFee = 0.00932
+      const TVA = 0.19
+      const cogenerationContribution = 0.02554
+      const greenCertificates = 0.07254
+      const nonCommercialExciseDuty = 0.00542
+      let jt = 0.0
+      let activeElectricityTariff = 0.30792
+
+      const distributionArea = counties.find((element) => element.value === county).distributionArea
+      switch (distributionArea) {
+        case 'Oltenia':
+          jt = 142.4 / 1000
+          break
+        case 'Muntenia Nord':
+          jt = 140.68 / 1000
+          activeElectricityTariff = 0.30732
+          break
+        case 'Transilvania Nord':
+          jt = 122.78 / 1000
+          activeElectricityTariff = 0.30772
+          break
+        case 'Transilvania Sud':
+          jt = 127.04 / 1000
+          break
+        case 'Banat':
+          jt = 117.71 / 1000
+          break
+        case 'Dobrogea':
+          jt = 141.99 / 1000
+          break
+        case 'Muntenia Sud':
+          jt = 119.07 / 1000
+          break
+        case 'Moldova':
+          jt = 143.63 / 1000
+          break
+
+        default:
+          break
+      }
+
+      value =
+        (activeElectricityTariff +
+          tg +
+          tl +
+          systemServiceFee +
+          jt +
+          cogenerationContribution +
+          greenCertificates +
+          nonCommercialExciseDuty) *
+        (1 + TVA)
     }
 
     setTableRowsEstimatedConsumptionAndTotalCosts([
@@ -616,7 +675,7 @@ function DeviceList() {
                           variant='outlined'
                           color='secondary'
                           onClick={(event) => {
-                            // TODO
+                            navigate(`/alternatives/${row.id}`)
                           }}
                         >
                           Alternatives
