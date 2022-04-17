@@ -26,9 +26,9 @@ const app = express()
 app.use(
   cors({
     origin: '*',
+    credentials: true,
     methods: '*',
-    optionsSuccessStatus: 200,
-    credentials: true
+    optionsSuccessStatus: 200
   })
 )
 app.use(express.static(path.join(path.resolve(), 'public')))
