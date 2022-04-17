@@ -24,7 +24,7 @@ function Prizes() {
   const [anchorElUser, setAnchorElUser] = useState(null)
 
   const getUser = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/user', {
+    const response = await fetch('/api/auth/user', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')

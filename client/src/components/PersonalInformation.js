@@ -29,7 +29,7 @@ function PersonalInformation() {
   const [showPassword, setShowPassword] = useState(false)
 
   const getUser = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/user', {
+    const response = await fetch('/api/auth/user', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
@@ -62,7 +62,7 @@ function PersonalInformation() {
   }
 
   const updateUser = async (user) => {
-    const response = await fetch('http://localhost:8080/api/auth/user', {
+    const response = await fetch('/api/auth/user', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

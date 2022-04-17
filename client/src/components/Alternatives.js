@@ -12,7 +12,7 @@ function Alternatives() {
   const [budget, setBudget] = useState(0)
 
   useEffect(async () => {
-    let response = await fetch(`http://localhost:8080/api/auth/user/devices/${deviceId}`, {
+    let response = await fetch(`/api/auth/user/devices/${deviceId}`, {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
@@ -39,7 +39,7 @@ function Alternatives() {
         navigate('/login')
       })
     }
-    response = await fetch('http://localhost:8080/api/auth/user', {
+    response = await fetch('/api/auth/user', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
@@ -47,7 +47,7 @@ function Alternatives() {
     })
     data = await response.json()
     if (data.status === 'ok') {
-      setBudget(data.user.budget)
+      setBudget(data.user.budget ? data.user.budget : 0)
     } else {
       swal({
         title: 'Failed',
@@ -85,6 +85,24 @@ function Alternatives() {
     </AppBar>
   )
 
+  const URL = `https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
+    device.category
+      ? device.category
+          .trim()
+          .toLocaleLowerCase()
+          .replaceAll(' ', '+')
+          .replaceAll('ă', 'a')
+          .replaceAll('î', 'i')
+          .replaceAll('â', 'a')
+          .replaceAll('ş', 's')
+          .replaceAll('ș', 's')
+          .replaceAll('ț', 't')
+          .replaceAll(',', '%2C')
+          .replaceAll('(', '%28')
+          .replaceAll(')', '%29')
+      : ''
+  }/c`
+
   return (
     <div>
       {appBar}
@@ -97,41 +115,22 @@ function Alternatives() {
             {`${device.category}, Energy efficiency class: ${device.efficiencyClass}, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
           </Typography>
           <a
-            href={`https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
-              device.category
-                ? device.category
-                    .trim()
-                    .toLocaleLowerCase()
-                    .replaceAll(' ', '+')
-                    .replaceAll('ă', 'a')
-                    .replaceAll('î', 'i')
-                    .replaceAll('â', 'a')
-                    .replaceAll('ş', 's')
-                    .replaceAll('ș', 's')
-                    .replaceAll('ț', 't')
-                    .replaceAll(',', '%2C')
-                    .replaceAll('(', '%28')
-                    .replaceAll(')', '%29')
-                : ''
-            }/c`}
+            href={URL}
+            onClick={async (e) => {
+              e.preventDefault()
+              let response = await fetch(URL, {
+                headers: {
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Credentials': 'true',
+                  'Access-Control-Allow-Methods': '*',
+                  'Access-Control-Allow-Headers': '*'
+                }
+              })
+              let data = await response.json()
+              console.log(data)
+            }}
           >
-            {`https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
-              device.category
-                ? device.category
-                    .trim()
-                    .toLocaleLowerCase()
-                    .replaceAll(' ', '+')
-                    .replaceAll('ă', 'a')
-                    .replaceAll('î', 'i')
-                    .replaceAll('â', 'a')
-                    .replaceAll('ş', 's')
-                    .replaceAll('ș', 's')
-                    .replaceAll('ț', 't')
-                    .replaceAll(',', '%2C')
-                    .replaceAll('(', '%28')
-                    .replaceAll(')', '%29')
-                : ''
-            }/c`}
+            {URL}
           </a>
         </Paper>
       </Box>

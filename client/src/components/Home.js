@@ -143,7 +143,7 @@ function Home() {
         category: category.value,
         unitMeasurement: isSelectedPower ? unitMeasurePower.value : unitMeasureEnergyConsumption.value
       }
-      const response = await fetch('http://localhost:8080/api/auth/user/devices', {
+      const response = await fetch('/api/auth/user/devices', {
         method: 'POST',
         headers: {
           authorization: localStorage.getItem('accessToken'),
@@ -204,7 +204,7 @@ function Home() {
       unitMeasurement: device.value.split(';')[3],
       noOperatingHours: parseFloat(device.value.split(';')[4])
     }
-    const response = await fetch('http://localhost:8080/api/auth/user/devices', {
+    const response = await fetch('/api/auth/user/devices', {
       method: 'POST',
       headers: {
         authorization: localStorage.getItem('accessToken'),
@@ -240,7 +240,7 @@ function Home() {
   }
 
   const getUser = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/user', {
+    const response = await fetch('/api/auth/user', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
@@ -270,7 +270,7 @@ function Home() {
   }
 
   const getDevices = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/devices', {
+    const response = await fetch('/api/auth/devices', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')

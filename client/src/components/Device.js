@@ -53,7 +53,7 @@ function Device() {
   })
 
   useEffect(async () => {
-    const response = await fetch(`http://localhost:8080/api/auth/user/devices/${deviceId}`, {
+    const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
@@ -132,7 +132,7 @@ function Device() {
       efficiencyClass: efficiencyClass.value,
       category: category.value
     }
-    const response = await fetch(`http://localhost:8080/api/auth/user/devices/${deviceId}`, {
+    const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

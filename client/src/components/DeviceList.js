@@ -165,7 +165,7 @@ function DeviceList() {
   const [county, setCounty] = useState(counties[0].value)
 
   const getUser = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/user', {
+    const response = await fetch('/api/auth/user', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
@@ -198,7 +198,7 @@ function DeviceList() {
   }
 
   const getDevices = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/user/devices', {
+    const response = await fetch('/api/auth/user/devices', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
@@ -228,7 +228,7 @@ function DeviceList() {
   }
 
   const updateUser = async (user) => {
-    const response = await fetch('http://localhost:8080/api/auth/user', {
+    const response = await fetch('/api/auth/user', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -639,7 +639,7 @@ function DeviceList() {
                           variant='outlined'
                           color='error'
                           onClick={async (event) => {
-                            const response = await fetch(`http://localhost:8080/api/auth/user/devices/${row.id}`, {
+                            const response = await fetch(`/api/auth/user/devices/${row.id}`, {
                               method: 'DELETE',
                               headers: {
                                 authorization: localStorage.getItem('accessToken')

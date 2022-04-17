@@ -23,7 +23,14 @@ User.hasMany(Prize)
 
 const app = express()
 
-app.use(cors())
+app.use(
+  cors({
+    origin: '*',
+    methods: '*',
+    optionsSuccessStatus: 200,
+    credentials: true
+  })
+)
 app.use(express.static(path.join(path.resolve(), 'public')))
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
