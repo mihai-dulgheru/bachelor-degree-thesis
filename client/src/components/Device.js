@@ -178,7 +178,7 @@ function Device() {
           <div className='col'>
             <Select
               className='select'
-              isSearchable={true}
+              isSearchable
               value={category}
               onChange={(category) => {
                 setCategory(category)
@@ -194,7 +194,7 @@ function Device() {
           <div className='col'>
             <Select
               className='select'
-              isSearchable={true}
+              isSearchable
               value={efficiencyClass}
               onChange={(efficiencyClass) => {
                 setEfficiencyClass(efficiencyClass)
@@ -211,10 +211,10 @@ function Device() {
               value={isSelectedPower ? 'Power: *' : 'Energy consumption: *'}
               onChange={(event) => setIsSelectedPower(event.target.value === 'Power: *')}
             >
-              <option key={'Energy consumption: *'} value={'Energy consumption: *'}>
+              <option key='Energy consumption: *' value='Energy consumption: *'>
                 Energy consumption: *
               </option>
-              <option key={'Power: *'} value={'Power: *'}>
+              <option key='Power: *' value='Power: *'>
                 Power: *
               </option>
             </select>
@@ -226,7 +226,7 @@ function Device() {
             {isSelectedPower ? (
               <Select
                 className='select-units-measures'
-                isSearchable={true}
+                isSearchable
                 value={unitMeasurementPower}
                 onChange={(unitMeasurePower) => {
                   setUnitMeasurementPower(unitMeasurePower)
@@ -236,7 +236,7 @@ function Device() {
             ) : (
               <Select
                 className='select-units-measures'
-                isSearchable={true}
+                isSearchable
                 value={unitMeasurementEnergyConsumption}
                 onChange={(unitMeasureEnergyConsumption) => {
                   setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)

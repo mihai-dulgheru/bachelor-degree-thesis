@@ -1,4 +1,16 @@
-import { AppBar, IconButton, Paper, Toolbar, Typography } from '@mui/material'
+import {
+  AppBar,
+  IconButton,
+  Paper,
+  Toolbar,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
+} from '@mui/material'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -10,7 +22,10 @@ function Alternatives() {
   const { deviceId } = useParams()
   const [device, setDevice] = useState({})
   const [budget, setBudget] = useState(0)
+  const [alternatives, setAlternatives] = useState([])
+  const [url, setUrl] = useState('')
 
+  // * Setare dispozitiv si buget
   useEffect(async () => {
     let response = await fetch(`/api/auth/user/devices/${deviceId}`, {
       method: 'GET',
@@ -68,9 +83,76 @@ function Alternatives() {
     }
   }, [])
 
+  // * Setare url
+  useEffect(() => {
+    setUrl(
+      `https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
+        device.category
+          ? device.category
+              .trim()
+              .toLocaleLowerCase()
+              .replaceAll(' ', '+')
+              .replaceAll('ă', 'a')
+              .replaceAll('î', 'i')
+              .replaceAll('â', 'a')
+              .replaceAll('ş', 's')
+              .replaceAll('ș', 's')
+              .replaceAll('ț', 't')
+              .replaceAll(',', '%2C')
+              .replaceAll('(', '%28')
+              .replaceAll(')', '%29')
+          : ''
+      }/c`
+    )
+  }, [budget])
+
   const handleBack = () => {
     navigate(-1)
   }
+
+  const getAlternatives = async () => {
+    const response = await fetch(`/alternatives/?url=${url}`, {
+      method: 'GET'
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      setAlternatives(
+        data.data.sort(function (a, b) {
+          const priceA = a.price
+          const priceB = b.price
+          if (priceA < priceB) {
+            return 1
+          }
+          if (priceA > priceB) {
+            return -1
+          }
+          return 0
+        })
+      )
+    } else {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
+    }
+  }
+
+  // * Setare alternative
+  useEffect(() => {
+    if (url) {
+      getAlternatives()
+    }
+  }, [url])
 
   const appBar = (
     <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
@@ -85,23 +167,42 @@ function Alternatives() {
     </AppBar>
   )
 
-  const URL = `https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
-    device.category
-      ? device.category
-          .trim()
-          .toLocaleLowerCase()
-          .replaceAll(' ', '+')
-          .replaceAll('ă', 'a')
-          .replaceAll('î', 'i')
-          .replaceAll('â', 'a')
-          .replaceAll('ş', 's')
-          .replaceAll('ș', 's')
-          .replaceAll('ț', 't')
-          .replaceAll(',', '%2C')
-          .replaceAll('(', '%28')
-          .replaceAll(')', '%29')
-      : ''
-  }/c`
+  const table = (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell align='left'>No.</TableCell>
+            <TableCell align='center'>Name</TableCell>
+            <TableCell align='right'>Price&nbsp;(RON)</TableCell>
+            <TableCell />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {alternatives.map((element, index) => (
+            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCell align='center'>{`${index + 1}.`}</TableCell>
+              <TableCell align='left'>{element.name}</TableCell>
+              <TableCell align='right'>{element.price}</TableCell>
+              <TableCell className='d-flex flex-row gap-3 justify-content-around align-items-center'>
+                <a className='link-primary' href={`${element.link}`}>
+                  Buy!
+                </a>
+                <button
+                  className='btn btn-outline-secondary'
+                  onClick={() => {
+                    navigate('/prizes')
+                  }}
+                >
+                  Choose!
+                </button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
 
   return (
     <div>
@@ -114,24 +215,7 @@ function Alternatives() {
           <Typography variant='subtitle1' gutterBottom component='div'>
             {`${device.category}, Energy efficiency class: ${device.efficiencyClass}, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
           </Typography>
-          <a
-            href={URL}
-            onClick={async (e) => {
-              e.preventDefault()
-              let response = await fetch(URL, {
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Credentials': 'true',
-                  'Access-Control-Allow-Methods': '*',
-                  'Access-Control-Allow-Headers': '*'
-                }
-              })
-              let data = await response.json()
-              console.log(data)
-            }}
-          >
-            {URL}
-          </a>
+          {table}
         </Paper>
       </Box>
     </div>

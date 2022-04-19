@@ -324,7 +324,7 @@ function Profile() {
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={1} width={'50%'}>
+                <TableCell colSpan={1} width='50%'>
                   Personal Information
                 </TableCell>
                 <TableCell align='right'>
@@ -363,7 +363,7 @@ function Profile() {
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={1} width={'50%'}>
+                <TableCell colSpan={1} width='50%'>
                   Other Information
                 </TableCell>
                 <TableCell align='right'>

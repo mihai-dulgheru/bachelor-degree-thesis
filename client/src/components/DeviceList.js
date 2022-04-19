@@ -135,9 +135,9 @@ function EnhancedTableHead(props) {
           </TableCell>
         ))}
         <TableCell
-          key={'action'}
-          align={'center'}
-          padding={'normal'}
+          key='action'
+          align='center'
+          padding='normal'
           style={{ width: `calc(100% / ${columns.length + 2} * 2)` }}
         >
           Action
@@ -474,7 +474,7 @@ function DeviceList() {
     const estimatedConsumptionkWhMonth = estimatedConsumptionkWh * month * day
     const estimatedConsumptionkWhYear = estimatedConsumptionkWh * year * day
 
-    let value = invoiceUnitValue ? invoiceUnitValue : 0
+    let value = invoiceUnitValue || 0
     if (value === 0) {
       /**
        * Preţul final este exprimat în lei/kWh şi conţine prețul energiei active și următoarele tarife reglementate: tariful de
@@ -612,7 +612,7 @@ function DeviceList() {
     <Box sx={{ width: '90%', margin: '16px auto 0px auto' }}>
       <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
         <TableContainer>
-          <Table stickyHeader size={'medium'}>
+          <Table stickyHeader size='medium'>
             <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -620,14 +620,14 @@ function DeviceList() {
                 .map((row, index) => {
                   return (
                     <TableRow key={index} hover tabIndex={-1}>
-                      <TableCell align={'left'} padding={'none'}>
+                      <TableCell align='left' padding='none'>
                         {row.category}
                       </TableCell>
-                      <TableCell align={'left'}>{row.efficiencyClass}</TableCell>
-                      <TableCell align={'right'}>{row.energyConsumption}</TableCell>
-                      <TableCell align={'left'}>{row.unitMeasurement}</TableCell>
-                      <TableCell align={'right'}>{row.noOperatingHours}</TableCell>
-                      <TableCell align={'center'}>
+                      <TableCell align='left'>{row.efficiencyClass}</TableCell>
+                      <TableCell align='right'>{row.energyConsumption}</TableCell>
+                      <TableCell align='left'>{row.unitMeasurement}</TableCell>
+                      <TableCell align='right'>{row.noOperatingHours}</TableCell>
+                      <TableCell align='center'>
                         <Button
                           variant='outlined'
                           color='inherit'

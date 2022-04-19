@@ -5,6 +5,7 @@ const express = require('express')
 const path = require('path')
 const apiRouter = require('./routes/apiRouter')
 const authRouter = require('./routes/authRouter')
+const alternativesRouter = require('./routes/alternativesRouter')
 const sequelize = require('./sequelize')
 const bodyParser = require('body-parser')
 const { config } = require('dotenv')
@@ -48,6 +49,7 @@ app.get('/sync', async (req, res, next) => {
 
 app.use('/api', apiRouter)
 app.use('/api/auth', authRouter)
+app.use('/alternatives', alternativesRouter)
 
 app.use((err, req, res, next) => {
   console.error(`[ERROR]: ${err}`)

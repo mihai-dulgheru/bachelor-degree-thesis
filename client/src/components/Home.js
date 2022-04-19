@@ -311,7 +311,13 @@ function Home() {
     <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <Typography variant='h6' noWrap component='div' sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+          <Typography
+            key='Home'
+            variant='h6'
+            noWrap
+            component='div'
+            sx={{ m: 2, ml: 0, pb: '4px', display: { xs: 'none', md: 'flex' } }}
+          >
             Home
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -410,7 +416,7 @@ function Home() {
           <div className='col'>
             <Select
               className='select'
-              isSearchable={true}
+              isSearchable
               value={category}
               onChange={(category) => {
                 setCategory(category)
@@ -426,7 +432,7 @@ function Home() {
           <div className='col'>
             <Select
               className='select'
-              isSearchable={true}
+              isSearchable
               value={efficiencyClass}
               onChange={(efficiencyClass) => {
                 setEfficiencyClass(efficiencyClass)
@@ -443,10 +449,10 @@ function Home() {
               value={isSelectedPower ? 'Power: *' : 'Energy consumption: *'}
               onChange={(event) => setIsSelectedPower(event.target.value === 'Power: *')}
             >
-              <option key={'Energy consumption: *'} value={'Energy consumption: *'}>
+              <option key='Energy consumption: *' value='Energy consumption: *'>
                 Energy consumption: *
               </option>
-              <option key={'Power: *'} value={'Power: *'}>
+              <option key='Power: *' value='Power: *'>
                 Power: *
               </option>
             </select>
@@ -458,7 +464,7 @@ function Home() {
             {isSelectedPower ? (
               <Select
                 className='select-units-measures'
-                isSearchable={true}
+                isSearchable
                 value={unitMeasurePower}
                 onChange={(unitMeasurePower) => {
                   setUnitMeasurementPower(unitMeasurePower)
@@ -468,7 +474,7 @@ function Home() {
             ) : (
               <Select
                 className='select-units-measures'
-                isSearchable={true}
+                isSearchable
                 value={unitMeasureEnergyConsumption}
                 onChange={(unitMeasureEnergyConsumption) => {
                   setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
@@ -514,7 +520,7 @@ function Home() {
             </Typography>
             <Select
               className='choose-device-select'
-              isSearchable={true}
+              isSearchable
               value={device}
               onChange={(device) => {
                 setDevice(device)
