@@ -1,5 +1,6 @@
 const Device = require('../models/device')
 const User = require('../models/user')
+const Prize = require('../models/prize')
 const authRouter = require('express').Router()
 
 authRouter.use(async (req, res, next) => {
@@ -252,6 +253,163 @@ authRouter
         res.status(404).json({
           status: 'error',
           message: `Device with ID = ${deviceId} not found`
+        })
+      }
+    } catch (err) {
+      next(err)
+    }
+  })
+
+authRouter.route('/prizes').get(async (req, res, next) => {
+  try {
+    const prizes = await Prize.findAll({
+      attributes: { exclude: ['id'] }
+    })
+    res.status(200).json({
+      status: 'ok',
+      prizes: prizes
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+authRouter
+  .route('/user/prizes')
+  .get(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Prize
+      })
+      const prizes = user.Prizes
+      const tempPrizes = []
+      for (const prize of prizes) {
+        const { User_Prize, UserId, ...tempPrize } = prize.dataValues
+        tempPrizes.push(tempPrize)
+      }
+      res.status(200).json({
+        status: 'ok',
+        prizes: tempPrizes
+      })
+    } catch (err) {
+      next(err)
+    }
+  })
+  .post(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        }
+      })
+      if (req.body.prizeType && req.body.prizeValue) {
+        const prize = await Prize.create(req.body)
+        await user.addPrize(prize)
+        res.status(200).json({
+          status: 'ok',
+          message: `Prize with ID = ${prize.id} is created`,
+          prize: prize
+        })
+      } else {
+        res.status(400).json({
+          status: 'error',
+          message: 'Missing fields (prizeType and/or prizeValue)'
+        })
+      }
+    } catch (err) {
+      next(err)
+    }
+  })
+
+authRouter
+  .route('/user/prizes/:prizeId')
+  .get(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Prize
+      })
+      const prizes = user.Prizes
+      const prizeId = parseInt(req.params.prizeId)
+      const prize = prizes.map((element) => element.dataValues).find((element) => element.id === prizeId)
+      if (prize) {
+        res.status(200).json({
+          status: 'ok',
+          prize: {
+            id: prize.id,
+            prizeType: prize.prizeType,
+            prizeValue: prize.prizeValue
+          }
+        })
+      } else {
+        res.status(404).json({
+          status: 'error',
+          message: `Prize with ID = ${prizeId} not found`
+        })
+      }
+    } catch (err) {
+      next(err)
+    }
+  })
+  .put(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Prize
+      })
+      const prizes = user.Prizes
+      const prizeId = parseInt(req.params.prizeId)
+      const prize = prizes.map((element) => element.dataValues).find((element) => element.id === prizeId)
+      if (prize) {
+        const updatedPrize = await Prize.findByPk(prizeId)
+        await updatedPrize.update(req.body)
+        res.status(200).json({
+          status: 'ok',
+          message: `Prize with ID = ${prizeId} is updated`,
+          prize: {
+            id: updatedPrize.id,
+            prizeType: updatedPrize.prizeType,
+            prizeValue: updatedPrize.prizeValue
+          }
+        })
+      } else {
+        res.status(404).json({
+          status: 'error',
+          message: `Prize with ID = ${prizeId} not found`
+        })
+      }
+    } catch (err) {
+      next(err)
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          token: req.headers.authorization
+        },
+        include: Prize
+      })
+      const prizes = user.Prizes
+      const prizeId = parseInt(req.params.prizeId)
+      const prize = prizes.map((element) => element.dataValues).find((element) => element.id === prizeId)
+      if (prize) {
+        await (await Prize.findByPk(prizeId)).destroy()
+        res.status(200).json({
+          status: 'ok',
+          message: `Prize with ID = ${prizeId} is deleted`
+        })
+      } else {
+        res.status(404).json({
+          status: 'error',
+          message: `Prize with ID = ${prizeId} not found`
         })
       }
     } catch (err) {

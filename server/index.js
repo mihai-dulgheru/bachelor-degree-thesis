@@ -16,11 +16,13 @@ const Device = require('./models/device')
 const Prize = require('./models/prize')
 const User = require('./models/user')
 const UserDevice = require('./models/user-device')
+const UserPrize = require('./models/user-prize')
 
 // Associations
 User.belongsToMany(Device, { through: UserDevice })
 Device.belongsToMany(User, { through: UserDevice })
 User.hasMany(Prize)
+Prize.belongsToMany(User, { through: UserPrize })
 
 const app = express()
 

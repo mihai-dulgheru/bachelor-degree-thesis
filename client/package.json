@@ -18,6 +18,7 @@
     "react-avatar-edit": "^1.1.0",
     "react-avatar-uploader": "^1.0.3",
     "react-dom": "^17.0.2",
+    "react-loading": "^2.0.3",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",

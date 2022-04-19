@@ -30,8 +30,7 @@ const Device = sequelize.define(
       }
     },
     efficiencyClass: {
-      type: DataTypes.ENUM('A+++', 'A++', 'A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G'),
-      allowNull: false
+      type: DataTypes.ENUM('A+++', 'A++', 'A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G')
     },
     category: {
       type: DataTypes.STRING,
