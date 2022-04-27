@@ -69,7 +69,7 @@ function Signup() {
           text: 'User has been created!',
           icon: 'success',
           buttons: false,
-          timer: 3000
+          timer: 2000
         }).then(() => {
           localStorage.setItem('username', username)
           navigate('/login')

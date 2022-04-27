@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import MenuIcon from '@mui/icons-material/Menu'
 import {
-  Button,
-  Container,
-  Menu,
-  MenuItem,
-  Tooltip,
   AppBar,
   Avatar,
+  Button,
+  Container,
   IconButton,
+  Menu,
+  MenuItem,
   Toolbar,
+  Tooltip,
   Typography
 } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { Box } from '@mui/system'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 
 function Prizes() {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
+  const [prizes, setPrizes] = useState([])
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
@@ -53,8 +54,38 @@ function Prizes() {
     }
   }
 
+  const getPrizes = async () => {
+    const response = await fetch('/api/auth/prizes', {
+      method: 'GET',
+      headers: {
+        authorization: localStorage.getItem('accessToken')
+      }
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      setPrizes(data.prizes)
+      console.log(data.prizes)
+    } else {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
+    }
+  }
+
   useEffect(() => {
     getUser()
+    getPrizes()
   }, [])
 
   const handleOpenNavMenu = (event) => {
@@ -137,20 +168,14 @@ function Prizes() {
             Prizes
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button key='Home' onClick={handleClickNavMenuHome} sx={{ my: 2, color: 'white', display: 'block' }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
+            <Button key='Home' onClick={handleClickNavMenuHome} sx={{ py: 2, color: 'white', display: 'block' }}>
               Home
             </Button>
-            <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ py: 2, color: 'white', display: 'block' }}>
               Devices
             </Button>
-            <Typography
-              key='Prizes'
-              variant='h6'
-              noWrap
-              component='div'
-              sx={{ m: 2, display: { xs: 'none', md: 'flex' } }}
-            >
+            <Typography key='Prizes' variant='h6' noWrap component='div'>
               Prizes
             </Typography>
           </Box>

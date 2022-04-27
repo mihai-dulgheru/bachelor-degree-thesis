@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import AppBar from '@mui/material/AppBar'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { Input } from '@mui/material'
+import MuiAlert from '@mui/material/Alert'
+import AppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import IconButton from '@mui/material/IconButton'
-import LogoutIcon from '@mui/icons-material/Logout'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import FileUploadIcon from '@mui/icons-material/FileUpload'
+import Paper from '@mui/material/Paper'
+import Slide from '@mui/material/Slide'
+import Snackbar from '@mui/material/Snackbar'
+import Stack from '@mui/material/Stack'
+import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import { Input } from '@mui/material'
-import './css/Profile.css'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import { styled } from '@mui/material/styles'
-import Stack from '@mui/material/Stack'
-import Snackbar from '@mui/material/Snackbar'
-import MuiAlert from '@mui/material/Alert'
-import Slide from '@mui/material/Slide'
+import './css/Profile.css'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
@@ -224,7 +224,7 @@ function Profile() {
           swal('Your account has been deleted!', {
             icon: 'success',
             buttons: false,
-            timer: 3000
+            timer: 2000
           }).then(() => {
             localStorage.removeItem('username')
             handleLogout()

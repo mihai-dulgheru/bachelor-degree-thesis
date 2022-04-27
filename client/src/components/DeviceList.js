@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import MenuIcon from '@mui/icons-material/Menu'
 import {
-  Button,
-  Container,
-  Menu,
-  MenuItem,
-  Tooltip,
   AppBar,
   Avatar,
+  Button,
+  Container,
   IconButton,
-  Toolbar,
-  Typography,
+  Menu,
+  MenuItem,
   Paper,
-  TableContainer,
   Table,
-  TableHead,
-  TableRow,
-  TableCell,
   TableBody,
-  TablePagination
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Toolbar,
+  Tooltip,
+  Typography
 } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { Box } from '@mui/system'
-import swal from 'sweetalert'
-import PropTypes from 'prop-types'
-import TableSortLabel from '@mui/material/TableSortLabel'
-import { visuallyHidden } from '@mui/utils'
-import TextField from '@mui/material/TextField'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
-import suppliers from '../collections/suppliers.json'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import TextField from '@mui/material/TextField'
+import { Box } from '@mui/system'
+import { visuallyHidden } from '@mui/utils'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import swal from 'sweetalert'
 import counties from '../collections/counties.json'
+import suppliers from '../collections/suppliers.json'
 import './css/DeviceList.css'
 
 const columns = [
@@ -348,20 +348,14 @@ function DeviceList() {
             Devices
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button key='Home' onClick={handleClickNavMenuHome} sx={{ my: 2, color: 'white', display: 'block' }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
+            <Button key='Home' onClick={handleClickNavMenuHome} sx={{ py: 2, color: 'white', display: 'block' }}>
               Home
             </Button>
-            <Typography
-              key='Devices'
-              variant='h6'
-              noWrap
-              component='div'
-              sx={{ m: 2, display: { xs: 'none', md: 'flex' } }}
-            >
+            <Typography key='Devices' variant='h6' noWrap component='div'>
               Devices
             </Typography>
-            <Button key='Prizes' onClick={handleClickNavMenuPrizes} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button key='Prizes' onClick={handleClickNavMenuPrizes} sx={{ py: 2, color: 'white', display: 'block' }}>
               Prizes
             </Button>
           </Box>
@@ -401,13 +395,13 @@ function DeviceList() {
     </AppBar>
   )
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (_event, property) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_event, newPage) => {
     setPage(newPage)
   }
 
@@ -631,14 +625,14 @@ function DeviceList() {
                         <Button
                           variant='outlined'
                           color='inherit'
-                          onClick={(event) => navigate(`/device-list/${row.id}`)}
+                          onClick={(_event) => navigate(`/device-list/${row.id}`)}
                         >
                           Edit
                         </Button>
                         <Button
                           variant='outlined'
                           color='error'
-                          onClick={async (event) => {
+                          onClick={async (_event) => {
                             const response = await fetch(`/api/auth/user/devices/${row.id}`, {
                               method: 'DELETE',
                               headers: {
@@ -674,7 +668,7 @@ function DeviceList() {
                         <Button
                           variant='outlined'
                           color='secondary'
-                          onClick={(event) => {
+                          onClick={(_event) => {
                             navigate(`/alternatives/${row.id}`)
                           }}
                         >

@@ -52,7 +52,7 @@ function Signin(props) {
             : response.message,
         icon: 'success',
         buttons: false,
-        timer: 3000
+        timer: 2000
       })
         .then(() => {
           localStorage.setItem('accessToken', response.accessToken)

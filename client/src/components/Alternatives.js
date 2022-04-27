@@ -1,23 +1,23 @@
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import {
   AppBar,
   IconButton,
   Paper,
-  Toolbar,
-  Typography,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Toolbar,
+  Typography
 } from '@mui/material'
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
+import ReactLoading from 'react-loading'
 import { useNavigate, useParams } from 'react-router-dom'
 import swal from 'sweetalert'
-import { Box } from '@mui/system'
 import LoadingScreen from './LoadingScreen'
-import ReactLoading from 'react-loading'
 
 function Alternatives() {
   const navigate = useNavigate()
@@ -69,6 +69,34 @@ function Alternatives() {
         authorization: localStorage.getItem('accessToken')
       },
       body: JSON.stringify(device)
+    })
+    const data = await response.json()
+    if (data.status !== 'ok') {
+      swal({
+        title: 'Failed',
+        text:
+          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+            : data.errors[0].message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
+    }
+  }
+
+  const addPrize = async (prize) => {
+    const response = await fetch('/api/auth/user/prizes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify(prize)
     })
     const data = await response.json()
     if (data.status !== 'ok') {
@@ -197,7 +225,7 @@ function Alternatives() {
             return 0
           })
       )
-      setTimeout(() => setLoading(false), 2000)
+      setTimeout(() => setLoading(false), 3000)
     } else {
       swal({
         title: 'Failed',
@@ -236,6 +264,18 @@ function Alternatives() {
     </AppBar>
   )
 
+  const calculatePrize = async (newDevice) => {
+    const prize = {
+      prizeType: 'SAVED_ENERGY',
+      prizeValue: 0
+    }
+    if (newDevice.energyConsumption < device.energyConsumption) {
+      prize.prizeValue = device.energyConsumption - newDevice.energyConsumption
+      await addPrize(prize)
+    }
+    return prize
+  }
+
   const handleChoose = async (element) => {
     setLoadingDeviceSpecifications(true)
     const response = await fetch(`/alternatives/one/?url=${element.link}`, {
@@ -258,12 +298,13 @@ function Alternatives() {
       } else {
         await updateUser({ budget: Math.trunc(budget - element.price) })
         await updateDevice(data.data)
-        // TODO: calculeaza si adauga premiile castigate
+        const prize = await calculatePrize(data.data)
         setLoadingDeviceSpecifications(false)
         swal({
           title: 'Success',
-          text: 'The device has been added to your list! You have won the following awards: ...',
-          // TODO: adauga premiile
+          text:
+            'The device has been added to your list! You have won the following awards:\n\r' +
+            `${prize.prizeType.replace('_', ' ')}: ${prize.prizeValue} ${data.data.unitMeasurement}`,
           icon: 'success',
           button: {
             text: 'OK',
@@ -310,7 +351,7 @@ function Alternatives() {
               <TableCell align='right'>{element.price}</TableCell>
               <TableCell className='d-flex flex-row gap-3 justify-content-around align-items-center'>
                 <a className='link-primary' href={`${element.link}`}>
-                  Buy!
+                  Check!
                 </a>
                 <button className='btn btn-outline-secondary' onClick={() => handleChoose(element)}>
                   Choose!

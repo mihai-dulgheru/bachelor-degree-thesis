@@ -1,25 +1,25 @@
-import React, { forwardRef, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import InputUnstyled from '@mui/base/InputUnstyled'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import MenuIcon from '@mui/icons-material/Menu'
+import { Button, Container, Menu, MenuItem, Paper, Stack, Tooltip } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import './css/Home.css'
-import swal from 'sweetalert'
-import { Button, Container, Menu, MenuItem, Paper, Stack, Tooltip } from '@mui/material'
 import { Box, styled } from '@mui/system'
-import MenuIcon from '@mui/icons-material/Menu'
-import InputUnstyled from '@mui/base/InputUnstyled'
+import React, { forwardRef, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Select from 'react-select'
+import swal from 'sweetalert'
 import categories from '../collections/categories.json'
 import efficiencyClasses from '../collections/efficiency-classes.json'
 import unitsMeasurementsEnergyConsumption from '../collections/units-measurements-energy-consumption.json'
 import unitsMeasurementsPower from '../collections/units-measurements-power.json'
-import Select from 'react-select'
+import './css/Home.css'
 
 const StyledInputElement = styled('input')(
-  ({ theme }) => `
+  ({}) => `
   display: block;
   width: 100%;
   padding: 2px 8px;
@@ -158,7 +158,7 @@ function Home() {
           text: 'Device has been created!',
           icon: 'success',
           buttons: false,
-          timer: 3000
+          timer: 2000
         }).then(() => {
           clearForm()
           getDevices()
@@ -219,7 +219,7 @@ function Home() {
         text: 'Device has been created!',
         icon: 'success',
         buttons: false,
-        timer: 3000
+        timer: 2000
       })
     } else {
       swal({
@@ -311,15 +311,6 @@ function Home() {
     <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <Typography
-            key='Home'
-            variant='h6'
-            noWrap
-            component='div'
-            sx={{ m: 2, ml: 0, pb: '4px', display: { xs: 'none', md: 'flex' } }}
-          >
-            Home
-          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size='large'
@@ -356,18 +347,22 @@ function Home() {
               </MenuItem>
             </Menu>
           </Box>
-
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             Home
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ my: 2, color: 'white', display: 'block' }}>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
+            <Typography key='Home' variant='h6' noWrap component='div'>
+              Home
+            </Typography>
+            <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ py: 2, color: 'white', display: 'block' }}>
               Devices
             </Button>
-            <Button key='Prizes' onClick={handleClickNavMenuPrizes} sx={{ my: 2, color: 'white', display: 'block' }}>
+            <Button key='Prizes' onClick={handleClickNavMenuPrizes} sx={{ py: 2, color: 'white', display: 'block' }}>
               Prizes
             </Button>
           </Box>
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
