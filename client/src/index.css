@@ -43,3 +43,7 @@ code {
   margin: 16px;
   padding-bottom: 4px;
 }
+
+#root>div>div>header>div>div>div>div {
+  cursor: default;
+}

@@ -1,17 +1,17 @@
-import { Button, Paper, Stack, Typography } from '@mui/material'
-import React, { useState, useEffect, forwardRef } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import swal from 'sweetalert'
-import Select from 'react-select'
 import InputUnstyled from '@mui/base/InputUnstyled'
+import { Button, Paper, Stack, Typography } from '@mui/material'
+import { styled } from '@mui/system'
+import React, { forwardRef, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import Select from 'react-select'
+import swal from 'sweetalert'
 import categories from '../collections/categories.json'
 import efficiencyClasses from '../collections/efficiency-classes.json'
 import unitsMeasurementsEnergyConsumption from '../collections/units-measurements-energy-consumption.json'
 import unitsMeasurementsPower from '../collections/units-measurements-power.json'
-import { styled } from '@mui/system'
 
 const StyledInputElement = styled('input')(
-  ({ theme }) => `
+  () => `
   display: block;
   width: 100%;
   padding: 2px 8px;
@@ -37,7 +37,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
 function Device() {
   const navigate = useNavigate()
   const { deviceId } = useParams()
-  const [device, setDevice] = useState({})
+  const [, setDevice] = useState({})
   const [isSelectedPower, setIsSelectedPower] = useState(false)
   const [energyConsumption, setEnergyConsumption] = useState('')
   const [unitMeasurementEnergyConsumption, setUnitMeasurementEnergyConsumption] = useState('')
@@ -52,59 +52,62 @@ function Device() {
     label: ''
   })
 
-  useEffect(async () => {
-    const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setDevice(data.device)
-      setEnergyConsumption(data.device.energyConsumption)
-      setUnitMeasurementEnergyConsumption(unitsMeasurementsEnergyConsumption[0])
-      setUnitMeasurementPower(unitsMeasurementsPower[0])
-      if (data.device.unitMeasurement === 'W' || data.device.unitMeasurement === 'kW') {
-        setIsSelectedPower(true)
-        setUnitMeasurementPower({
-          value: data.device.unitMeasurement,
-          label: data.device.unitMeasurement
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setDevice(data.device)
+        setEnergyConsumption(data.device.energyConsumption)
+        setUnitMeasurementEnergyConsumption(unitsMeasurementsEnergyConsumption[0])
+        setUnitMeasurementPower(unitsMeasurementsPower[0])
+        if (data.device.unitMeasurement === 'W' || data.device.unitMeasurement === 'kW') {
+          setIsSelectedPower(true)
+          setUnitMeasurementPower({
+            value: data.device.unitMeasurement,
+            label: data.device.unitMeasurement
+          })
+        } else {
+          setIsSelectedPower(false)
+          setUnitMeasurementEnergyConsumption({
+            value: data.device.unitMeasurement,
+            label: data.device.unitMeasurement
+          })
+        }
+        setNoOperatingHours(data.device.noOperatingHours)
+        setEfficiencyClass({
+          value: data.device.efficiencyClass,
+          label: data.device.efficiencyClass
+        })
+        setCategory({
+          value: data.device.category,
+          label: data.device.category
         })
       } else {
-        setIsSelectedPower(false)
-        setUnitMeasurementEnergyConsumption({
-          value: data.device.unitMeasurement,
-          label: data.device.unitMeasurement
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
         })
       }
-      setNoOperatingHours(data.device.noOperatingHours)
-      setEfficiencyClass({
-        value: data.device.efficiencyClass,
-        label: data.device.efficiencyClass
-      })
-      setCategory({
-        value: data.device.category,
-        label: data.device.category
-      })
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
     }
+    fetchData()
   }, [])
 
   const handleChangeCustomInputEnergyConsumption = (event) => {

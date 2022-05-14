@@ -117,62 +117,65 @@ function Alternatives() {
     }
   }
 
-  // * Setare dispozitiv si buget
-  useEffect(async () => {
-    let response = await fetch(`/api/auth/user/devices/${deviceId}`, {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    let data = await response.json()
-    if (data.status === 'ok') {
-      setDevice(data.device)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
+  useEffect(() => {
+    // * Setare dispozitiv si buget
+    async function fetchData() {
+      let response = await fetch(`/api/auth/user/devices/${deviceId}`, {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
         }
-      }).then(() => {
-        navigate('/login')
       })
-    }
-    response = await fetch('/api/auth/user', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
+      let data = await response.json()
+      if (data.status === 'ok') {
+        setDevice(data.device)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
       }
-    })
-    data = await response.json()
-    if (data.status === 'ok') {
-      setBudget(data.user.budget ? data.user.budget : 0)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
+      response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
         }
-      }).then(() => {
-        navigate('/login')
       })
+      data = await response.json()
+      if (data.status === 'ok') {
+        setBudget(data.user.budget ? data.user.budget : 0)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
     }
+    fetchData()
   }, [])
 
   // * Setare url

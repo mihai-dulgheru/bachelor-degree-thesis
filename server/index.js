@@ -38,7 +38,7 @@ app.use(express.static(path.join(path.resolve(), 'public')))
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
-app.get('/sync', async (req, res, next) => {
+app.get('/sync', async (_req, res, next) => {
   try {
     sequelize.sync({ force: true }).then(() => {
       console.log('All models were synchronized successfully')
@@ -53,7 +53,7 @@ app.use('/api', apiRouter)
 app.use('/api/auth', authRouter)
 app.use('/alternatives', alternativesRouter)
 
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   console.error(`[ERROR]: ${err}`)
   res.status(500).json(err)
 })

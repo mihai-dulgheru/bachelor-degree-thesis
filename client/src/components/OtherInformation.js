@@ -2,8 +2,8 @@ import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/mate
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import suppliers from '../collections/suppliers.json'
 import counties from '../collections/counties.json'
+import suppliers from '../collections/suppliers.json'
 
 function OtherInformation() {
   const navigate = useNavigate()

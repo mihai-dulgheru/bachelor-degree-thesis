@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@mui/material/Paper'
-import swal from 'sweetalert'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import swal from 'sweetalert'
 import './css/Signin.css'
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import Visibility from '@mui/icons-material/Visibility'
 
 async function loginUser(credentials) {
   return fetch('/api/login', {
@@ -24,8 +24,7 @@ async function loginUser(credentials) {
   }).then((data) => data.json())
 }
 
-function Signin(props) {
-  const { onSignin } = props
+function Signin({ onSignin }) {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')

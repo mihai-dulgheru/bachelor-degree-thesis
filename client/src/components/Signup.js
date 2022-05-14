@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import {
   Box,
+  Button,
   CssBaseline,
   FormControl,
   FormHelperText,
+  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Typography,
-  TextField,
   Paper,
-  Grid,
-  Button
+  TextField,
+  Typography
 } from '@mui/material'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import './css/Signup.css'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import Visibility from '@mui/icons-material/Visibility'
 
 function Signup() {
   const navigate = useNavigate()

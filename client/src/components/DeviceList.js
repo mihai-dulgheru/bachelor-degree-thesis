@@ -103,8 +103,7 @@ EnhancedTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired
 }
 
-function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props
+function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property)
   }
