@@ -80,7 +80,7 @@ authRouter
     }
   })
 
-authRouter.route('/devices').get(async (req, res, next) => {
+authRouter.route('/devices').get(async (_req, res, next) => {
   try {
     const devices = await Device.findAll({
       attributes: { exclude: ['id'] }
@@ -260,7 +260,7 @@ authRouter
     }
   })
 
-authRouter.route('/prizes').get(async (req, res, next) => {
+authRouter.route('/prizes').get(async (_req, res, next) => {
   try {
     const prizes = await Prize.findAll({
       attributes: { exclude: ['id'] }

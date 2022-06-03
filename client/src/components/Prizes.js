@@ -51,7 +51,7 @@ function Prizes() {
   }
 
   const getPrizes = async () => {
-    const response = await fetch('/api/auth/prizes', {
+    const response = await fetch('/api/auth/user/prizes', {
       method: 'GET',
       headers: {
         authorization: localStorage.getItem('accessToken')
