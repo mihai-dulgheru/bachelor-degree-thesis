@@ -47,3 +47,13 @@ code {
 #root>div>div>header>div>div>div>div {
   cursor: default;
 }
+
+#root>div>div>header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 9007199254740991;
+  /* Number.MAX_SAFE_INTEGER */
+  opacity: .8;
+  backdrop-filter: saturate(180%) blur(20px);
+}

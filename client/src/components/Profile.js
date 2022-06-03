@@ -25,7 +25,7 @@ import Typography from '@mui/material/Typography'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import './css/Profile.css'
+import './Profile.css'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
@@ -288,32 +288,34 @@ function Profile() {
 
   const photoCard = (
     <Card className='root' variant='outlined'>
-      <div className='centred'>
-        <div>
-          <CardContent>
-            <div className='container'>
-              {user.avatar ? <Avatar id='avatar-profile' src={user.avatar} /> : <Avatar id='avatar-profile' />}
-              <label id='label-avatar' htmlFor='upload-button'>
-                <Input
-                  accept='image/*'
-                  id='upload-button'
-                  type='file'
-                  style={{ display: 'none' }}
-                  onChange={handleChange}
-                />
-                <div className='overlay'>
-                  <FileUploadIcon className='icon' fontSize='large' />
-                </div>
-              </label>
-            </div>
-          </CardContent>
+      <CardContent>
+        <div className='centred'>
+          <div>
+            <CardContent>
+              <div className='container'>
+                {user.avatar ? <Avatar id='avatar-profile' src={user.avatar} /> : <Avatar id='avatar-profile' />}
+                <label id='label-avatar' htmlFor='upload-button'>
+                  <Input
+                    accept='image/*'
+                    id='upload-button'
+                    type='file'
+                    style={{ display: 'none' }}
+                    onChange={handleChange}
+                  />
+                  <div className='overlay'>
+                    <FileUploadIcon className='icon' fontSize='large' />
+                  </div>
+                </label>
+              </div>
+            </CardContent>
+          </div>
+          <div>
+            <Typography variant='h5'>
+              Welcome, {user.firstName} {user.lastName}!
+            </Typography>
+          </div>
         </div>
-        <div>
-          <Typography variant='h5'>
-            Welcome, {user.firstName} {user.lastName}!
-          </Typography>
-        </div>
-      </div>
+      </CardContent>
     </Card>
   )
 

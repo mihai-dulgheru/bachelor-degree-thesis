@@ -18,7 +18,7 @@ import {
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import './css/Signup.css'
+import './Signup.css'
 
 function Signup() {
   const navigate = useNavigate()

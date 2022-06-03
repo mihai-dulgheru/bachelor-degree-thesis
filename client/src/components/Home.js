@@ -1,13 +1,7 @@
 import InputUnstyled from '@mui/base/InputUnstyled'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import MenuIcon from '@mui/icons-material/Menu'
-import { Button, Container, Menu, MenuItem, Paper, Stack, Tooltip } from '@mui/material'
-import AppBar from '@mui/material/AppBar'
-import Avatar from '@mui/material/Avatar'
-import IconButton from '@mui/material/IconButton'
-import Toolbar from '@mui/material/Toolbar'
+import { Button, Paper, Stack } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { Box, styled } from '@mui/system'
+import { styled } from '@mui/system'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
@@ -16,7 +10,8 @@ import categories from '../collections/categories.json'
 import efficiencyClasses from '../collections/efficiency-classes.json'
 import unitsMeasurementsEnergyConsumption from '../collections/units-measurements-energy-consumption.json'
 import unitsMeasurementsPower from '../collections/units-measurements-power.json'
-import './css/Home.css'
+import CustomAppBar from './CustomAppBar'
+import './Home.css'
 
 const StyledInputElement = styled('input')(
   ({}) => `
@@ -63,43 +58,6 @@ function Home() {
   )
   const [unitMeasurePower, setUnitMeasurementPower] = useState(unitsMeasurementsPower[0])
   const [isSelectedPower, setIsSelectedPower] = useState(false)
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
-
-  const handleClickNavMenuDevices = () => {
-    setAnchorElNav(null)
-    navigate('/device-list')
-  }
-
-  const handleClickNavMenuPrizes = () => {
-    setAnchorElNav(null)
-    navigate('/prizes')
-  }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
-
-  const handleClickProfile = () => {
-    setAnchorElUser(null)
-    navigate('/profile')
-  }
-
-  const handleClickLogout = () => {
-    setAnchorElUser(null)
-    localStorage.removeItem('accessToken')
-    navigate('/login')
-  }
 
   const handleChangeCustomInputEnergyConsumption = (event) => {
     const regExp = /^[1-9][0-9]*$/
@@ -307,96 +265,98 @@ function Home() {
     getDevices()
   }, [])
 
-  const appBar = (
-    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
-      <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              <MenuItem key='Devices' onClick={handleClickNavMenuDevices}>
-                <Typography textAlign='center'>Devices</Typography>
-              </MenuItem>
-              <MenuItem key='Prizes' onClick={handleClickNavMenuPrizes}>
-                <Typography textAlign='center'>Prizes</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-          <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            Home
-          </Typography>
+  // const appBar = (
+  //   <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
+  //     <Container maxWidth='xl'>
+  //       <Toolbar disableGutters>
+  //         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+  //           <IconButton
+  //             size='large'
+  //             aria-controls='menu-appbar'
+  //             aria-haspopup='true'
+  //             onClick={handleOpenNavMenu}
+  //             color='inherit'
+  //           >
+  //             <MenuIcon />
+  //           </IconButton>
+  //           <Menu
+  //             id='menu-appbar'
+  //             anchorEl={anchorElNav}
+  //             anchorOrigin={{
+  //               vertical: 'bottom',
+  //               horizontal: 'left'
+  //             }}
+  //             keepMounted
+  //             transformOrigin={{
+  //               vertical: 'top',
+  //               horizontal: 'left'
+  //             }}
+  //             open={Boolean(anchorElNav)}
+  //             onClose={handleCloseNavMenu}
+  //             sx={{
+  //               display: { xs: 'block', md: 'none' }
+  //             }}
+  //             style={{ top: '1em' }}
+  //           >
+  //             <MenuItem key='Devices' onClick={handleClickNavMenuDevices}>
+  //               <Typography textAlign='center'>Devices</Typography>
+  //             </MenuItem>
+  //             <MenuItem key='Prizes' onClick={handleClickNavMenuPrizes}>
+  //               <Typography textAlign='center'>Prizes</Typography>
+  //             </MenuItem>
+  //           </Menu>
+  //         </Box>
+  //         <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+  //           Home
+  //         </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
-            <Typography key='Home' variant='h6' noWrap component='div'>
-              Home
-            </Typography>
-            <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ py: 2, color: 'white', display: 'block' }}>
-              Devices
-            </Button>
-            <Button key='Prizes' onClick={handleClickNavMenuPrizes} sx={{ py: 2, color: 'white', display: 'block' }}>
-              Prizes
-            </Button>
-          </Box>
+  //         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
+  //           <Typography key='Home' variant='h6' noWrap component='div'>
+  //             Home
+  //           </Typography>
+  //           <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ py: 2, color: 'white', display: 'block' }}>
+  //             Devices
+  //           </Button>
+  //           <Button key='Prizes' onClick={handleClickNavMenuPrizes} sx={{ py: 2, color: 'white', display: 'block' }}>
+  //             Prizes
+  //           </Button>
+  //         </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {!user.avatar ? <AccountCircleIcon fontSize='large' /> : <Avatar src={user.avatar} />}
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem key='Profile' onClick={handleClickProfile}>
-                <Typography textAlign='center'>Profile</Typography>
-              </MenuItem>
-              <MenuItem key='Logout' onClick={handleClickLogout}>
-                <Typography textAlign='center'>Logout</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  )
+  //         <Box sx={{ flexGrow: 0 }}>
+  //           <Tooltip title='Open settings'>
+  //             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+  //               {!user.avatar ? <AccountCircleIcon fontSize='large' /> : <Avatar src={user.avatar} />}
+  //             </IconButton>
+  //           </Tooltip>
+  //           <Menu
+  //             sx={{ mt: '45px' }}
+  //             id='menu-appbar'
+  //             anchorEl={anchorElUser}
+  //             anchorOrigin={{
+  //               vertical: 'top',
+  //               horizontal: 'right'
+  //             }}
+  //             keepMounted
+  //             transformOrigin={{
+  //               vertical: 'top',
+  //               horizontal: 'right'
+  //             }}
+  //             open={Boolean(anchorElUser)}
+  //             onClose={handleCloseUserMenu}
+  //             style={{ top: '1em' }}
+  //           >
+  //             <MenuItem key='Profile' onClick={handleClickProfile}>
+  //               <Typography textAlign='center'>Profile</Typography>
+  //             </MenuItem>
+  //             <MenuItem key='Logout' onClick={handleClickLogout}>
+  //               <Typography textAlign='center'>Logout</Typography>
+  //             </MenuItem>
+  //           </Menu>
+  //         </Box>
+  //       </Toolbar>
+  //     </Container>
+  //   </AppBar>
+  // )
 
   const setUpDevice = (
     <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
@@ -539,7 +499,7 @@ function Home() {
 
   return (
     <div className='root'>
-      {appBar}
+      <CustomAppBar user={user} selectedAppBarItem={'Home'} />
       <div className='position-absolute top-50 start-50 translate-middle col-10 mx-auto'>
         <div className='mt-4'>{setUpDevice}</div>
         <div className='mt-2'>{chooseDevice}</div>

@@ -1,12 +1,5 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import MenuIcon from '@mui/icons-material/Menu'
 import {
-  AppBar,
-  Avatar,
   Button,
-  Container,
-  IconButton,
-  Menu,
   MenuItem,
   Paper,
   Table,
@@ -15,10 +8,7 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow,
-  Toolbar,
-  Tooltip,
-  Typography
+  TableRow
 } from '@mui/material'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -34,7 +24,8 @@ import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import counties from '../collections/counties.json'
 import suppliers from '../collections/suppliers.json'
-import './css/DeviceList.css'
+import CustomAppBar from './CustomAppBar'
+import './DeviceList.css'
 
 const columns = [
   {
@@ -149,8 +140,6 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 function DeviceList() {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
-  const [anchorElNav, setAnchorElNav] = useState(null)
-  const [anchorElUser, setAnchorElUser] = useState(null)
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('category')
   const [page, setPage] = useState(0)
@@ -265,134 +254,6 @@ function DeviceList() {
     getUser()
     getDevices()
   }, [])
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
-
-  const handleClickNavMenuHome = () => {
-    setAnchorElNav(null)
-    navigate('/home')
-  }
-
-  const handleClickNavMenuPrizes = () => {
-    setAnchorElNav(null)
-    navigate('/prizes')
-  }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
-
-  const handleClickProfile = () => {
-    setAnchorElUser(null)
-    navigate('/profile')
-  }
-
-  const handleClickLogout = () => {
-    setAnchorElUser(null)
-    localStorage.removeItem('accessToken')
-    navigate('/login')
-  }
-
-  const appBar = (
-    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
-      <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              <MenuItem key='Home' onClick={handleClickNavMenuHome}>
-                <Typography textAlign='center'>Home</Typography>
-              </MenuItem>
-              <MenuItem key='Prizes' onClick={handleClickNavMenuPrizes}>
-                <Typography textAlign='center'>Prizes</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-          <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            Devices
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
-            <Button key='Home' onClick={handleClickNavMenuHome} sx={{ py: 2, color: 'white', display: 'block' }}>
-              Home
-            </Button>
-            <Typography key='Devices' variant='h6' noWrap component='div'>
-              Devices
-            </Typography>
-            <Button key='Prizes' onClick={handleClickNavMenuPrizes} sx={{ py: 2, color: 'white', display: 'block' }}>
-              Prizes
-            </Button>
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {!user.avatar ? <AccountCircleIcon fontSize='large' /> : <Avatar src={user.avatar} />}
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem key='Profile' onClick={handleClickProfile}>
-                <Typography textAlign='center'>Profile</Typography>
-              </MenuItem>
-              <MenuItem key='Logout' onClick={handleClickLogout}>
-                <Typography textAlign='center'>Logout</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  )
 
   const handleRequestSort = (_event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -813,7 +674,7 @@ function DeviceList() {
 
   return (
     <div>
-      {appBar}
+      <CustomAppBar user={user} selectedAppBarItem={'Devices'} />
       {table}
       {button}
       {buttonIsClicked ? tableEstimatedConsumptionAndTotalCosts : <></>}

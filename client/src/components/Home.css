@@ -1,0 +1,46 @@
+.root,
+.title {
+  flex-grow: 1;
+}
+
+.row {
+  margin-bottom: 8px;
+}
+
+.col {
+  display: flex;
+  align-items: center;
+}
+
+.custom-input {
+  width: 100%;
+}
+
+.fit-content {
+  display: block;
+  width: fit-content;
+  block-size: fit-content;
+}
+
+.form-select-power-energy-consumption:focus-visible {
+  outline: none;
+}
+
+.form-select-power-energy-consumption:focus {
+  box-shadow: none;
+}
+
+.select,
+.select-units-measures,
+.choose-device-select {
+  font-size: 1.25rem;
+}
+
+.select,
+.select-units-measures {
+  width: 100%;
+}
+
+.choose-device-select {
+  margin-left: 8px;
+}

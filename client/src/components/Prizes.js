@@ -1,28 +1,22 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import MenuIcon from '@mui/icons-material/Menu'
-import {
-  AppBar,
-  Avatar,
-  Button,
-  Container,
-  IconButton,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Tooltip,
-  Typography
-} from '@mui/material'
-import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
+import {
+  convertkWhToCO2,
+  convertkWhToCoal,
+  convertkWhToRON,
+  convertkWhToTrees
+} from '../functions/conversion-functions'
+import CustomAppBar from './CustomAppBar'
 
 function Prizes() {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [prizes, setPrizes] = useState([])
-  const [anchorElNav, setAnchorElNav] = useState(null)
-  const [anchorElUser, setAnchorElUser] = useState(null)
+  const [totalkWh, setTotalkWh] = useState(0)
+  const [invoiceUnitValue, setInvoiceUnitValue] = useState(0)
+  const [county, setCounty] = useState('')
+  const [amountSaved, setAmountSaved] = useState(0)
 
   const getUser = async () => {
     const response = await fetch('/api/auth/user', {
@@ -34,6 +28,8 @@ function Prizes() {
     const data = await response.json()
     if (data.status === 'ok') {
       setUser(data.user)
+      setInvoiceUnitValue(data.user.invoiceUnitValue && data.user.invoiceUnitValue)
+      setCounty(data.user.county && data.user.county)
     } else {
       swal({
         title: 'Failed',
@@ -64,7 +60,13 @@ function Prizes() {
     const data = await response.json()
     if (data.status === 'ok') {
       setPrizes(data.prizes)
-      console.log(data.prizes)
+      setTotalkWh(
+        data.prizes
+          .map((item) => parseFloat(item.prizeValue))
+          .reduce((previous, current) => {
+            return previous + current
+          }, 0)
+      )
     } else {
       swal({
         title: 'Failed',
@@ -88,134 +90,23 @@ function Prizes() {
     getPrizes()
   }, [])
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget)
-  }
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
+  useEffect(() => {
+    setAmountSaved(convertkWhToRON(totalkWh, invoiceUnitValue, county))
+  }, [totalkWh, invoiceUnitValue, county])
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
-
-  const handleClickNavMenuHome = () => {
-    setAnchorElNav(null)
-    navigate('/home')
-  }
-
-  const handleClickNavMenuDevices = () => {
-    setAnchorElNav(null)
-    navigate('/device-list')
-  }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
-
-  const handleClickProfile = () => {
-    setAnchorElUser(null)
-    navigate('/profile')
-  }
-
-  const handleClickLogout = () => {
-    setAnchorElUser(null)
-    localStorage.removeItem('accessToken')
-    navigate('/login')
-  }
-
-  const appBar = (
-    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
-      <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              <MenuItem key='Home' onClick={handleClickNavMenuHome}>
-                <Typography textAlign='center'>Home</Typography>
-              </MenuItem>
-              <MenuItem key='Devices' onClick={handleClickNavMenuDevices}>
-                <Typography textAlign='center'>Devices</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-          <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            Prizes
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
-            <Button key='Home' onClick={handleClickNavMenuHome} sx={{ py: 2, color: 'white', display: 'block' }}>
-              Home
-            </Button>
-            <Button key='Devices' onClick={handleClickNavMenuDevices} sx={{ py: 2, color: 'white', display: 'block' }}>
-              Devices
-            </Button>
-            <Typography key='Prizes' variant='h6' noWrap component='div'>
-              Prizes
-            </Typography>
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {!user.avatar ? <AccountCircleIcon fontSize='large' /> : <Avatar src={user.avatar} />}
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem key='Profile' onClick={handleClickProfile}>
-                <Typography textAlign='center'>Profile</Typography>
-              </MenuItem>
-              <MenuItem key='Logout' onClick={handleClickLogout}>
-                <Typography textAlign='center'>Logout</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+  return (
+    <div>
+      <CustomAppBar user={user} selectedAppBarItem={'Prizes'} />
+      {prizes.map((item, index) => (
+        <p key={index}>{`prizeType: ${item.prizeType}, prizeValue: ${item.prizeValue}`}</p>
+      ))}
+      <p>{'Total kWh: ' + totalkWh}</p>
+      <p>{'Total RON: ' + amountSaved}</p>
+      <p>{'Total kg CO2: ' + convertkWhToCO2(totalkWh)}</p>
+      <p>{'Total kg coal: ' + convertkWhToCoal(totalkWh)}</p>
+      <p>{'Total saved trees: ' + convertkWhToTrees(totalkWh)}</p>
+    </div>
   )
-
-  return <div>{appBar}Prizes</div>
 }
 
 export default Prizes

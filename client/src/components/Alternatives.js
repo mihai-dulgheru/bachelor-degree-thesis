@@ -182,21 +182,20 @@ function Alternatives() {
   useEffect(() => {
     setUrl(
       `https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
+        device.category &&
         device.category
-          ? device.category
-              .trim()
-              .toLocaleLowerCase()
-              .replaceAll(' ', '+')
-              .replaceAll('ă', 'a')
-              .replaceAll('î', 'i')
-              .replaceAll('â', 'a')
-              .replaceAll('ş', 's')
-              .replaceAll('ș', 's')
-              .replaceAll('ț', 't')
-              .replaceAll(',', '%2C')
-              .replaceAll('(', '%28')
-              .replaceAll(')', '%29')
-          : ''
+          .trim()
+          .toLocaleLowerCase()
+          .replaceAll(' ', '+')
+          .replaceAll('ă', 'a')
+          .replaceAll('î', 'i')
+          .replaceAll('â', 'a')
+          .replaceAll('ş', 's')
+          .replaceAll('ș', 's')
+          .replaceAll('ț', 't')
+          .replaceAll(',', '%2C')
+          .replaceAll('(', '%28')
+          .replaceAll(')', '%29')
       }/c`
     )
   }, [budget])
@@ -390,6 +389,9 @@ function Alternatives() {
               </Typography>
               <Typography variant='subtitle1' gutterBottom component='div'>
                 {`${device.category}, Energy efficiency class: ${device.efficiencyClass}, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
+              </Typography>
+              <Typography variant='subtitle1' gutterBottom component='div'>
+                {`Budget: ${budget} RON`}
               </Typography>
               {table}
             </Paper>
