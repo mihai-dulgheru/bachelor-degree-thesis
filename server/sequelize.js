@@ -4,9 +4,17 @@ config({})
 
 let sequelize
 if (process.env.MODE === 'development') {
-  sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './sqlite/database.db',
+  // sequelize = new Sequelize({
+  //   dialect: 'sqlite',
+  //   storage: './sqlite/database.db',
+  //   define: {
+  //     timestamps: false
+  //   }
+  // })
+  sequelize = new Sequelize('database_bachelor_degree_thesis', 'root', 'password', {
+    host: 'localhost',
+    dialect: 'mysql',
+    logging: console.log,
     define: {
       timestamps: false
     }

@@ -62,8 +62,8 @@ app.listen(port, async () => {
   console.log(`Server started on http://localhost:${port}`)
   try {
     await sequelize.authenticate()
-    console.log('Connection has been established successfully!')
-  } catch (err) {
-    console.error('Unable to connect to the database: ', err)
+    console.log('Connection has been established successfully.')
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
   }
 })
