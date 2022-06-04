@@ -8,8 +8,11 @@ import {
   convertkWhToRON,
   convertkWhToTrees
 } from '../functions/conversion-functions'
-import energySymbol from '../media/images/Energy-Symbol-Background-PNG.png'
-import euroCoin from '../media/images/euro-coin.jpg'
+import co2EmissionsIcon from '../media/images/co2-emissions-icon.jpg'
+import coalIcon from '../media/images/coal-icon.jpg'
+import moneyIcon from '../media/images/money.png'
+import energyIcon from '../media/images/power-icon.jpg'
+import treeIcon from '../media/images/tree-icon-vector.jpg'
 import CustomAppBar from './CustomAppBar'
 import './Prizes.css'
 
@@ -106,14 +109,14 @@ function Prizes() {
       ))} */}
       {/* <p>{'Total kWh: ' + totalkWh}</p> */}
       {/* <p>{'Total RON: ' + amountSaved}</p> */}
-      <p>{'Total kg CO2: ' + convertkWhToCO2(totalkWh)}</p>
-      <p>{'Total kg coal: ' + convertkWhToCoal(totalkWh)}</p>
-      <p>{'Total saved trees: ' + convertkWhToTrees(totalkWh)}</p>
+      {/* <p>{'Total kg CO2: ' + convertkWhToCO2(totalkWh)}</p> */}
+      {/* <p>{'Total kg coal: ' + convertkWhToCoal(totalkWh)}</p> */}
+      {/* <p>{'Total saved trees: ' + convertkWhToTrees(totalkWh)}</p> */}
 
       <div className='cards-container'>
-        <Card sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
+        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
           <div className='display-flex flex-direction-row'>
-            <img className='card-media' src={energySymbol} alt='energy symbol' />
+            <img className='card-media' src={energyIcon} alt='energy icon' />
             <CardContent className='card-content'>
               <Typography gutterBottom variant='h2'>
                 {'Saved energy'}
@@ -124,15 +127,58 @@ function Prizes() {
             </CardContent>
           </div>
         </Card>
-        <Card sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
+
+        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
           <div className='display-flex flex-direction-row'>
-            <img className='card-media' src={euroCoin} alt='euro coin' />
+            <img className='card-media' src={moneyIcon} alt='money icon' />
             <CardContent className='card-content'>
               <Typography gutterBottom variant='h2'>
                 {'Saved money'}
               </Typography>
               <Typography variant='h4' color='text.secondary'>
                 {amountSaved + ' RON'}
+              </Typography>
+            </CardContent>
+          </div>
+        </Card>
+
+        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
+          <div className='display-flex flex-direction-row'>
+            <img className='card-media' src={co2EmissionsIcon} alt='co2 emissions icon' />
+            <CardContent className='card-content'>
+              <Typography gutterBottom variant='h2'>
+                {'CO2 emissions'}
+              </Typography>
+              <Typography variant='h4' color='text.secondary'>
+                {convertkWhToCO2(totalkWh) + ' kg'}
+              </Typography>
+            </CardContent>
+          </div>
+        </Card>
+
+        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
+          <div className='display-flex flex-direction-row'>
+            <img className='card-media' src={coalIcon} alt='coal icon' />
+            <CardContent className='card-content'>
+              <Typography gutterBottom variant='h2'>
+                {'Coal'}
+              </Typography>
+              <Typography variant='h4' color='text.secondary'>
+                {convertkWhToCoal(totalkWh) + ' kg'}
+              </Typography>
+            </CardContent>
+          </div>
+        </Card>
+
+        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
+          <div className='display-flex flex-direction-row'>
+            <img className='card-media' src={treeIcon} alt='tree icon' />
+            <CardContent className='card-content'>
+              <Typography gutterBottom variant='h2'>
+                {'Saved trees'}
+              </Typography>
+              <Typography variant='h4' color='text.secondary'>
+                {convertkWhToTrees(totalkWh)}
               </Typography>
             </CardContent>
           </div>
