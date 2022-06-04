@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-.dialogContent {
+.dialog-content {
   display: flex;
   flex-flow: column;
 }

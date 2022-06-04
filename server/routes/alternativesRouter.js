@@ -11,8 +11,21 @@ alternativesRouter.route('/').get(async (req, res, next) => {
       const page = await browser.newPage()
       await page.goto(url)
       const data = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll('#card_grid > div > div > div')).map((element) => {
-          if (element.childNodes[3].childNodes[2].childNodes[1] && element.childNodes[5].childNodes[0].childNodes[1]) {
+        return Array.from(document.querySelectorAll('#card_grid > div > div > div'))
+          .filter(
+            (element) =>
+              element.childNodes[3].childNodes[2].childNodes[1] &&
+              element.childNodes[3].childNodes[2].childNodes[1].textContent &&
+              element.childNodes[5].childNodes[0].childNodes[1] &&
+              parseFloat(
+                element.childNodes[5].childNodes[0].childNodes[1].textContent
+                  .split(' ')[0]
+                  .replace('.', '')
+                  .replace(',', '.')
+              ) &&
+              element.childNodes[3].childNodes[2].childNodes[1].href
+          )
+          .map((element) => {
             return {
               name: element.childNodes[3].childNodes[2].childNodes[1].textContent,
               price: parseFloat(
@@ -23,8 +36,7 @@ alternativesRouter.route('/').get(async (req, res, next) => {
               ),
               link: element.childNodes[3].childNodes[2].childNodes[1].href
             }
-          }
-        })
+          })
       })
       await browser.close()
       res.status(200).json({

@@ -615,7 +615,7 @@ function DeviceList() {
   const dialog = (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogContent className='dialogContent'>
+        <DialogContent className='dialog-content'>
           <DialogContentText>
             Please enter the unit value of the invoice (purchase price for 1 kWh of electricity) or the electricity
             supplier and the county.
@@ -677,7 +677,7 @@ function DeviceList() {
       <CustomAppBar user={user} selectedAppBarItem={'Devices'} />
       {table}
       {button}
-      {buttonIsClicked ? tableEstimatedConsumptionAndTotalCosts : <></>}
+      {buttonIsClicked && tableEstimatedConsumptionAndTotalCosts}
       {dialog}
     </div>
   )

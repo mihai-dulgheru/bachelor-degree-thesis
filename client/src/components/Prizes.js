@@ -1,3 +1,4 @@
+import { Card, CardContent, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
@@ -7,7 +8,10 @@ import {
   convertkWhToRON,
   convertkWhToTrees
 } from '../functions/conversion-functions'
+import energySymbol from '../media/images/Energy-Symbol-Background-PNG.png'
+import euroCoin from '../media/images/euro-coin.jpg'
 import CustomAppBar from './CustomAppBar'
+import './Prizes.css'
 
 function Prizes() {
   const navigate = useNavigate()
@@ -97,14 +101,43 @@ function Prizes() {
   return (
     <div>
       <CustomAppBar user={user} selectedAppBarItem={'Prizes'} />
-      {prizes.map((item, index) => (
+      {/* {prizes.map((item, index) => (
         <p key={index}>{`prizeType: ${item.prizeType}, prizeValue: ${item.prizeValue}`}</p>
-      ))}
-      <p>{'Total kWh: ' + totalkWh}</p>
-      <p>{'Total RON: ' + amountSaved}</p>
+      ))} */}
+      {/* <p>{'Total kWh: ' + totalkWh}</p> */}
+      {/* <p>{'Total RON: ' + amountSaved}</p> */}
       <p>{'Total kg CO2: ' + convertkWhToCO2(totalkWh)}</p>
       <p>{'Total kg coal: ' + convertkWhToCoal(totalkWh)}</p>
       <p>{'Total saved trees: ' + convertkWhToTrees(totalkWh)}</p>
+
+      <div className='cards-container'>
+        <Card sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
+          <div className='display-flex flex-direction-row'>
+            <img className='card-media' src={energySymbol} alt='energy symbol' />
+            <CardContent className='card-content'>
+              <Typography gutterBottom variant='h2'>
+                {'Saved energy'}
+              </Typography>
+              <Typography variant='h4' color='text.secondary'>
+                {totalkWh + ' kWh'}
+              </Typography>
+            </CardContent>
+          </div>
+        </Card>
+        <Card sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
+          <div className='display-flex flex-direction-row'>
+            <img className='card-media' src={euroCoin} alt='euro coin' />
+            <CardContent className='card-content'>
+              <Typography gutterBottom variant='h2'>
+                {'Saved money'}
+              </Typography>
+              <Typography variant='h4' color='text.secondary'>
+                {amountSaved + ' RON'}
+              </Typography>
+            </CardContent>
+          </div>
+        </Card>
+      </div>
     </div>
   )
 }

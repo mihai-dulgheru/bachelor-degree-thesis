@@ -1,6 +1,12 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import {
   AppBar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   Paper,
   Table,
@@ -9,6 +15,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Toolbar,
   Typography
 } from '@mui/material'
@@ -17,17 +24,21 @@ import React, { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { useNavigate, useParams } from 'react-router-dom'
 import swal from 'sweetalert'
+import './Alternatives.css'
 import LoadingScreen from './LoadingScreen'
 
 function Alternatives() {
   const navigate = useNavigate()
   const { deviceId } = useParams()
   const [device, setDevice] = useState({})
-  const [budget, setBudget] = useState(0)
+  const [budget, setBudget] = useState(true)
   const [alternatives, setAlternatives] = useState([])
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(true)
   const [loadingDeviceSpecifications, setLoadingDeviceSpecifications] = useState(false)
+  const [open, setOpen] = useState(true)
+  const [inputBudget, setInputBudget] = useState('')
+  const [error, setError] = useState(false)
 
   const updateUser = async (user) => {
     const response = await fetch('/api/auth/user', {
@@ -227,7 +238,10 @@ function Alternatives() {
             return 0
           })
       )
-      setTimeout(() => setLoading(false), 3000)
+      setTimeout(() => {
+        setLoading(false)
+        setLoadingDeviceSpecifications(false)
+      }, 3000)
     } else {
       swal({
         title: 'Failed',
@@ -314,6 +328,8 @@ function Alternatives() {
             visible: true,
             closeModal: true
           }
+        }).then(() => {
+          navigate('/device-list')
         })
       }
     } else {
@@ -366,36 +382,92 @@ function Alternatives() {
     </TableContainer>
   )
 
-  return (
+  const handleChangeInputBudget = (event) => {
+    const regExp = /^[1-9][0-9]*$/
+    if (event.target.value === '' || regExp.test(event.target.value)) {
+      setInputBudget(event.target.value)
+      setError(false)
+    }
+  }
+
+  const handleSave = () => {
+    if (inputBudget) {
+      setOpen(false)
+      updateUser({
+        budget: parseInt(inputBudget)
+      })
+        .then(() => {
+          setBudget(parseInt(inputBudget))
+        })
+        .then(() => {
+          setLoadingDeviceSpecifications(true)
+        })
+    } else {
+      setError(true)
+    }
+  }
+
+  const dialog = (
     <div>
-      {loading ? (
-        <LoadingScreen />
+      <Dialog open={open}>
+        <DialogTitle>{'Please enter the amount of your budget'}</DialogTitle>
+        <DialogContent className='dialog-content'>
+          <TextField
+            autoFocus
+            margin='dense'
+            label='Budget'
+            type='text'
+            fullWidth
+            variant='standard'
+            value={inputBudget}
+            onChange={handleChangeInputBudget}
+          />
+          <DialogContentText
+            className={'dialog-content-text'}
+            style={error ? { display: 'contents', color: 'rgba(255, 0, 0, 0.8)' } : {}}
+          >
+            Please enter a value
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSave}>Save</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  )
+
+  return (
+    <div className='alternatives-container'>
+      {loadingDeviceSpecifications && (
+        <div className='position-absolute top-50 start-50 translate-middle'>
+          <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
+        </div>
+      )}
+      {!budget ? (
+        dialog
       ) : (
         <>
-          {loadingDeviceSpecifications ? (
-            <>
-              <div className='position-absolute top-50 start-50 translate-middle'>
-                <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
-              </div>
-            </>
+          {loading ? (
+            <LoadingScreen />
           ) : (
-            <></>
+            <>
+              {appBar}
+              <Box sx={{ width: '90%', margin: '16px auto 0px auto' }}>
+                <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
+                  <Typography variant='h4' gutterBottom component='div'>
+                    Alternatives for device
+                  </Typography>
+                  <Typography variant='subtitle1' gutterBottom component='div'>
+                    {`${device.category}, Energy efficiency class: ${device.efficiencyClass}, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
+                  </Typography>
+                  <Typography variant='subtitle1' gutterBottom component='div'>
+                    {`Budget: ${budget} RON`}
+                  </Typography>
+                  {table}
+                </Paper>
+              </Box>
+            </>
           )}
-          {appBar}
-          <Box sx={{ width: '90%', margin: '16px auto 0px auto' }}>
-            <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
-              <Typography variant='h4' gutterBottom component='div'>
-                Alternatives for device
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom component='div'>
-                {`${device.category}, Energy efficiency class: ${device.efficiencyClass}, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom component='div'>
-                {`Budget: ${budget} RON`}
-              </Typography>
-              {table}
-            </Paper>
-          </Box>
         </>
       )}
     </div>
