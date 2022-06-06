@@ -4,4 +4,3 @@
 - [ ] Grafice
 - [ ] Premii
 - [ ] Validări formulare licență
-- [ ] Componenta CustomCard

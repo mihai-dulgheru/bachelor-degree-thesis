@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
@@ -11,9 +11,9 @@ import {
 import co2EmissionsIcon from '../media/images/co2-emissions-icon.jpg'
 import coalIcon from '../media/images/coal-icon.jpg'
 import moneyIcon from '../media/images/money.png'
-import energyIcon from '../media/images/power-icon.jpg'
 import treeIcon from '../media/images/tree-icon-vector.jpg'
 import CustomAppBar from './CustomAppBar'
+import CustomCard from './CustomCard'
 import './Prizes.css'
 
 function Prizes() {
@@ -101,88 +101,51 @@ function Prizes() {
     setAmountSaved(convertkWhToRON(totalkWh, invoiceUnitValue, county))
   }, [totalkWh, invoiceUnitValue, county])
 
+  const awards = [
+    {
+      iconSrc: moneyIcon,
+      altText: 'money icon',
+      heading: 'Saved money',
+      value: amountSaved,
+      um: 'RON'
+    },
+    {
+      iconSrc: co2EmissionsIcon,
+      altText: 'co2 emissions icon',
+      heading: 'CO2 emissions',
+      value: convertkWhToCO2(totalkWh),
+      um: 'kg'
+    },
+    {
+      iconSrc: coalIcon,
+      altText: 'coal icon',
+      heading: 'Coal',
+      value: convertkWhToCoal(totalkWh),
+      um: 'kg'
+    },
+    {
+      iconSrc: treeIcon,
+      altText: 'tree icon',
+      heading: 'Saved trees',
+      value: convertkWhToTrees(totalkWh),
+      um: ''
+    }
+  ]
+
   return (
     <div>
       <CustomAppBar user={user} selectedAppBarItem={'Prizes'} />
-      {/* {prizes.map((item, index) => (
-        <p key={index}>{`prizeType: ${item.prizeType}, prizeValue: ${item.prizeValue}`}</p>
-      ))} */}
-      {/* <p>{'Total kWh: ' + totalkWh}</p> */}
-      {/* <p>{'Total RON: ' + amountSaved}</p> */}
-      {/* <p>{'Total kg CO2: ' + convertkWhToCO2(totalkWh)}</p> */}
-      {/* <p>{'Total kg coal: ' + convertkWhToCoal(totalkWh)}</p> */}
-      {/* <p>{'Total saved trees: ' + convertkWhToTrees(totalkWh)}</p> */}
-
-      <div className='cards-container'>
-        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
-          <div className='display-flex flex-direction-row'>
-            <img className='card-media' src={energyIcon} alt='energy icon' />
-            <CardContent className='card-content'>
-              <Typography gutterBottom variant='h2'>
-                {'Saved energy'}
-              </Typography>
-              <Typography variant='h4' color='text.secondary'>
-                {totalkWh + ' kWh'}
-              </Typography>
-            </CardContent>
+      <div>
+        <Typography id='awards-title' variant='h2'>
+          You have saved <span id='span-energy'>{totalkWh} kWh</span> of energy. The equivalent of:
+        </Typography>
+        <div className='center'>
+          <div id='cards-container'>
+            {awards.map((item) => (
+              <CustomCard key={item.heading} {...item} />
+            ))}
           </div>
-        </Card>
-
-        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
-          <div className='display-flex flex-direction-row'>
-            <img className='card-media' src={moneyIcon} alt='money icon' />
-            <CardContent className='card-content'>
-              <Typography gutterBottom variant='h2'>
-                {'Saved money'}
-              </Typography>
-              <Typography variant='h4' color='text.secondary'>
-                {amountSaved + ' RON'}
-              </Typography>
-            </CardContent>
-          </div>
-        </Card>
-
-        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
-          <div className='display-flex flex-direction-row'>
-            <img className='card-media' src={co2EmissionsIcon} alt='co2 emissions icon' />
-            <CardContent className='card-content'>
-              <Typography gutterBottom variant='h2'>
-                {'CO2 emissions'}
-              </Typography>
-              <Typography variant='h4' color='text.secondary'>
-                {convertkWhToCO2(totalkWh) + ' kg'}
-              </Typography>
-            </CardContent>
-          </div>
-        </Card>
-
-        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
-          <div className='display-flex flex-direction-row'>
-            <img className='card-media' src={coalIcon} alt='coal icon' />
-            <CardContent className='card-content'>
-              <Typography gutterBottom variant='h2'>
-                {'Coal'}
-              </Typography>
-              <Typography variant='h4' color='text.secondary'>
-                {convertkWhToCoal(totalkWh) + ' kg'}
-              </Typography>
-            </CardContent>
-          </div>
-        </Card>
-
-        <Card className='card' sx={{ maxWidth: '50vw', maxHeight: '50vh' }}>
-          <div className='display-flex flex-direction-row'>
-            <img className='card-media' src={treeIcon} alt='tree icon' />
-            <CardContent className='card-content'>
-              <Typography gutterBottom variant='h2'>
-                {'Saved trees'}
-              </Typography>
-              <Typography variant='h4' color='text.secondary'>
-                {convertkWhToTrees(totalkWh)}
-              </Typography>
-            </CardContent>
-          </div>
-        </Card>
+        </div>
       </div>
     </div>
   )

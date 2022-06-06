@@ -1,0 +1,23 @@
+.card {
+  flex-direction: row;
+  width: calc((80vw - 2rem) / 2);
+  height: calc((60vh - 2rem) / 2);
+}
+
+.card-media {
+  height: 100%;
+}
+
+.card-content {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#card-heading {
+  font-weight: 300;
+  font-size: 3rem;
+  line-height: 1.2;
+}

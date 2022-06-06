@@ -390,7 +390,7 @@ function Alternatives() {
     }
   }
 
-  const handleSave = () => {
+  const handleOK = () => {
     if (inputBudget) {
       setOpen(false)
       updateUser({
@@ -430,7 +430,7 @@ function Alternatives() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleOK}>OK</Button>
         </DialogActions>
       </Dialog>
     </div>

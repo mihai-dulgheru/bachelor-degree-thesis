@@ -1,31 +1,22 @@
-.display-flex {
-  display: flex;
+#awards-title {
+  text-align: center;
+  margin: 2rem 0;
 }
 
-.flex-direction-row {
-  flex-direction: row;
+#span-energy {
+  font-weight: 500;
 }
 
-.cards-container {
+#cards-container {
   display: flex;
-  column-gap: 1rem;
-  row-gap: 1rem;
+  column-gap: 2rem;
+  row-gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.card {
-  width: 40vw;
-}
-
-.card-media {
-  height: 12rem;
-}
-
-.card-content {
-  width: auto;
+.center {
   display: flex;
-  flex-direction: column;
+  align-content: center;
   justify-content: center;
-  align-items: flex-start;
 }
