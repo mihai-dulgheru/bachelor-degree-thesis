@@ -150,7 +150,7 @@ const Charts = () => {
         value: value
       })
     }
-    return estimatedConsumptionByCategory
+    return estimatedConsumptionByCategory.sort((a, b) => b.value - a.value)
   }
 
   return (

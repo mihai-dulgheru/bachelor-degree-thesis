@@ -5,7 +5,7 @@ import './CustomPieChart.css'
 
 const RADIAN = Math.PI / 180
 const COLORS_3 = ['#EC6B56', '#FFC154', '#47B39C']
-const COLORS_8 = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
+const COLORS_5 = ['#003f5c', '#58508d', '#bc5090', '#ff6361', '#ffa600']
 
 const getRandomColor = () => {
   return `#${Math.floor(Math.random() * 0xffffff)
@@ -30,8 +30,8 @@ const CustomPieChart = ({ data, title }) => {
   let COLORS = []
   if (data.length < 4) {
     COLORS = [...COLORS_3]
-  } else if (data.length < 9) {
-    COLORS = [...COLORS_8]
+  } else if (data.length < 6) {
+    COLORS = [...COLORS_5]
   } else {
     COLORS = data.map(() => getRandomColor())
   }
