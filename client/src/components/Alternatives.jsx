@@ -1,4 +1,4 @@
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import {
   AppBar,
   Button,
@@ -27,7 +27,7 @@ import swal from 'sweetalert'
 import './Alternatives.css'
 import LoadingScreen from './LoadingScreen'
 
-function Alternatives() {
+const Alternatives = () => {
   const navigate = useNavigate()
   const { deviceId } = useParams()
   const [device, setDevice] = useState({})
@@ -271,7 +271,7 @@ function Alternatives() {
     <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
       <Toolbar>
         <IconButton onClick={handleBack} color='inherit'>
-          <ArrowBackIosIcon />
+          <ArrowBackIosNewIcon />
         </IconButton>
         <Typography variant='h6' className='title'>
           Alternatives

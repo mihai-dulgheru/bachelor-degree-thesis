@@ -2,5 +2,12 @@
 
 - [ ] Afișare detalii consum și cost total
 - [ ] Grafice
-- [ ] Premii
+- [x] Premii
 - [ ] Validări formulare licență
+- [ ] Login with Google
+- [x] 404 Not Found Page
+- [ ] Paletă culori
+- [x] Numărul orelor de funcționare pe zi în funcție de categorie
+- [ ] Istoric consum estimativ
+- [ ] Chit integrare priză inteligentă
+- [x] Font Awesome

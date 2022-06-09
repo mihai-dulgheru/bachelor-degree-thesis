@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Alternatives from './Alternatives'
+import {
+  Alternatives,
+  Charts,
+  Device,
+  DeviceList,
+  Home,
+  NotFound,
+  OtherInformation,
+  PersonalInformation,
+  Prizes,
+  Profile,
+  Signin,
+  Signup
+} from '../components'
 import './App.css'
-import Charts from './Charts'
-import Device from './Device'
-import DeviceList from './DeviceList'
-import Home from './Home'
-import OtherInformation from './OtherInformation'
-import PersonalInformation from './PersonalInformation'
-import Prizes from './Prizes'
-import Profile from './Profile'
-import Signin from './Signin'
-import Signup from './Signup'
 
 function App() {
-  const [accessToken, setAccessToken] = useState('')
   const tempAccessToken = localStorage.getItem('accessToken')
+  const [accessToken, setAccessToken] = useState('')
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'))
@@ -47,6 +50,7 @@ function App() {
               <Route path='/alternatives/:deviceId' element={<Alternatives />} />
               <Route path='/prizes' element={<Prizes />} />
               <Route path='/charts' element={<Charts />} />
+              <Route path='*' element={<NotFound />} />
             </>
           )}
         </Routes>

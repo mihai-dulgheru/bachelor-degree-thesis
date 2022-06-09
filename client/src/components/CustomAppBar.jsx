@@ -36,9 +36,9 @@ const listOfAppBarItems = [
 ]
 
 const CustomAppBar = ({ user, selectedAppBarItem }) => {
+  const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
-  const navigate = useNavigate()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)

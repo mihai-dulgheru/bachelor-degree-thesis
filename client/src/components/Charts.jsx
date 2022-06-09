@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import CustomAppBar from './CustomAppBar'
 import CustomPieChart from './CustomPieChart'
+import SimpleBarChart from './SimpleBarChart'
 
 const Charts = () => {
+  const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [devices, setDevices] = useState([])
-  const navigate = useNavigate()
 
   const getUser = async () => {
     const response = await fetch('/api/auth/user', {
@@ -128,7 +129,7 @@ const Charts = () => {
     return device.category
   }
 
-  const getEstimatedConsumptionByCategory = (devices) => {
+  const getEstimatedConsumptionByCategory = () => {
     const tempDevices = devices.map((device) => {
       return {
         estimatedConsumption: getEstimatedConsumption(device),
@@ -153,10 +154,43 @@ const Charts = () => {
     return estimatedConsumptionByCategory.sort((a, b) => b.value - a.value)
   }
 
+  const getNoOperatingHoursByCategory = () => {
+    const object = {}
+    for (const device of devices) {
+      if (Object.hasOwnProperty.call(object, device.category)) {
+        object[device.category] += device.noOperatingHours
+      } else {
+        object[device.category] = device.noOperatingHours
+      }
+    }
+    const noOperatingHoursByCategories = []
+    for (const [key, value] of Object.entries(object)) {
+      noOperatingHoursByCategories.push({
+        name: key,
+        'Number of operating hours per day': value
+      })
+    }
+    return noOperatingHoursByCategories.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
   return (
     <div>
       <CustomAppBar user={user} selectedAppBarItem={'Charts'} />
-      <CustomPieChart data={getEstimatedConsumptionByCategory(devices)} title={'Estimated consumption by categories'} />
+      <div>
+        <div className='display-flex wrap mt-4 justify-content-space-evenly'>
+          <div>
+            <CustomPieChart title={'Estimated consumption by categories'} data={getEstimatedConsumptionByCategory()} />
+          </div>
+          <div>
+            <SimpleBarChart
+              title={'Number of operating hours per day by category'}
+              data={getNoOperatingHoursByCategory()}
+              legend={false}
+              dataKeys={['Number of operating hours per day']}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

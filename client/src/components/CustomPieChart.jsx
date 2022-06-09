@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material'
 import React from 'react'
 import { Cell, Pie, PieChart } from 'recharts'
-import './CustomPieChart.css'
 
 const RADIAN = Math.PI / 180
 const COLORS_3 = ['#EC6B56', '#FFC154', '#47B39C']
@@ -26,7 +25,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   )
 }
 
-const CustomPieChart = ({ data, title }) => {
+const CustomPieChart = ({ title, data, width, height, outerRadius }) => {
   let COLORS = []
   if (data.length < 4) {
     COLORS = [...COLORS_3]
@@ -37,19 +36,20 @@ const CustomPieChart = ({ data, title }) => {
   }
 
   return (
-    <>
-      <Typography variant='h5' className='w-50 text-align-center mt-4'>
+    <div>
+      <Typography variant='h5' className='text-align-center mb-2'>
         {title}
       </Typography>
-      <div className='display-flex w-50 justify-content-center'>
-        <PieChart width={400} height={400}>
+
+      <div className='display-flex justify-content-center'>
+        <PieChart width={width ? width : 400} height={height ? height : 400}>
           <Pie
             data={data}
             cx='50%'
             cy='50%'
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={160}
+            outerRadius={outerRadius ? outerRadius : 160}
             fill='#8884d8'
             dataKey='value'
           >
@@ -60,7 +60,7 @@ const CustomPieChart = ({ data, title }) => {
         </PieChart>
         <div className='display-flex flex-direction-column justify-content-center'>
           {data.map((_entry, index) => (
-            <div className='display-flex align-items-center' key={`legend-${index}`}>
+            <div key={`legend-${index}`} className='display-flex align-items-center'>
               <div className='w-4 h-4 br-50 mr-2' style={{ backgroundColor: COLORS[index] }}></div>
               <Typography className='text-align-left vertical-align-middle' style={{ lineHeight: 2 }}>
                 {data[index].name}
@@ -69,7 +69,7 @@ const CustomPieChart = ({ data, title }) => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

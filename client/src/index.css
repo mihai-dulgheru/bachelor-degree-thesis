@@ -54,6 +54,68 @@ code {
   left: 0;
   z-index: 9007199254740991; */
   /* Number.MAX_SAFE_INTEGER */
-  opacity: .8;
+  opacity: 0.8;
   backdrop-filter: saturate(180%) blur(20px);
+}
+
+.display-flex {
+  display: flex;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-space-evenly {
+  justify-content: space-evenly;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.vertical-align-middle {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+
+.w-4 {
+  width: 1rem;
+}
+
+.h-4 {
+  height: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.br-50 {
+  border-radius: 50%;
 }
