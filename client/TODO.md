@@ -3,7 +3,7 @@
 - [ ] Afișare detalii consum și cost total
 - [ ] Grafice
 - [x] Premii
-- [ ] Validări formulare licență
+- [ ] Validări formulare
 - [ ] Login with Google
 - [x] 404 Not Found Page
 - [ ] Paletă culori
@@ -11,3 +11,4 @@
 - [ ] Istoric consum estimativ
 - [ ] Chit integrare priză inteligentă
 - [x] Font Awesome
+- [ ] Mobile
