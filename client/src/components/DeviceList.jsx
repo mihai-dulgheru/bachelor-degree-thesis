@@ -19,7 +19,7 @@ import {
 import { Box } from '@mui/system'
 import { visuallyHidden } from '@mui/utils'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import { counties, suppliers } from '../collections'
@@ -43,7 +43,7 @@ const columns = [
     id: 'energyConsumption',
     numeric: true,
     disablePadding: false,
-    label: 'Power / Energy Consumption'
+    label: 'Power/Energy Consumption'
   },
   {
     id: 'unitMeasurement',
@@ -107,7 +107,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
             align={column.numeric ? 'right' : 'left'}
             padding={column.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === column.id ? order : false}
-            style={{ width: `calc(100% / ${columns.length + 2})` }}
+            style={{ width: `calc(100%/${columns.length + 2})` }}
           >
             <TableSortLabel
               active={orderBy === column.id}
@@ -127,7 +127,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
           key='action'
           align='center'
           padding='normal'
-          style={{ width: `calc(100% / ${columns.length + 2} * 2)` }}
+          style={{ width: `calc(100%/${columns.length + 2} * 2)` }}
         >
           Action
         </TableCell>
@@ -151,12 +151,14 @@ const DeviceList = () => {
   const [supplier, setSupplier] = useState(suppliers[0].value)
   const [county, setCounty] = useState(counties[0].value)
 
-  const getUser = async () => {
+  const updateUser = async (user) => {
     const response = await fetch('/api/auth/user', {
-      method: 'GET',
+      method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         authorization: localStorage.getItem('accessToken')
-      }
+      },
+      body: JSON.stringify(user)
     })
     const data = await response.json()
     if (data.status === 'ok') {
@@ -214,45 +216,72 @@ const DeviceList = () => {
     }
   }
 
-  const updateUser = async (user) => {
-    const response = await fetch('/api/auth/user', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('accessToken')
-      },
-      body: JSON.stringify(user)
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setUser(data.user)
-      setInvoiceUnitValue(data.user.invoiceUnitValue ? data.user.invoiceUnitValue : '')
-      setSupplier(data.user.supplier ? data.user.supplier : suppliers[0].value)
-      setCounty(data.user.county ? data.user.county : counties[0].value)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
-  }
-
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setUser(data.user)
+        setInvoiceUnitValue(data.user.invoiceUnitValue ? data.user.invoiceUnitValue : '')
+        setSupplier(data.user.supplier ? data.user.supplier : suppliers[0].value)
+        setCounty(data.user.county ? data.user.county : counties[0].value)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getUser()
+
+    const getDevices = async () => {
+      const response = await fetch('/api/auth/user/devices', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setRows(data.devices)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getDevices()
-  }, [])
+  }, [navigate])
 
   const handleRequestSort = (_event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -280,7 +309,7 @@ const DeviceList = () => {
      * 1 day = 24h
      * kWh/annum = kWh * year * day
      *
-     * Energy (kWh) = (W * hrs) / 1000
+     * Energy (kWh) = (W * hrs)/1000
      * Energy (kWh) = kW * hrs
      */
     const year = 365.242199
@@ -584,11 +613,11 @@ const DeviceList = () => {
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ width: 'calc(100% / 3)' }}>Period</TableCell>
-                  <TableCell align='left' sx={{ width: 'calc(100% / 3)' }}>
+                  <TableCell sx={{ width: 'calc(100%/3)' }}>Period</TableCell>
+                  <TableCell align='left' sx={{ width: 'calc(100%/3)' }}>
                     Energy&nbsp;Consumption&nbsp;(kWh)
                   </TableCell>
-                  <TableCell align='left' sx={{ width: 'calc(100% / 3)' }}>
+                  <TableCell align='left' sx={{ width: 'calc(100%/3)' }}>
                     Price&nbsp;(RON)
                   </TableCell>
                 </TableRow>

@@ -1,20 +1,21 @@
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Avatar,
   Button,
   CssBaseline,
+  FormControl,
   Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Link,
+  OutlinedInput,
   Paper,
   TextField,
   Typography
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import './Signin.css'
@@ -92,6 +93,11 @@ const Signin = ({ onSignin }) => {
     event.preventDefault()
   }
 
+  const handleClickLink = (e) => {
+    e.preventDefault()
+    navigate('/signup')
+  }
+
   return (
     <Grid id='container' container>
       <CssBaseline />
@@ -146,15 +152,9 @@ const Signin = ({ onSignin }) => {
             </div>
             <Typography textAlign='center'>
               No account?{' '}
-              <a
-                className='link-dark a'
-                onClick={(e) => {
-                  e.preventDefault()
-                  navigate('/signup')
-                }}
-              >
+              <Link color='inherit' component='button' onClick={handleClickLink} style={{ verticalAlign: 'top' }}>
                 Create one
-              </a>
+              </Link>
             </Typography>
           </form>
         </div>

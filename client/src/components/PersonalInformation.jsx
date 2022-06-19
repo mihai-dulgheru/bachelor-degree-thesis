@@ -12,7 +12,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 
@@ -26,39 +26,6 @@ const PersonalInformation = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-
-  const getUser = async () => {
-    const response = await fetch('/api/auth/user', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setFirstName(data.user.firstName)
-      setLastName(data.user.lastName)
-      setUsername(data.user.username)
-      setEmail(data.user.email)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
-  }
 
   const updateUser = async (user) => {
     const response = await fetch('/api/auth/user', {
@@ -91,8 +58,40 @@ const PersonalInformation = () => {
   }
 
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setFirstName(data.user.firstName)
+        setLastName(data.user.lastName)
+        setUsername(data.user.username)
+        setEmail(data.user.email)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getUser()
-  }, [])
+  }, [navigate])
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'))

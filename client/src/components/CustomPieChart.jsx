@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material'
-import React from 'react'
 import { Cell, Pie, PieChart } from 'recharts'
 
 const RADIAN = Math.PI / 180

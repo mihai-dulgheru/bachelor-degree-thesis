@@ -9,12 +9,13 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Link,
   OutlinedInput,
   Paper,
   TextField,
   Typography
 } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import './Signup.css'
@@ -110,6 +111,11 @@ const Signup = () => {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
+  }
+
+  const handleClickLink = (e) => {
+    e.preventDefault()
+    navigate('/login')
   }
 
   const form = (
@@ -213,15 +219,9 @@ const Signup = () => {
       <Typography textAlign='center'>
         <br />
         Already have an account?{' '}
-        <a
-          className='link-dark a'
-          onClick={(e) => {
-            e.preventDefault()
-            navigate('/login')
-          }}
-        >
+        <Link color='inherit' component='button' onClick={handleClickLink} style={{ verticalAlign: 'top' }}>
           Sign in
-        </a>
+        </Link>
       </Typography>
     </>
   )

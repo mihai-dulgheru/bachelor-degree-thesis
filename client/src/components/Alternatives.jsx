@@ -20,7 +20,7 @@ import {
   Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { useNavigate, useParams } from 'react-router-dom'
 import swal from 'sweetalert'
@@ -187,7 +187,7 @@ const Alternatives = () => {
       }
     }
     fetchData()
-  }, [])
+  }, [deviceId, navigate])
 
   // * Setare url
   useEffect(() => {
@@ -209,63 +209,63 @@ const Alternatives = () => {
           .replaceAll(')', '%29')
       }/c`
     )
-  }, [budget])
+  }, [budget, device.category])
 
   const handleBack = () => {
     navigate(-1)
   }
 
-  const getAlternatives = async () => {
-    const response = await fetch(`/alternatives/?url=${url}`, {
-      method: 'GET'
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setAlternatives(
-        data.data
-          .filter((element) => {
-            return element && element.price <= budget
-          })
-          .sort(function (a, b) {
-            const priceA = a.price
-            const priceB = b.price
-            if (priceA < priceB) {
-              return 1
-            }
-            if (priceA > priceB) {
-              return -1
-            }
-            return 0
-          })
-      )
-      setTimeout(() => {
-        setLoading(false)
-        setLoadingDeviceSpecifications(false)
-      }, 3000)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
-    }
-  }
-
   // * Setare alternative
   useEffect(() => {
+    const getAlternatives = async () => {
+      const response = await fetch(`/alternatives/?url=${url}`, {
+        method: 'GET'
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setAlternatives(
+          data.data
+            .filter((element) => {
+              return element && element.price <= budget
+            })
+            .sort(function (a, b) {
+              const priceA = a.price
+              const priceB = b.price
+              if (priceA < priceB) {
+                return 1
+              }
+              if (priceA > priceB) {
+                return -1
+              }
+              return 0
+            })
+        )
+        setTimeout(() => {
+          setLoading(false)
+          setLoadingDeviceSpecifications(false)
+        }, 3000)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        })
+      }
+    }
+
     if (url) {
       getAlternatives()
     }
-  }, [url])
+  }, [budget, url])
 
   const appBar = (
     <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>

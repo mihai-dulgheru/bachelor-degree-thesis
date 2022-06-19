@@ -1,5 +1,5 @@
 import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import { counties, suppliers } from '../collections'
@@ -32,50 +32,6 @@ const OtherInformation = () => {
     const regExp = /^(?!0\d)(\d+)?\.?(\d+)?$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setInvoiceUnitValue(event.target.value)
-    }
-  }
-
-  const getUser = async () => {
-    const response = await fetch('/api/auth/user', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      if (data.user.supplier) {
-        setSupplier(data.user.supplier)
-      }
-      if (data.user.county) {
-        setCounty(data.user.county)
-      }
-      if (data.user.voltageLevel) {
-        setVoltageLevel(data.user.voltageLevel)
-      }
-      if (data.user.budget) {
-        setBudget(data.user.budget)
-      }
-      if (data.user.invoiceUnitValue) {
-        setInvoiceUnitValue(data.user.invoiceUnitValue)
-      }
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
     }
   }
 
@@ -112,8 +68,51 @@ const OtherInformation = () => {
   }
 
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        if (data.user.supplier) {
+          setSupplier(data.user.supplier)
+        }
+        if (data.user.county) {
+          setCounty(data.user.county)
+        }
+        if (data.user.voltageLevel) {
+          setVoltageLevel(data.user.voltageLevel)
+        }
+        if (data.user.budget) {
+          setBudget(data.user.budget)
+        }
+        if (data.user.invoiceUnitValue) {
+          setInvoiceUnitValue(data.user.invoiceUnitValue)
+        }
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getUser()
-  }, [])
+  }, [navigate])
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'))

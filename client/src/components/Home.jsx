@@ -1,7 +1,7 @@
 import InputUnstyled from '@mui/base/InputUnstyled'
 import { Button, Paper, Stack, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import React, { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import swal from 'sweetalert'
@@ -15,7 +15,7 @@ import CustomAppBar from './CustomAppBar'
 import './Home.css'
 
 const StyledInputElement = styled('input')(
-  ({}) => `
+  () => `
   display: block;
   width: 100%;
   padding: 2px 8px;
@@ -196,36 +196,6 @@ const Home = () => {
     }
   }
 
-  const getUser = async () => {
-    const response = await fetch('/api/auth/user', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setUser(data.user)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
-  }
-
   const getDevices = async () => {
     const response = await fetch('/api/auth/devices', {
       method: 'GET',
@@ -260,9 +230,71 @@ const Home = () => {
   }
 
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setUser(data.user)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getUser()
+
+    const getDevices = async () => {
+      const response = await fetch('/api/auth/devices', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        if (data.devices.length > 0) {
+          setDevices(data.devices)
+          setDevice(data.devices[0])
+        }
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getDevices()
-  }, [])
+  }, [navigate])
 
   const setUpDevice = (
     <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>

@@ -1,5 +1,4 @@
 import { Card, CardContent, Typography } from '@mui/material'
-import React from 'react'
 import './CustomCard.css'
 
 const CustomCard = ({ iconSrc, altText, heading, value, um }) => {

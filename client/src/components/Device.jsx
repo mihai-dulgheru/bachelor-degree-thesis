@@ -110,7 +110,7 @@ const Device = () => {
       }
     }
     fetchData()
-  }, [])
+  }, [deviceId, navigate])
 
   const handleChangeCustomInputEnergyConsumption = (event) => {
     const regExp = /^[1-9][0-9]*$/

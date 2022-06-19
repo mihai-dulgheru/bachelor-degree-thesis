@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import {
@@ -16,83 +16,80 @@ import './Prizes.css'
 const Prizes = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
-  const [prizes, setPrizes] = useState([])
   const [totalkWh, setTotalkWh] = useState(0)
   const [invoiceUnitValue, setInvoiceUnitValue] = useState(0)
   const [county, setCounty] = useState('')
   const [amountSaved, setAmountSaved] = useState(0)
 
-  const getUser = async () => {
-    const response = await fetch('/api/auth/user', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setUser(data.user)
-      setInvoiceUnitValue(data.user.invoiceUnitValue && data.user.invoiceUnitValue)
-      setCounty(data.user.county && data.user.county)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
-  }
-
-  const getPrizes = async () => {
-    const response = await fetch('/api/auth/user/prizes', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setPrizes(data.prizes)
-      setTotalkWh(
-        data.prizes
-          .map((item) => parseFloat(item.prizeValue))
-          .reduce((previous, current) => {
-            return previous + current
-          }, 0)
-      )
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
-    }
-  }
-
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setUser(data.user)
+        setInvoiceUnitValue(data.user.invoiceUnitValue && data.user.invoiceUnitValue)
+        setCounty(data.user.county && data.user.county)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getUser()
+
+    const getPrizes = async () => {
+      const response = await fetch('/api/auth/user/prizes', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setTotalkWh(
+          data.prizes
+            .map((item) => parseFloat(item.prizeValue))
+            .reduce((previous, current) => {
+              return previous + current
+            }, 0)
+        )
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        })
+      }
+    }
     getPrizes()
-  }, [])
+  }, [navigate])
 
   useEffect(() => {
     setAmountSaved(convertkWhToRON(totalkWh, invoiceUnitValue, county))

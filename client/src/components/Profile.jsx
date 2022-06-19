@@ -100,8 +100,37 @@ const Profile = () => {
   const { vertical, horizontal, open, transition, message } = state
 
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setUser(data.user)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getUser()
-  }, [])
+  }, [navigate])
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'))
@@ -139,36 +168,6 @@ const Profile = () => {
 
   const handleClose = () => {
     setState({ ...state, open: false })
-  }
-
-  const getUser = async () => {
-    const response = await fetch('/api/auth/user', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setUser(data.user)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
   }
 
   const updateUser = async (user) => {
