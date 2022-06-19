@@ -34,3 +34,30 @@
 .or::after {
   margin-left: 4px;
 }
+
+#search {
+  display: inline-flex;
+  width: 90%;
+  justify-content: flex-end;
+  position: relative;
+  top: 2rem;
+}
+
+#search>div {
+  display: inline-flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  column-gap: 0.5rem;
+  z-index: 9007199254740991;
+  border: 1px solid black;
+}
+
+#search-input {
+  border: 0;
+}
+
+#search-input:focus {
+  outline: 0;
+}

@@ -150,6 +150,8 @@ const DeviceList = () => {
   const [invoiceUnitValue, setInvoiceUnitValue] = useState('')
   const [supplier, setSupplier] = useState(suppliers[0].value)
   const [county, setCounty] = useState(counties[0].value)
+  const [devices, setDevices] = useState([])
+  const [filter, setFilter] = useState('')
 
   const updateUser = async (user) => {
     const response = await fetch('/api/auth/user', {
@@ -195,6 +197,7 @@ const DeviceList = () => {
     })
     const data = await response.json()
     if (data.status === 'ok') {
+      setDevices(data.devices)
       setRows(data.devices)
     } else {
       swal({
@@ -260,6 +263,7 @@ const DeviceList = () => {
       })
       const data = await response.json()
       if (data.status === 'ok') {
+        setDevices(data.devices)
         setRows(data.devices)
       } else {
         swal({
@@ -490,6 +494,37 @@ const DeviceList = () => {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
+  const handleSearch = (e) => {
+    setFilter(e.target.value)
+    setRows(
+      devices.filter((item) => {
+        return (
+          String(item.energyConsumption).toLowerCase().includes(e.target.value.toLowerCase()) ||
+          item.unitMeasurement.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          String(item.noOperatingHours).toLowerCase().includes(e.target.value.toLowerCase()) ||
+          String(item.efficiencyClass).toLowerCase().includes(e.target.value.toLowerCase()) ||
+          item.category.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      })
+    )
+  }
+
+  const search = (
+    <div id='search'>
+      <div>
+        <i className='fa-solid fa-magnifying-glass'></i>
+        <input
+          id='search-input'
+          aria-invalid='false'
+          placeholder='Search...'
+          type='search'
+          value={filter}
+          onChange={handleSearch}
+        />
+      </div>
+    </div>
+  )
+
   const table = (
     <Box sx={{ width: '90%', margin: '16px auto 0px auto' }}>
       <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
@@ -703,6 +738,7 @@ const DeviceList = () => {
   return (
     <div>
       <CustomAppBar user={user} selectedAppBarItem={'Devices'} />
+      {search}
       {table}
       {button}
       {buttonIsClicked && tableEstimatedConsumptionAndTotalCosts}
