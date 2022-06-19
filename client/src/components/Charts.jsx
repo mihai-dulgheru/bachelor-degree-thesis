@@ -1,79 +1,80 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import CustomAppBar from './CustomAppBar'
+import CustomBarChart from './CustomBarChart'
 import CustomPieChart from './CustomPieChart'
-import SimpleBarChart from './SimpleBarChart'
+import CustomStackedAreaChart from './CustomStackedAreaChart'
 
 const Charts = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [devices, setDevices] = useState([])
 
-  const getUser = async () => {
-    const response = await fetch('/api/auth/user', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setUser(data.user)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
-  }
-
-  const getDevices = async () => {
-    const response = await fetch('/api/auth/user/devices', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('accessToken')
-      }
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setDevices(data.devices)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
-  }
-
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setUser(data.user)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
     getUser()
+
+    const getDevices = async () => {
+      const response = await fetch('/api/auth/user/devices', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setDevices(data.devices)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
+
     getDevices()
-  }, [])
+  }, [navigate])
 
   const getEstimatedConsumption = (device) => {
     const year = 365.242199
@@ -112,15 +113,11 @@ const Charts = () => {
     return energy * year * day
   }
 
-  const getCategory = (device) => {
-    return device.category
-  }
-
   const getEstimatedConsumptionByCategory = () => {
     const tempDevices = devices.map((device) => {
       return {
         estimatedConsumption: getEstimatedConsumption(device),
-        category: getCategory(device)
+        category: device.category
       }
     })
     const object = {}
@@ -160,20 +157,62 @@ const Charts = () => {
     return noOperatingHoursByCategories.sort((a, b) => a.name.localeCompare(b.name))
   }
 
+  const getEstimatedConsumptionHistory = () => {
+    const tempDevices = devices.map((device) => {
+      let items = device.previousVersion && device.previousVersion.split(';')
+      return {
+        name: device.category,
+        previous:
+          device.previousVersion === null
+            ? parseFloat(getEstimatedConsumption(device).toPrecision(5))
+            : parseFloat(
+                getEstimatedConsumption({
+                  ...device,
+                  energyConsumption: parseInt(items[0]),
+                  unitMeasurement: items[1],
+                  efficiencyClass: items[2]
+                }).toPrecision(5)
+              ),
+        current: parseFloat(getEstimatedConsumption(device).toPrecision(5))
+      }
+    })
+    const object = {}
+    for (const device of tempDevices) {
+      const name = device.name
+      if (Object.hasOwnProperty.call(object, name)) {
+        object[name] = {
+          name: name,
+          previous: object[name].previous + device.previous,
+          current: object[name].current + device.current
+        }
+      } else {
+        object[name] = device
+      }
+    }
+    return Object.values(object).sort((a, b) => b.value - a.value)
+  }
+
   return (
     <div>
       <CustomAppBar user={user} selectedAppBarItem={'Charts'} />
       <div>
-        <div className='display-flex wrap mt-4 justify-content-space-evenly'>
+        <div className='display-flex wrap mt-4 justify-content-space-evenly row-gap-4 column-gap-4'>
           <div>
             <CustomPieChart title={'Estimated consumption by categories'} data={getEstimatedConsumptionByCategory()} />
           </div>
           <div>
-            <SimpleBarChart
+            <CustomBarChart
               title={'Number of operating hours per day by category'}
               data={getNoOperatingHoursByCategory()}
               legend={false}
               dataKeys={['Number of operating hours per day']}
+            />
+          </div>
+          <div>
+            <CustomStackedAreaChart
+              title={'Estimated consumption history'}
+              data={getEstimatedConsumptionHistory()}
+              dataKeys={['previous', 'current']}
             />
           </div>
         </div>
