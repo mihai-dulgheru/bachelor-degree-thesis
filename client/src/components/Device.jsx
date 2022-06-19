@@ -52,6 +52,7 @@ const Device = () => {
     value: '',
     label: ''
   })
+  const [previousVersion, setPreviousVersion] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -66,6 +67,7 @@ const Device = () => {
         setEnergyConsumption(data.device.energyConsumption)
         setUnitMeasurementEnergyConsumption(unitsMeasurementsEnergyConsumption[0])
         setUnitMeasurementPower(unitsMeasurementsPower[0])
+        setPreviousVersion(data.device.previousVersion)
         if (data.device.unitMeasurement === 'W' || data.device.unitMeasurement === 'kW') {
           setIsSelectedPower(true)
           setUnitMeasurementPower({
@@ -134,7 +136,7 @@ const Device = () => {
       noOperatingHours: parseFloat(noOperatingHours),
       efficiencyClass: efficiencyClass.value,
       category: category.value,
-      previousVersion: null
+      previousVersion: previousVersion
     }
     const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
       method: 'PUT',
