@@ -1,0 +1,15 @@
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+
+  #simple-bar-chart {
+    position: relative;
+  }
+
+  #bar-chart-container {
+    overflow-x: auto;
+  }
+
+  #bar-chart {
+    position: absolute;
+  }
+}

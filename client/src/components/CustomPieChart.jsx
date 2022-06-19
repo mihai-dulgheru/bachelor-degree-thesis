@@ -41,7 +41,7 @@ const CustomPieChart = ({ title, data, width, height, outerRadius }) => {
         {title}
       </Typography>
 
-      <div className='display-flex justify-content-center'>
+      <div className='display-flex wrap justify-content-center'>
         <PieChart width={width ? width : 400} height={height ? height : 400}>
           <Pie
             data={data}

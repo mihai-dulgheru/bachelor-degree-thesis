@@ -1,11 +1,27 @@
+/* For mobile phones: */
 .card {
   flex-direction: row;
-  width: calc((80vw - 2rem) / 2);
+  width: calc(100vw - 2rem);
   height: calc((60vh - 2rem) / 2);
 }
 
 .card-media {
-  height: 100%;
+  height: 12.5rem;
+  align-self: center;
+}
+
+@media only screen and (min-width: 768px) {
+
+  /* For desktop: */
+  .card {
+    flex-direction: row;
+    width: calc((80vw - 2rem) / 2);
+    height: calc((60vh - 2rem) / 2);
+  }
+
+  .card-media {
+    height: 100%;
+  }
 }
 
 .card-content {
@@ -14,6 +30,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  overflow-x: auto;
 }
 
 #card-heading {

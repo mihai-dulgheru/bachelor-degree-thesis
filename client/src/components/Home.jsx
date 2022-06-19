@@ -141,7 +141,7 @@ const Home = () => {
         title: 'Failed',
         text: `Missing fields (${
           isSelectedPower ? 'Power' : 'Energy consumption'
-        } and/or Number of operating hours / day)`,
+        } and/or Number of operating hours/day)`,
         icon: 'error',
         button: {
           text: 'OK',
@@ -272,7 +272,7 @@ const Home = () => {
       <form>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Device category: *</Typography>
+            <Typography variant='h6'>Device category *</Typography>
           </div>
           <div className='col'>
             <Select
@@ -288,7 +288,7 @@ const Home = () => {
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Efficiency class: *</Typography>
+            <Typography variant='h6'>Efficiency class *</Typography>
           </div>
           <div className='col'>
             <Select
@@ -307,14 +307,14 @@ const Home = () => {
             <select
               style={{ width: 'fit-content', border: 'none', paddingLeft: 0, fontWeight: 500 }}
               className='form-select form-select-lg form-select-power-energy-consumption'
-              value={isSelectedPower ? 'Power: *' : 'Energy consumption: *'}
-              onChange={(event) => setIsSelectedPower(event.target.value === 'Power: *')}
+              value={isSelectedPower ? 'Power *' : 'Energy consumption *'}
+              onChange={(event) => setIsSelectedPower(event.target.value === 'Power *')}
             >
-              <option key='Energy consumption: *' value='Energy consumption: *'>
-                Energy consumption: *
+              <option key='Energy consumption *' value='Energy consumption *'>
+                Energy consumption *
               </option>
-              <option key='Power: *' value='Power: *'>
-                Power: *
+              <option key='Power *' value='Power *'>
+                Power *
               </option>
             </select>
           </div>
@@ -347,7 +347,7 @@ const Home = () => {
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Number of operating hours / day: *</Typography>
+            <Typography variant='h6'>Number of operating hours/day *</Typography>
           </div>
           <div className='col'>
             <div className='custom-input'>

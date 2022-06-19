@@ -11,4 +11,4 @@
 - [ ] Istoric consum estimativ
 - [ ] Chit integrare priză inteligentă
 - [x] Font Awesome
-- [ ] Mobile
+- [x] Mobile

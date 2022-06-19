@@ -96,6 +96,10 @@ code {
   line-height: normal;
 }
 
+.max-width-100vw {
+  max-width: 100vw;
+}
+
 .w-4 {
   width: 1rem;
 }

@@ -1,18 +1,19 @@
 import { Typography } from '@mui/material'
-import React from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
+import './SimpleBarChart.css'
 
 const COLORS = ['#8884d8', '#82ca9d']
 
 const SimpleBarChart = ({ title, width, height, data, legend, dataKeys }) => {
   return (
-    <div>
+    <div id='simple-bar-chart' className='max-width-100vw'>
       <Typography variant='h5' className='text-align-center mb-2'>
         {title}
       </Typography>
 
-      <div className='display-flex justify-content-center'>
+      <div id='bar-chart-container' className='display-flex justify-content-center'>
         <BarChart
+          id='bar-chart'
           width={width ? width : 800}
           height={height ? height : 400}
           data={data}
