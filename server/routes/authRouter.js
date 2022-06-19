@@ -183,7 +183,8 @@ authRouter
             unitMeasurement: device.unitMeasurement,
             noOperatingHours: device.noOperatingHours,
             efficiencyClass: device.efficiencyClass,
-            category: device.category
+            category: device.category,
+            previousVersion: device.previousVersion
           }
         })
       } else {
@@ -209,7 +210,11 @@ authRouter
       const device = devices.map((element) => element.dataValues).find((element) => element.id === deviceId)
       if (device) {
         const updatedDevice = await Device.findByPk(deviceId)
-        await updatedDevice.update(req.body)
+        const previousVersion =
+          req.body.previousVersion !== undefined
+            ? req.body.previousVersion
+            : `${updatedDevice.energyConsumption};${updatedDevice.unitMeasurement};${updatedDevice.efficiencyClass}`
+        await updatedDevice.update({ ...req.body, previousVersion: previousVersion })
         res.status(200).json({
           status: 'ok',
           message: `Device with ID = ${deviceId} is updated`,
@@ -219,7 +224,8 @@ authRouter
             unitMeasurement: updatedDevice.unitMeasurement,
             noOperatingHours: updatedDevice.noOperatingHours,
             efficiencyClass: updatedDevice.efficiencyClass,
-            category: updatedDevice.category
+            category: updatedDevice.category,
+            previousVersion: updatedDevice.previousVersion
           }
         })
       } else {

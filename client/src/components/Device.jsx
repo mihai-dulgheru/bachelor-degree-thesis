@@ -1,7 +1,7 @@
 import InputUnstyled from '@mui/base/InputUnstyled'
 import { Button, Paper, Stack, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import React, { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Select from 'react-select'
 import swal from 'sweetalert'
@@ -133,7 +133,8 @@ const Device = () => {
       unitMeasurement: isSelectedPower ? unitMeasurementPower.value : unitMeasurementEnergyConsumption.value,
       noOperatingHours: parseFloat(noOperatingHours),
       efficiencyClass: efficiencyClass.value,
-      category: category.value
+      category: category.value,
+      previousVersion: null
     }
     const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
       method: 'PUT',
@@ -176,7 +177,7 @@ const Device = () => {
       <form>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Device category: *</Typography>
+            <Typography variant='h6'>Device category *</Typography>
           </div>
           <div className='col'>
             <Select
@@ -192,7 +193,7 @@ const Device = () => {
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Efficiency class: *</Typography>
+            <Typography variant='h6'>Efficiency class *</Typography>
           </div>
           <div className='col'>
             <Select
@@ -211,14 +212,14 @@ const Device = () => {
             <select
               style={{ width: 'fit-content', border: 'none', paddingLeft: 0, fontWeight: 500 }}
               className='form-select form-select-lg form-select-power-energy-consumption'
-              value={isSelectedPower ? 'Power: *' : 'Energy consumption: *'}
-              onChange={(event) => setIsSelectedPower(event.target.value === 'Power: *')}
+              value={isSelectedPower ? 'Power *' : 'Energy consumption *'}
+              onChange={(event) => setIsSelectedPower(event.target.value === 'Power *')}
             >
-              <option key='Energy consumption: *' value='Energy consumption: *'>
-                Energy consumption: *
+              <option key='Energy consumption *' value='Energy consumption *'>
+                Energy consumption *
               </option>
-              <option key='Power: *' value='Power: *'>
-                Power: *
+              <option key='Power *' value='Power *'>
+                Power *
               </option>
             </select>
           </div>
@@ -251,7 +252,7 @@ const Device = () => {
         </div>
         <div className='row'>
           <div className='col'>
-            <Typography variant='h6'>Number of operating hours / day: *</Typography>
+            <Typography variant='h6'>Number of operating hours/day *</Typography>
           </div>
           <div className='col'>
             <div className='custom-input'>

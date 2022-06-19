@@ -55,7 +55,7 @@ const columns = [
     id: 'noOperatingHours',
     numeric: true,
     disablePadding: false,
-    label: 'No. operating hours / day'
+    label: 'No. operating hours/day'
   }
 ]
 

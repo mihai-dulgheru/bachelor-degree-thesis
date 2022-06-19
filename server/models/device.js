@@ -38,6 +38,9 @@ const Device = sequelize.define(
       validate: {
         len: [3]
       }
+    },
+    previousVersion: {
+      type: DataTypes.TEXT
     }
   },
   {

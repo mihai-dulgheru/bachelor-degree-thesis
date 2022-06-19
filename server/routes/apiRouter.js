@@ -42,7 +42,7 @@ apiRouter.route('/login').post(async (req, res, next) => {
 
 apiRouter
   .route('/users')
-  .get(async (req, res, next) => {
+  .get(async (_req, res, next) => {
     try {
       const users = await User.findAll()
       const tempUsers = []
@@ -141,7 +141,7 @@ apiRouter
     }
   })
 
-apiRouter.route('/devices').get(async (req, res, next) => {
+apiRouter.route('/devices').get(async (_req, res, next) => {
   try {
     const devices = await Device.findAll()
     res.status(200).json(devices)
@@ -230,7 +230,8 @@ apiRouter
               unitMeasurement: device.unitMeasurement,
               noOperatingHours: device.noOperatingHours,
               efficiencyClass: device.efficiencyClass,
-              category: device.category
+              category: device.category,
+              previousVersion: device.previousVersion
             }
           })
         } else {
@@ -259,7 +260,11 @@ apiRouter
         const device = devices.map((element) => element.dataValues).find((element) => element.id === deviceId)
         if (device) {
           const updatedDevice = await Device.findByPk(deviceId)
-          await updatedDevice.update(req.body)
+          const previousVersion =
+            req.body.previousVersion !== undefined
+              ? req.body.previousVersion
+              : `${updatedDevice.energyConsumption};${updatedDevice.unitMeasurement};${updatedDevice.efficiencyClass}`
+          await updatedDevice.update({ ...req.body, previousVersion: previousVersion })
           res.status(200).json({
             status: 'ok',
             message: `Device with ID = ${deviceId} is updated`,
@@ -269,7 +274,8 @@ apiRouter
               unitMeasurement: updatedDevice.unitMeasurement,
               noOperatingHours: updatedDevice.noOperatingHours,
               efficiencyClass: updatedDevice.efficiencyClass,
-              category: updatedDevice.category
+              category: updatedDevice.category,
+              previousVersion: updatedDevice.previousVersion
             }
           })
         } else {
@@ -319,7 +325,7 @@ apiRouter
     }
   })
 
-apiRouter.route('/prizes').get(async (req, res, next) => {
+apiRouter.route('/prizes').get(async (_req, res, next) => {
   try {
     const prizes = await Prize.findAll()
     res.status(200).json(prizes)

@@ -76,19 +76,6 @@ const Charts = () => {
   }, [])
 
   const getEstimatedConsumption = (device) => {
-    /**
-     * Dishwasher: kWh/100 cycles * 2.08 = kWh/annum
-     * Washing machines and washer dryers: kWh/100 cycles * 2.2 = kWh/annum
-     * Ovens: kWh/cycle * 286 = kWh/annum
-     *
-     * kWh/1000h = kWh * 1000h
-     * 1 year = 365.242199 days
-     * 1 day = 24h
-     * kWh/annum = kWh * year * day
-     *
-     * Energy (kWh) = (W * hrs) / 1000
-     * Energy (kWh) = kW * hrs
-     */
     const year = 365.242199
     const day = 24
     let energy = 0
