@@ -1,6 +1,6 @@
 ### TODO list
 
-- [ ] Afișare detalii consum și cost total
+- [x] Afișare detalii consum și cost total
 - [x] Grafice
 - [ ] Validări formulare
 - [ ] Login with Google
@@ -12,4 +12,5 @@
 - [ ] Adauga buton de Back to previous version
 - [x] Filtrează dispozitivele
 - [x] Setează versiunea anterioară cu device.previousVersion
-- [x] hours/day or hours/day
+- [ ] Permite introducerea de `.` atunci când unitatea de măsură pentru Power este kW
+- [x] Oprește loading screen-ul dupa ce apare o eroare - Alternative

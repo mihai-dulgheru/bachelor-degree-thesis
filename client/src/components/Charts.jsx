@@ -141,17 +141,21 @@ const Charts = () => {
   const getNoOperatingHoursByCategory = () => {
     const object = {}
     for (const device of devices) {
-      if (Object.hasOwnProperty.call(object, device.category)) {
-        object[device.category] += device.noOperatingHours
+      const category = device.category
+      if (Object.hasOwnProperty.call(object, category)) {
+        object[category] = {
+          noOperatingHours: object[category].noOperatingHours + device.noOperatingHours,
+          number: object[category].number + 1
+        }
       } else {
-        object[device.category] = device.noOperatingHours
+        object[category] = { noOperatingHours: device.noOperatingHours, number: 1 }
       }
     }
     const noOperatingHoursByCategories = []
     for (const [key, value] of Object.entries(object)) {
       noOperatingHoursByCategories.push({
         name: key,
-        'Number of operating hours per day': value
+        'Number of operating hours per day': value.noOperatingHours / value.number
       })
     }
     return noOperatingHoursByCategories.sort((a, b) => a.name.localeCompare(b.name))

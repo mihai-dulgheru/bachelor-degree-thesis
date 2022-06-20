@@ -16,8 +16,12 @@ import {
   TableSortLabel,
   TextField
 } from '@mui/material'
+import Fade from '@mui/material/Fade'
+import Popper from '@mui/material/Popper'
+import Typography from '@mui/material/Typography'
 import { Box } from '@mui/system'
 import { visuallyHidden } from '@mui/utils'
+import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -107,7 +111,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
             align={column.numeric ? 'right' : 'left'}
             padding={column.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === column.id ? order : false}
-            style={{ width: `calc(100%/${columns.length + 2})` }}
+            style={{ width: `calc(100% / ${columns.length + 2})` }}
           >
             <TableSortLabel
               active={orderBy === column.id}
@@ -127,7 +131,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
           key='action'
           align='center'
           padding='normal'
-          style={{ width: `calc(100%/${columns.length + 2} * 2)` }}
+          style={{ width: `calc(100% / ${columns.length + 2} * 2)` }}
         >
           Action
         </TableCell>
@@ -302,6 +306,19 @@ const DeviceList = () => {
     setPage(0)
   }
 
+  const year = 365.242199
+  const month = 30.4368499
+  const week = 7
+  const day = 24
+
+  const tg = 0.00149
+  const tl = 0.02247
+  const systemServiceFee = 0.00932
+  const tva = 0.19
+  const cogenerationContribution = 0.02554
+  const greenCertificates = 0.07254
+  const nonCommercialExciseDuty = 0.00542
+
   const calculateEstimatedConsumptionAndTotalCosts = async () => {
     /**
      * Dishwasher: kWh/100 cycles * 2.08 = kWh/annum
@@ -316,10 +333,6 @@ const DeviceList = () => {
      * Energy (kWh) = (W * hrs)/1000
      * Energy (kWh) = kW * hrs
      */
-    const year = 365.242199
-    const month = 30.4368499
-    const week = 7
-    const day = 24
     let estimatedConsumptionkWh = 0
     for (const device of rows) {
       let energy = 0
@@ -361,24 +374,20 @@ const DeviceList = () => {
     const estimatedConsumptionkWhYear = estimatedConsumptionkWh * year * day
 
     let value = invoiceUnitValue || 0
+    let jt = 0.0
+    let activeElectricityTariff = 0.30792
     if (value === 0) {
       /**
-       * Preţul final este exprimat în lei/kWh şi conţine prețul energiei active și următoarele tarife reglementate: tariful de
-       * introducere energie electrică în reţea (TG), tariful de extracţie energie electrică din retea (TL), tariful pentru serviciul
-       * de sistem, tarifele de distribuţie, TVA, certificate verzi, contribuția pentru cogenerare şi acciza necomercială. Costurile
-       * privind certificatele verzi, contribuția pentru cogenerare şi acciza necomercială pot fi consultate aici, iar valoarea
-       * acestora va fi inclusă distinct pe factură.
+       * Preţul final este exprimat în lei/kWh şi conţine prețul energiei active (activeElectricityTariff) și următoarele tarife reglementate:
+       * tariful de introducere energie electrică în reţea (tg),
+       * tariful de extracţie energie electrică din retea (tl),
+       * tariful pentru serviciul de sistem (systemServiceFee),
+       * tarifele de distribuţie (jt),
+       * tva (tva),
+       * certificate verzi (greenCertificates),
+       * contribuția pentru cogenerare (cogenerationContribution),
+       * acciza necomercială (nonCommercialExciseDuty).
        */
-      const tg = 0.00149
-      const tl = 0.02247
-      const systemServiceFee = 0.00932
-      const TVA = 0.19
-      const cogenerationContribution = 0.02554
-      const greenCertificates = 0.07254
-      const nonCommercialExciseDuty = 0.00542
-      let jt = 0.0
-      let activeElectricityTariff = 0.30792
-
       const distributionArea = counties.find((element) => element.value === county).distributionArea
       switch (distributionArea) {
         case 'Oltenia':
@@ -421,34 +430,44 @@ const DeviceList = () => {
           cogenerationContribution +
           greenCertificates +
           nonCommercialExciseDuty) *
-        (1 + TVA)
+        (1 + tva)
     }
 
     setTableRowsEstimatedConsumptionAndTotalCosts([
       {
         period: '1 hour',
         energyConsumption: estimatedConsumptionkWh,
-        price: estimatedConsumptionkWh * value
+        price: estimatedConsumptionkWh * value,
+        jt: jt,
+        activeElectricityTariff: activeElectricityTariff
       },
       {
         period: '1 day',
         energyConsumption: estimatedConsumptionkWhDay,
-        price: estimatedConsumptionkWhDay * value
+        price: estimatedConsumptionkWhDay * value,
+        jt: jt,
+        activeElectricityTariff: activeElectricityTariff
       },
       {
         period: '1 week',
         energyConsumption: estimatedConsumptionkWhWeek,
-        price: estimatedConsumptionkWhWeek * value
+        price: estimatedConsumptionkWhWeek * value,
+        jt: jt,
+        activeElectricityTariff: activeElectricityTariff
       },
       {
         period: '1 month',
         energyConsumption: estimatedConsumptionkWhMonth,
-        price: estimatedConsumptionkWhMonth * value
+        price: estimatedConsumptionkWhMonth * value,
+        jt: jt,
+        activeElectricityTariff: activeElectricityTariff
       },
       {
         period: '1 year',
         energyConsumption: estimatedConsumptionkWhYear,
-        price: estimatedConsumptionkWhYear * value
+        price: estimatedConsumptionkWhYear * value,
+        jt: jt,
+        activeElectricityTariff: activeElectricityTariff
       }
     ])
 
@@ -565,6 +584,7 @@ const DeviceList = () => {
                             const data = await response.json()
                             if (data.status === 'ok') {
                               getDevices()
+                              setButtonIsClicked(false)
                             } else {
                               swal({
                                 title: 'Failed',
@@ -648,11 +668,11 @@ const DeviceList = () => {
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ width: 'calc(100%/3)' }}>Period</TableCell>
-                  <TableCell align='left' sx={{ width: 'calc(100%/3)' }}>
+                  <TableCell sx={{ width: 'calc(100% / 3)' }}>Period</TableCell>
+                  <TableCell align='left' sx={{ width: 'calc(100% / 3)' }}>
                     Energy&nbsp;Consumption&nbsp;(kWh)
                   </TableCell>
-                  <TableCell align='left' sx={{ width: 'calc(100%/3)' }}>
+                  <TableCell align='left' sx={{ width: 'calc(100% / 3)' }}>
                     Price&nbsp;(RON)
                   </TableCell>
                 </TableRow>
@@ -664,7 +684,152 @@ const DeviceList = () => {
                       {row.period}
                     </TableCell>
                     <TableCell align='left'>{row.energyConsumption.toFixed(2)}</TableCell>
-                    <TableCell align='left'>{row.price.toFixed(2)}</TableCell>
+                    <TableCell align='left'>
+                      <div id='last-cell'>
+                        <div>{row.price.toFixed(2)}</div>
+                        <PopupState variant='popper'>
+                          {(popupState) => (
+                            <div>
+                              <Button color='inherit' {...bindToggle(popupState)}>
+                                <i className='fa-solid fa-circle-info'></i>
+                              </Button>
+                              <Popper
+                                {...bindPopper(popupState)}
+                                transition
+                                placement='left-end'
+                                disablePortal={false}
+                                modifiers={[
+                                  {
+                                    name: 'flip',
+                                    enabled: true,
+                                    options: {
+                                      altBoundary: true,
+                                      rootBoundary: 'document',
+                                      padding: 8
+                                    }
+                                  },
+                                  {
+                                    name: 'preventOverflow',
+                                    enabled: true,
+                                    options: {
+                                      altAxis: true,
+                                      altBoundary: true,
+                                      tether: true,
+                                      rootBoundary: 'document',
+                                      padding: 8
+                                    }
+                                  }
+                                ]}
+                              >
+                                {({ TransitionProps }) => (
+                                  <Fade {...TransitionProps} timeout={350}>
+                                    <Paper id='popup-paper'>
+                                      <div id='popup-title'>
+                                        <Typography variant='h5'>Details</Typography>
+                                      </div>
+                                      <div id='popup-content'>
+                                        {invoiceUnitValue ? (
+                                          <div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>Valoarea unitară a facturii:</Typography>
+                                              <Typography className='font-weight-semi-bold' variant='body1'>
+                                                {invoiceUnitValue + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div>
+                                              <Typography variant='body2'>
+                                                {
+                                                  'Preţul final al facturii = Consum estimativ (kWh) * Valoarea unitară a facturii (RON/kWh)'
+                                                }
+                                              </Typography>
+                                            </div>
+                                          </div>
+                                        ) : (
+                                          <div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>Prețul energiei active:</Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * row.activeElectricityTariff).toFixed(4) +
+                                                  ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>
+                                                Tariful de introducere energie electrică în reţea:
+                                              </Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * tg).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>
+                                                Tariful de extracţie energie electrică din retea:
+                                              </Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * tl).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>
+                                                Tariful pentru serviciul de sistem:
+                                              </Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * systemServiceFee).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>Tariful de distribuţie:</Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * row.jt).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>Certificatele verzi:</Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * greenCertificates).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>Contribuția pentru cogenerare:</Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * cogenerationContribution).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>Acciza necomercială:</Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(row.energyConsumption * nonCommercialExciseDuty).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                            <div className='display-flex column-gap-2'>
+                                              <Typography variant='body1'>TVA:</Typography>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
+                                                {(
+                                                  row.energyConsumption *
+                                                  (row.activeElectricityTariff +
+                                                    tg +
+                                                    tl +
+                                                    systemServiceFee +
+                                                    row.jt +
+                                                    greenCertificates +
+                                                    cogenerationContribution +
+                                                    nonCommercialExciseDuty) *
+                                                  tva
+                                                ).toFixed(4) + ' RON'}
+                                              </Typography>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </Paper>
+                                  </Fade>
+                                )}
+                              </Popper>
+                            </div>
+                          )}
+                        </PopupState>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

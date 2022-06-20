@@ -300,6 +300,7 @@ const Alternatives = () => {
     const data = await response.json()
     if (data.status === 'ok') {
       if (!data.data.energyConsumption || !data.data.unitMeasurement) {
+        setLoadingDeviceSpecifications(false)
         swal({
           title: 'Failed',
           text: 'You cannot choose this device!',
