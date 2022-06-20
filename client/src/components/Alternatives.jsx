@@ -453,7 +453,7 @@ const Alternatives = () => {
           ) : (
             <>
               {appBar}
-              <Box sx={{ width: '90%', margin: '16px auto 0px auto' }}>
+              <Box sx={{ width: '90%', margin: '1rem auto 0px auto' }}>
                 <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
                   <Typography variant='h4' gutterBottom component='div'>
                     Alternatives for device

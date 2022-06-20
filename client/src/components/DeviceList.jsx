@@ -545,7 +545,7 @@ const DeviceList = () => {
   )
 
   const table = (
-    <Box sx={{ width: '90%', margin: '16px auto 0px auto' }}>
+    <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
       <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
         <TableContainer>
           <Table stickyHeader size='medium'>
@@ -648,11 +648,11 @@ const DeviceList = () => {
   )
 
   const button = (
-    <Box sx={{ width: '90%', margin: '16px auto 16px auto' }}>
-      <div className='d-flex justify-content-center' style={{ marginBottom: 16 }}>
+    <Box sx={{ width: '90%', margin: '1rem auto', mb: '0', pb: '1rem' }}>
+      <div className='d-flex justify-content-center'>
         <Button
-          style={{ backgroundColor: 'var(--very-peri)', color: '#ffffff' }}
           onClick={handleClickCalculateEstimatedConsumptionAndTotalCosts}
+          style={{ backgroundColor: 'var(--very-peri)', color: '#ffffff' }}
         >
           Calculate estimated consumption and total costs
         </Button>
@@ -732,7 +732,7 @@ const DeviceList = () => {
                                           <div>
                                             <div className='display-flex column-gap-2'>
                                               <Typography variant='body1'>Valoarea unitară a facturii:</Typography>
-                                              <Typography className='font-weight-semi-bold' variant='body1'>
+                                              <Typography variant='body1' style={{ fontWeight: 500 }}>
                                                 {invoiceUnitValue + ' RON'}
                                               </Typography>
                                             </div>
