@@ -15,6 +15,8 @@ import {
   Signup
 } from '../components'
 import './App.css'
+import ReactGoogleLogin from './ReactGoogleLogin'
+import ValidationTextFields from './ValidationTextFields'
 
 function App() {
   const tempAccessToken = localStorage.getItem('accessToken')
@@ -51,6 +53,9 @@ function App() {
               <Route path='/prizes' element={<Prizes />} />
               <Route path='/charts' element={<Charts />} />
               <Route path='*' element={<NotFound />} />
+              {/* TODO: delete below */}
+              <Route path='/react-google-login' element={<ReactGoogleLogin />} />
+              <Route path='/validation-text-fields' element={<ValidationTextFields />} />
             </>
           )}
         </Routes>

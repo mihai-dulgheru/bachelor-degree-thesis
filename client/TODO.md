@@ -10,7 +10,8 @@
 - [x] Setează versiunea anterioară cu device.previousVersion
 - [x] Permite introducerea de `.` atunci când unitatea de măsură pentru Power este kW
 - [x] Oprește loading screen-ul dupa ce apare o eroare - Alternative
-- [ ] Validări formulare
 - [ ] Login with Google
+- [ ] Validări formulare
 - [ ] Adauga buton de Back to previous version
 - [ ] Chit integrare priză inteligentă
+- [ ] Sterge ReactGoogleLogin.jsx, ValidationTextFields.jsx si CustomLineChart.jsx
