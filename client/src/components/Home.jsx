@@ -59,7 +59,7 @@ const Home = () => {
   const [isSelectedPower, setIsSelectedPower] = useState(false)
 
   const handleChangeCustomInputEnergyConsumption = (event) => {
-    const regExp = /^[1-9][0-9]*$/
+    const regExp = isSelectedPower && unitMeasurePower.value === 'kW' ? /^(?!0\d)(\d+)?\.?(\d+)?$/ : /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setEnergyConsumption(event.target.value)
     }

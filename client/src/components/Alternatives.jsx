@@ -298,9 +298,9 @@ const Alternatives = () => {
       method: 'GET'
     })
     const data = await response.json()
+    setLoadingDeviceSpecifications(false)
     if (data.status === 'ok') {
       if (!data.data.energyConsumption || !data.data.unitMeasurement) {
-        setLoadingDeviceSpecifications(false)
         swal({
           title: 'Failed',
           text: 'You cannot choose this device!',
@@ -316,7 +316,6 @@ const Alternatives = () => {
         await updateUser({ budget: Math.trunc(budget - element.price) })
         await updateDevice(data.data)
         const prize = await calculatePrize(data.data)
-        setLoadingDeviceSpecifications(false)
         swal({
           title: 'Success',
           text:
