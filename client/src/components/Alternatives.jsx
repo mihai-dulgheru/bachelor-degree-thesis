@@ -368,7 +368,7 @@ const Alternatives = () => {
               <TableCell align='left'>{element.name}</TableCell>
               <TableCell align='right'>{element.price}</TableCell>
               <TableCell className='d-flex flex-row gap-3 justify-content-around align-items-center'>
-                <a className='link-primary' href={`${element.link}`}>
+                <a className='link-primary' target={'_blank'} rel={'noreferrer'} href={`${element.link}`}>
                   Check!
                 </a>
                 <button className='btn btn-outline-secondary' onClick={() => handleChoose(element)}>
@@ -395,13 +395,10 @@ const Alternatives = () => {
       setOpen(false)
       updateUser({
         budget: parseInt(inputBudget)
+      }).then(() => {
+        setLoading(true)
+        setBudget(parseInt(inputBudget))
       })
-        .then(() => {
-          setBudget(parseInt(inputBudget))
-        })
-        .then(() => {
-          setLoadingDeviceSpecifications(true)
-        })
     } else {
       setError(true)
     }

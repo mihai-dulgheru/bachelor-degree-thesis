@@ -33,3 +33,23 @@
 .a:hover {
   cursor: pointer;
 }
+
+.pm-awesome-divider {
+  border-top: solid thin #f0f0f0;
+  margin: 1rem 0;
+  text-align: center;
+  margin-bottom: 0.375rem;
+}
+
+.pm-awesome-divider:after {
+  content: attr(data-label);
+  background: #fff;
+  padding: 0 2rem;
+  position: relative;
+  top: -13px;
+  color: #9b9b9b;
+}
+
+#google-auth {
+  margin-bottom: 1rem;
+}

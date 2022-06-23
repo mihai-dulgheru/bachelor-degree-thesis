@@ -1,17 +1,21 @@
 ### TODO list
 
-- [x] Afișare detalii consum și cost total
+- [x] Afisare detalii consum si cost total
 - [x] Grafice
-- [x] Paletă culori
+- [x] Paleta culori
 - [x] Istoric consum estimativ
 - [x] Font Awesome
 - [x] Mobile
-- [x] Filtrează dispozitivele
-- [x] Setează versiunea anterioară cu device.previousVersion
-- [x] Permite introducerea de `.` atunci când unitatea de măsură pentru Power este kW
-- [x] Oprește loading screen-ul dupa ce apare o eroare - Alternative
-- [ ] Login with Google
-- [ ] Validări formulare
+- [x] Filtreaza dispozitivele
+- [x] Seteaza versiunea anterioara cu device.previousVersion
+- [x] Permite introducerea de `.` atunci cand unitatea de masura pentru Power este kW
+- [x] Opreste loading screen-ul dupa ce apare o eroare - Alternative
+- [x] Login with Google
+- [ ] Validari formulare
 - [ ] Adauga buton de Back to previous version
-- [ ] Chit integrare priză inteligentă
+- [ ] Chit integrare priza inteligenta
 - [ ] Sterge ReactGoogleLogin.jsx, ValidationTextFields.jsx si CustomLineChart.jsx
+- [ ] Modifica Energy Consumption (kWh) si Price (RON) in functie de Period (sa se poate modifica din 1 in oricat)
+- [ ] ReactLoading sa ramana pe centrul paginii cand dai scroll
+- [ ] Adauga validari in model (server>models>\*)
+- [ ] toFixed() vs. toPrecision(); precision = 0, 2, 4?

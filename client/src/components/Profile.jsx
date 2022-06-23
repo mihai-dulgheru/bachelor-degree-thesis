@@ -264,7 +264,7 @@ const Profile = () => {
   const rowsOtherInfoCard = [
     createData('Supplier', user.supplier ? user.supplier : '-'),
     createData('County', user.county ? user.county : '-'),
-    createData('Voltage Level', user.voltageLevel ? user.voltageLevel : 0),
+    // createData('Voltage Level', user.voltageLevel ? user.voltageLevel : 0),
     createData('Budget', user.budget ? user.budget : 0),
     createData('Invoice Unit Value', user.invoiceUnitValue ? user.invoiceUnitValue : 0)
   ]
@@ -316,7 +316,8 @@ const Profile = () => {
           </div>
           <div>
             <Typography variant='h5'>
-              Welcome, {user.firstName} {user.lastName}!
+              Welcome, {user.firstName} {user.lastName}
+              {'!'}
             </Typography>
           </div>
         </div>

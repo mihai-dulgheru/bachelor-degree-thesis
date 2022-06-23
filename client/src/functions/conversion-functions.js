@@ -9,13 +9,6 @@ const convertkWhToRON = (kWh, invoiceUnitValue, county) => {
   if (invoiceUnitValue) {
     return (kWh * invoiceUnitValue).toPrecision(precision)
   } else {
-    /**
-     * Preţul final este exprimat în lei/kWh şi conţine prețul energiei active și următoarele tarife reglementate: tariful de
-     * introducere energie electrică în reţea (TG), tariful de extracţie energie electrică din retea (TL), tariful pentru serviciul
-     * de sistem, tarifele de distribuţie, TVA, certificate verzi, contribuția pentru cogenerare şi acciza necomercială. Costurile
-     * privind certificatele verzi, contribuția pentru cogenerare şi acciza necomercială pot fi consultate aici, iar valoarea
-     * acestora va fi inclusă distinct pe factură.
-     */
     const tg = 0.00149
     const tl = 0.02247
     const systemServiceFee = 0.00932
@@ -87,7 +80,6 @@ const convertkWhToCoal = (kWh) => {
 }
 
 const convertkWhToTrees = (kWh) => {
-  // TODO
   // 3600 kg CO2 = 198 copaci
   // To compensate 1 tonne of CO2, 31 to 46 trees are needed. (https://www.encon.be/en/calculation-co2-offsetting-trees)
   // 1000 kg CO2 = 31 - 46 trees

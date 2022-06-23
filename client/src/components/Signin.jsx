@@ -18,6 +18,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
+import ReactGoogleLogin from './ReactGoogleLogin'
 import './Signin.css'
 
 async function loginUser(credentials) {
@@ -150,12 +151,16 @@ const Signin = ({ onSignin }) => {
                 Sign In
               </Button>
             </div>
+            <div className='pm-awesome-divider' data-label='or'></div>
+            <div id='google-auth' className='d-flex justify-content-center'>
+              <ReactGoogleLogin onSignin={onSignin} />
+            </div>
             <Typography textAlign='center'>
               No account?{' '}
               <Link color='inherit' component='button' onClick={handleClickLink} style={{ verticalAlign: 'top' }}>
                 Create one
               </Link>
-            </Typography>
+            </Typography>{' '}
           </form>
         </div>
       </Grid>

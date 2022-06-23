@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import {
   Alternatives,
@@ -15,7 +15,6 @@ import {
   Signup
 } from '../components'
 import './App.css'
-import ReactGoogleLogin from './ReactGoogleLogin'
 import ValidationTextFields from './ValidationTextFields'
 
 function App() {
@@ -38,6 +37,8 @@ function App() {
           {!accessToken ? (
             <>
               <Route path='*' element={<Signin onSignin={handleSignin} />} />
+              {/* TODO: delete below */}
+              <Route path='/validation-text-fields' element={<ValidationTextFields />} />
             </>
           ) : (
             <>
@@ -53,9 +54,6 @@ function App() {
               <Route path='/prizes' element={<Prizes />} />
               <Route path='/charts' element={<Charts />} />
               <Route path='*' element={<NotFound />} />
-              {/* TODO: delete below */}
-              <Route path='/react-google-login' element={<ReactGoogleLogin />} />
-              <Route path='/validation-text-fields' element={<ValidationTextFields />} />
             </>
           )}
         </Routes>

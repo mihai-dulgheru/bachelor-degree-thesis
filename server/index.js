@@ -3,9 +3,9 @@
 const cors = require('cors')
 const express = require('express')
 const path = require('path')
+const alternativesRouter = require('./routes/alternativesRouter')
 const apiRouter = require('./routes/apiRouter')
 const authRouter = require('./routes/authRouter')
-const alternativesRouter = require('./routes/alternativesRouter')
 const googleAuthRouter = require('./routes/googleAuthRouter')
 const sequelize = require('./sequelize')
 const bodyParser = require('body-parser')
@@ -53,7 +53,7 @@ app.get('/sync', async (_req, res, next) => {
 app.use('/api', apiRouter)
 app.use('/api/auth', authRouter)
 app.use('/alternatives', alternativesRouter)
-app.use('/api/auth/google', googleAuthRouter)
+app.use('/api/google/auth', googleAuthRouter)
 
 app.use((err, _req, res, _next) => {
   console.error(`[ERROR]: ${err}`)

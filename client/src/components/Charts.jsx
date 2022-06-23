@@ -155,7 +155,7 @@ const Charts = () => {
     for (const [key, value] of Object.entries(object)) {
       noOperatingHoursByCategories.push({
         name: key,
-        'Number of operating hours per day': value.noOperatingHours / value.number
+        'Average number of operating hours per day': value.noOperatingHours / value.number
       })
     }
     return noOperatingHoursByCategories.sort((a, b) => a.name.localeCompare(b.name))
@@ -168,16 +168,16 @@ const Charts = () => {
         name: device.category,
         previous:
           device.previousVersion === null
-            ? parseFloat(getEstimatedConsumption(device).toPrecision(5))
+            ? parseFloat(getEstimatedConsumption(device).toPrecision(4))
             : parseFloat(
                 getEstimatedConsumption({
                   ...device,
                   energyConsumption: parseInt(items[0]),
                   unitMeasurement: items[1],
                   efficiencyClass: items[2]
-                }).toPrecision(5)
+                }).toPrecision(4)
               ),
-        current: parseFloat(getEstimatedConsumption(device).toPrecision(5))
+        current: parseFloat(getEstimatedConsumption(device).toPrecision(4))
       }
     })
     const object = {}
@@ -206,10 +206,10 @@ const Charts = () => {
           </div>
           <div>
             <CustomBarChart
-              title={'Number of operating hours per day by category'}
+              title={'Average number of operating hours per day by category'}
               data={getNoOperatingHoursByCategory()}
               legend={false}
-              dataKeys={['Number of operating hours per day']}
+              dataKeys={['Average number of operating hours per day']}
             />
           </div>
           <div>

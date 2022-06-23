@@ -57,13 +57,13 @@ const User = sequelize.define(
     county: {
       type: DataTypes.STRING
     },
-    voltageLevel: {
-      type: DataTypes.INTEGER,
-      validate: {
-        isInt: true,
-        min: 0
-      }
-    },
+    // voltageLevel: {
+    //   type: DataTypes.INTEGER,
+    //   validate: {
+    //     isInt: true,
+    //     min: 0
+    //   }
+    // },
     budget: {
       type: DataTypes.INTEGER,
       validate: {
