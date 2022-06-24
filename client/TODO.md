@@ -13,8 +13,8 @@
 - [x] Login with Google
 - [x] Validari formulare
 - [x] Sterge ValidationTextFields.jsx si CustomLineChart.jsx
+- [x] toFixed() vs. toPrecision(); precision = 0, 2, 4?
 - [ ] Adauga buton de Back to previous version
 - [ ] Chit integrare priza inteligenta
 - [ ] Modifica Energy Consumption (kWh) si Price (RON) in functie de Period (sa se poate modifica din 1 in oricat)
 - [ ] ReactLoading sa ramana pe centrul paginii cand dai scroll
-- [ ] toFixed() vs. toPrecision(); precision = 0, 2, 4?
