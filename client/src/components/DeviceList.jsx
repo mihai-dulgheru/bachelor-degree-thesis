@@ -127,7 +127,7 @@ const EnhancedTableHead = ({ order, orderBy, onRequestSort }) => {
           padding='normal'
           style={{ width: `calc(100% / ${columns.length + 2} * 2)` }}
         >
-          Action
+          Actions
         </TableCell>
       </TableRow>
     </TableHead>
@@ -219,6 +219,34 @@ const DeviceList = () => {
         }
       }).then(() => {
         navigate('/login')
+      })
+    }
+  }
+
+  const updateDevice = async (device) => {
+    const response = await fetch(`/api/auth/user/devices/${device.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify(device)
+    })
+    const data = await response.json()
+    if (data.status !== 'ok') {
+      swal({
+        title: 'Failed',
+        text:
+          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+            : data.errors[0].message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
       })
     }
   }
@@ -528,6 +556,18 @@ const DeviceList = () => {
     )
   }
 
+  const handleClickPreviousVersion = async (device) => {
+    const temp = device.previousVersion.split(';')
+    await updateDevice({
+      id: device.id,
+      energyConsumption: parseInt(temp[0]),
+      unitMeasurement: temp[1],
+      efficiencyClass: temp[2],
+      previousVersion: null
+    })
+    await getDevices()
+  }
+
   const search = (
     <div id='search'>
       <div>
@@ -557,7 +597,22 @@ const DeviceList = () => {
                   return (
                     <TableRow key={index} hover tabIndex={-1}>
                       <TableCell align='left' padding='none'>
-                        {row.category}
+                        <div className='display-flex align-items-center wrap'>
+                          <div className='previous-version-button'>
+                            {row.previousVersion !== null && (
+                              <>
+                                <Button
+                                  color='inherit'
+                                  style={{ minWidth: 0 }}
+                                  onClick={() => handleClickPreviousVersion(row)}
+                                >
+                                  <i className='fa-solid fa-arrow-rotate-left'></i>
+                                </Button>
+                              </>
+                            )}
+                          </div>
+                          <div>{row.category}</div>
+                        </div>
                       </TableCell>
                       <TableCell align='left'>{row.efficiencyClass}</TableCell>
                       <TableCell align='right'>{row.energyConsumption}</TableCell>

@@ -243,7 +243,7 @@ const Alternatives = () => {
         setTimeout(() => {
           setLoading(false)
           setLoadingDeviceSpecifications(false)
-        }, 3000)
+        }, 6000)
       } else {
         swal({
           title: 'Failed',
@@ -289,7 +289,6 @@ const Alternatives = () => {
       prize.prizeValue = device.energyConsumption - newDevice.energyConsumption
       await addPrize(prize)
     }
-    return prize
   }
 
   const handleChoose = async (element) => {
@@ -298,9 +297,27 @@ const Alternatives = () => {
       method: 'GET'
     })
     const data = await response.json()
-    setLoadingDeviceSpecifications(false)
     if (data.status === 'ok') {
-      if (!data.data.energyConsumption || !data.data.unitMeasurement) {
+      if (data.data.energyConsumption && data.data.unitMeasurement) {
+        await updateDevice(data.data)
+        await calculatePrize(data.data)
+        await updateUser({ budget: Math.trunc(budget - element.price) })
+        setLoadingDeviceSpecifications(false)
+        swal({
+          title: 'Success',
+          text: 'The device has been added to your list!',
+          icon: 'success',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/device-list')
+        })
+      } else {
+        setLoadingDeviceSpecifications(false)
         swal({
           title: 'Failed',
           text: 'You cannot choose this device!',
@@ -311,25 +328,6 @@ const Alternatives = () => {
             visible: true,
             closeModal: true
           }
-        })
-      } else {
-        await updateUser({ budget: Math.trunc(budget - element.price) })
-        await updateDevice(data.data)
-        const prize = await calculatePrize(data.data)
-        swal({
-          title: 'Success',
-          text:
-            'The device has been added to your list! You have won the following awards:\n\r' +
-            `${prize.prizeType.replace('_', ' ')}: ${prize.prizeValue} ${data.data.unitMeasurement}`,
-          icon: 'success',
-          button: {
-            text: 'OK',
-            value: true,
-            visible: true,
-            closeModal: true
-          }
-        }).then(() => {
-          navigate('/device-list')
         })
       }
     } else {
@@ -441,9 +439,7 @@ const Alternatives = () => {
           <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
         </div>
       )}
-      {!budget ? (
-        dialog
-      ) : (
+      {budget ? (
         <>
           {loading ? (
             <LoadingScreen />
@@ -467,6 +463,8 @@ const Alternatives = () => {
             </>
           )}
         </>
+      ) : (
+        dialog
       )}
     </div>
   )

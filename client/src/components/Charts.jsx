@@ -164,7 +164,7 @@ const Charts = () => {
   const getEstimatedConsumptionHistory = () => {
     const tempDevices = devices.map((device) => {
       let items = device.previousVersion && device.previousVersion.split(';')
-      const fractionDigits = 4
+      const fractionDigits = 2
       return {
         name: device.category,
         previous:
