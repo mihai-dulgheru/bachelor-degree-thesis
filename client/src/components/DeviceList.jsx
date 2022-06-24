@@ -660,6 +660,7 @@ const DeviceList = () => {
     </Box>
   )
 
+  const fractionDigits = 4
   const tableEstimatedConsumptionAndTotalCosts = (
     <div className='d-flex justify-content-center'>
       <Box sx={{ width: '90%', margin: 'opx auto' }}>
@@ -749,8 +750,9 @@ const DeviceList = () => {
                                             <div className='display-flex column-gap-2'>
                                               <Typography variant='body1'>Prețul energiei active:</Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * row.activeElectricityTariff).toFixed(4) +
-                                                  ' RON'}
+                                                {(row.energyConsumption * row.activeElectricityTariff).toFixed(
+                                                  fractionDigits
+                                                ) + ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
@@ -758,7 +760,7 @@ const DeviceList = () => {
                                                 Tariful de introducere energie electrică în reţea:
                                               </Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * tg).toFixed(4) + ' RON'}
+                                                {(row.energyConsumption * tg).toFixed(fractionDigits) + ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
@@ -766,7 +768,7 @@ const DeviceList = () => {
                                                 Tariful de extracţie energie electrică din retea:
                                               </Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * tl).toFixed(4) + ' RON'}
+                                                {(row.energyConsumption * tl).toFixed(fractionDigits) + ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
@@ -774,31 +776,37 @@ const DeviceList = () => {
                                                 Tariful pentru serviciul de sistem:
                                               </Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * systemServiceFee).toFixed(4) + ' RON'}
+                                                {(row.energyConsumption * systemServiceFee).toFixed(fractionDigits) +
+                                                  ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
                                               <Typography variant='body1'>Tariful de distribuţie:</Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * row.jt).toFixed(4) + ' RON'}
+                                                {(row.energyConsumption * row.jt).toFixed(fractionDigits) + ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
                                               <Typography variant='body1'>Certificatele verzi:</Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * greenCertificates).toFixed(4) + ' RON'}
+                                                {(row.energyConsumption * greenCertificates).toFixed(fractionDigits) +
+                                                  ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
                                               <Typography variant='body1'>Contribuția pentru cogenerare:</Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * cogenerationContribution).toFixed(4) + ' RON'}
+                                                {(row.energyConsumption * cogenerationContribution).toFixed(
+                                                  fractionDigits
+                                                ) + ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
                                               <Typography variant='body1'>Acciza necomercială:</Typography>
                                               <Typography variant='body1' style={{ fontWeight: 500 }}>
-                                                {(row.energyConsumption * nonCommercialExciseDuty).toFixed(4) + ' RON'}
+                                                {(row.energyConsumption * nonCommercialExciseDuty).toFixed(
+                                                  fractionDigits
+                                                ) + ' RON'}
                                               </Typography>
                                             </div>
                                             <div className='display-flex column-gap-2'>
@@ -815,7 +823,7 @@ const DeviceList = () => {
                                                     cogenerationContribution +
                                                     nonCommercialExciseDuty) *
                                                   tva
-                                                ).toFixed(4) + ' RON'}
+                                                ).toFixed(fractionDigits) + ' RON'}
                                               </Typography>
                                             </div>
                                           </div>

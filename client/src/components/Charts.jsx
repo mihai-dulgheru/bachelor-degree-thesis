@@ -164,20 +164,21 @@ const Charts = () => {
   const getEstimatedConsumptionHistory = () => {
     const tempDevices = devices.map((device) => {
       let items = device.previousVersion && device.previousVersion.split(';')
+      const fractionDigits = 4
       return {
         name: device.category,
         previous:
           device.previousVersion === null
-            ? parseFloat(getEstimatedConsumption(device).toPrecision(4))
+            ? parseFloat(getEstimatedConsumption(device).toFixed(fractionDigits))
             : parseFloat(
                 getEstimatedConsumption({
                   ...device,
                   energyConsumption: parseInt(items[0]),
                   unitMeasurement: items[1],
                   efficiencyClass: items[2]
-                }).toPrecision(4)
+                }).toFixed(fractionDigits)
               ),
-        current: parseFloat(getEstimatedConsumption(device).toPrecision(4))
+        current: parseFloat(getEstimatedConsumption(device).toFixed(fractionDigits))
       }
     })
     const object = {}
