@@ -418,6 +418,7 @@ const Alternatives = () => {
             variant='standard'
             value={inputBudget}
             onChange={handleChangeInputBudget}
+            autoComplete={'off'}
           />
           <DialogContentText
             className={'dialog-content-text'}
@@ -436,7 +437,7 @@ const Alternatives = () => {
   return (
     <div className='alternatives-container'>
       {loadingDeviceSpecifications && (
-        <div className='position-absolute top-50 start-50 translate-middle'>
+        <div className='position-fixed top-50 start-50 translate-middle'>
           <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
         </div>
       )}

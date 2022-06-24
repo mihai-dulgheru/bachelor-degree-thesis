@@ -14,7 +14,7 @@
 - [x] Validari formulare
 - [x] Sterge ValidationTextFields.jsx si CustomLineChart.jsx
 - [x] toFixed() vs. toPrecision(); precision = 0, 2, 4?
+- [x] ReactLoading sa ramana pe centrul paginii cand dai scroll (position: fixed;)
 - [ ] Adauga buton de Back to previous version
-- [ ] Chit integrare priza inteligenta
 - [ ] Modifica Energy Consumption (kWh) si Price (RON) in functie de Period (sa se poate modifica din 1 in oricat)
-- [ ] ReactLoading sa ramana pe centrul paginii cand dai scroll
+- [ ] Chit integrare priza inteligenta
