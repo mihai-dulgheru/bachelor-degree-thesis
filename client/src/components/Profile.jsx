@@ -92,7 +92,7 @@ const Profile = () => {
     open: false,
     vertical: 'bottom',
     horizontal: 'center',
-    transition: function (props) {
+    transition: (props) => {
       return <Slide {...props} direction='up' />
     },
     message: 'Profile photo updated!'
@@ -158,9 +158,9 @@ const Profile = () => {
           })
       )
 
-  const handleChange = (e) => {
-    if (e.target.files.length) {
-      toDataURL(URL.createObjectURL(e.target.files[0])).then((dataUrl) => {
+  const handleChange = (event) => {
+    if (event.target.files.length) {
+      toDataURL(URL.createObjectURL(event.target.files[0])).then((dataUrl) => {
         updateUser({ ...user, avatar: dataUrl })
       })
     }
@@ -250,7 +250,7 @@ const Profile = () => {
     })
   }
 
-  function createData(property, value) {
+  const createData = (property, value) => {
     return { property, value }
   }
 
@@ -262,11 +262,11 @@ const Profile = () => {
   ]
 
   const rowsOtherInfoCard = [
-    createData('Supplier', user.supplier ? user.supplier : '-'),
-    createData('County', user.county ? user.county : '-'),
+    createData('Supplier', user.supplier ? user.supplier : ''),
+    createData('County', user.county ? user.county : ''),
     // createData('Voltage Level', user.voltageLevel ? user.voltageLevel : 0),
-    createData('Budget', user.budget ? user.budget : 0),
-    createData('Invoice Unit Value', user.invoiceUnitValue ? user.invoiceUnitValue : 0)
+    createData('Budget', user.budget ? user.budget : ''),
+    createData('Invoice Unit Value', user.invoiceUnitValue ? user.invoiceUnitValue : '')
   ]
 
   const appBar = (

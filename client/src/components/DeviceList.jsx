@@ -63,7 +63,7 @@ const columns = [
   }
 ]
 
-function descendingComparator(a, b, orderBy) {
+const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
     return -1
   }
@@ -73,13 +73,13 @@ function descendingComparator(a, b, orderBy) {
   return 0
 }
 
-function getComparator(order, orderBy) {
+const getComparator = (order, orderBy) => {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
-function stableSort(array, comparator) {
+const stableSort = (array, comparator) => {
   const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
@@ -91,13 +91,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0])
 }
 
-EnhancedTableHead.propTypes = {
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  onRequestSort: PropTypes.func.isRequired
-}
-
-function EnhancedTableHead({ order, orderBy, onRequestSort }) {
+const EnhancedTableHead = ({ order, orderBy, onRequestSort }) => {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property)
   }
@@ -138,6 +132,12 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
       </TableRow>
     </TableHead>
   )
+}
+
+EnhancedTableHead.propTypes = {
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  onRequestSort: PropTypes.func.isRequired
 }
 
 const DeviceList = () => {
@@ -513,16 +513,16 @@ const DeviceList = () => {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
-  const handleSearch = (e) => {
-    setFilter(e.target.value)
+  const handleSearch = (event) => {
+    setFilter(event.target.value)
     setRows(
       devices.filter((item) => {
         return (
-          String(item.energyConsumption).toLowerCase().includes(e.target.value.toLowerCase()) ||
-          item.unitMeasurement.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          String(item.noOperatingHours).toLowerCase().includes(e.target.value.toLowerCase()) ||
-          String(item.efficiencyClass).toLowerCase().includes(e.target.value.toLowerCase()) ||
-          item.category.toLowerCase().includes(e.target.value.toLowerCase())
+          String(item.energyConsumption).toLowerCase().includes(event.target.value.toLowerCase()) ||
+          item.unitMeasurement.toLowerCase().includes(event.target.value.toLowerCase()) ||
+          String(item.noOperatingHours).toLowerCase().includes(event.target.value.toLowerCase()) ||
+          String(item.efficiencyClass).toLowerCase().includes(event.target.value.toLowerCase()) ||
+          item.category.toLowerCase().includes(event.target.value.toLowerCase())
         )
       })
     )

@@ -41,9 +41,11 @@ const Device = () => {
   const { deviceId } = useParams()
   const [isSelectedPower, setIsSelectedPower] = useState(false)
   const [energyConsumption, setEnergyConsumption] = useState('')
+  const [isEnergyConsumptionValid, setIsEnergyConsumptionValid] = useState(true)
   const [unitMeasurementEnergyConsumption, setUnitMeasurementEnergyConsumption] = useState('')
   const [unitMeasurementPower, setUnitMeasurementPower] = useState('')
   const [noOperatingHours, setNoOperatingHours] = useState('')
+  const [isNoOperatingHoursValid, setIsNoOperatingHoursValid] = useState(true)
   const [efficiencyClass, setEfficiencyClass] = useState({
     value: '',
     label: ''
@@ -55,7 +57,7 @@ const Device = () => {
   const [previousVersion, setPreviousVersion] = useState(null)
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
         method: 'GET',
         headers: {
@@ -116,6 +118,7 @@ const Device = () => {
     const regExp = /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setEnergyConsumption(event.target.value)
+      setIsEnergyConsumptionValid(event.target.value !== '')
     }
   }
 
@@ -126,44 +129,53 @@ const Device = () => {
       (event.target.value === '' || (regExp.test(event.target.value) && parseFloat(event.target.value) <= 24.0))
     if (condition) {
       setNoOperatingHours(event.target.value)
+      setIsNoOperatingHoursValid(event.target.value !== '')
     }
   }
 
+  const validation = () => {
+    return energyConsumption && noOperatingHours
+  }
+
   const handleSave = async () => {
-    const device = {
-      energyConsumption: parseInt(energyConsumption),
-      unitMeasurement: isSelectedPower ? unitMeasurementPower.value : unitMeasurementEnergyConsumption.value,
-      noOperatingHours: parseFloat(noOperatingHours),
-      efficiencyClass: efficiencyClass.value,
-      category: category.value,
-      previousVersion: previousVersion
-    }
-    const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('accessToken')
-      },
-      body: JSON.stringify(device)
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      navigate(-1)
+    if (!validation()) {
+      return
     } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
-            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
-            : data.errors[0].message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
+      const device = {
+        energyConsumption: parseInt(energyConsumption),
+        unitMeasurement: isSelectedPower ? unitMeasurementPower.value : unitMeasurementEnergyConsumption.value,
+        noOperatingHours: parseFloat(noOperatingHours),
+        efficiencyClass: efficiencyClass.value,
+        category: category.value,
+        previousVersion: previousVersion
+      }
+      const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: localStorage.getItem('accessToken')
+        },
+        body: JSON.stringify(device)
       })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        navigate(-1)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+              ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+              : data.errors[0].message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        })
+      }
     }
   }
 
@@ -227,7 +239,12 @@ const Device = () => {
           </div>
           <div className='col d-flex gap-2'>
             <div className='custom-input'>
-              <CustomInput value={energyConsumption} onChange={handleChangeCustomInputEnergyConsumption} />
+              <CustomInput
+                className={!isEnergyConsumptionValid ? 'custom-error' : ''}
+                value={energyConsumption}
+                onChange={handleChangeCustomInputEnergyConsumption}
+              />
+              <span className={!isEnergyConsumptionValid ? 'errors' : ''}>This field is required</span>
             </div>
             {isSelectedPower ? (
               <Select
@@ -258,7 +275,12 @@ const Device = () => {
           </div>
           <div className='col'>
             <div className='custom-input'>
-              <CustomInput value={noOperatingHours} onChange={handleChangeCustomInputNoOperatingHours} />
+              <CustomInput
+                className={!isNoOperatingHoursValid ? 'custom-error' : ''}
+                value={noOperatingHours}
+                onChange={handleChangeCustomInputNoOperatingHours}
+              />
+              <span className={!isNoOperatingHoursValid ? 'errors' : ''}>This field is required</span>
             </div>
           </div>
         </div>

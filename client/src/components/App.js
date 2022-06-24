@@ -15,9 +15,8 @@ import {
   Signup
 } from '../components'
 import './App.css'
-import ValidationTextFields from './ValidationTextFields'
 
-function App() {
+const App = () => {
   const tempAccessToken = localStorage.getItem('accessToken')
   const [accessToken, setAccessToken] = useState('')
 
@@ -34,13 +33,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/signup' element={<Signup />} />
-          {!accessToken ? (
-            <>
-              <Route path='*' element={<Signin onSignin={handleSignin} />} />
-              {/* TODO: delete below */}
-              <Route path='/validation-text-fields' element={<ValidationTextFields />} />
-            </>
-          ) : (
+          {accessToken ? (
             <>
               <Route path='/' element={<Home />} />
               <Route path='/home' element={<Home />} />
@@ -54,6 +47,10 @@ function App() {
               <Route path='/prizes' element={<Prizes />} />
               <Route path='/charts' element={<Charts />} />
               <Route path='*' element={<NotFound />} />
+            </>
+          ) : (
+            <>
+              <Route path='*' element={<Signin onSignin={handleSignin} />} />
             </>
           )}
         </Routes>

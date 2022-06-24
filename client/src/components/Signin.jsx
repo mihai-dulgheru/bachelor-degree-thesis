@@ -21,7 +21,7 @@ import swal from 'sweetalert'
 import ReactGoogleLogin from './ReactGoogleLogin'
 import './Signin.css'
 
-async function loginUser(credentials) {
+const loginUser = async (credentials) => {
   return fetch('/api/login', {
     method: 'POST',
     headers: {
@@ -34,7 +34,9 @@ async function loginUser(credentials) {
 const Signin = ({ onSignin }) => {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
+  const [isUsernameValid, setIsUsernameValid] = useState(true)
   const [password, setPassword] = useState('')
+  const [isPasswordValid, setIsPasswordValid] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
@@ -43,8 +45,17 @@ const Signin = ({ onSignin }) => {
     }
   }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const validation = () => {
+    setIsUsernameValid(username !== '')
+    setIsPasswordValid(password !== '')
+    return username !== '' && password !== ''
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    if (!validation()) {
+      return
+    }
     const response = await loginUser({
       username,
       password
@@ -94,9 +105,19 @@ const Signin = ({ onSignin }) => {
     event.preventDefault()
   }
 
-  const handleClickLink = (e) => {
-    e.preventDefault()
+  const handleClickLink = (event) => {
+    event.preventDefault()
     navigate('/signup')
+  }
+
+  const handleChangeUsername = (event) => {
+    setUsername(event.target.value)
+    setIsUsernameValid(event.target.value !== '')
+  }
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value)
+    setIsPasswordValid(event.target.value !== '')
   }
 
   return (
@@ -110,7 +131,7 @@ const Signin = ({ onSignin }) => {
           <Typography variant='h4' component='h2'>
             Sign in
           </Typography>
-          <form id='form' noValidate onSubmit={handleSubmit}>
+          <form id='form' noValidate autoComplete='on' onSubmit={handleSubmit}>
             <TextField
               id='username'
               type='text'
@@ -121,15 +142,19 @@ const Signin = ({ onSignin }) => {
               name='username'
               label='Username'
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleChangeUsername}
+              error={!isUsernameValid}
+              helperText={!isUsernameValid && 'This field is required'}
             />
             <FormControl id='password' variant='outlined' margin='normal' required fullWidth name='password'>
-              <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+              <InputLabel htmlFor='outlined-adornment-password' error={!isPasswordValid && true}>
+                Password
+              </InputLabel>
               <OutlinedInput
                 id='outlined-adornment-password'
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={handleChangePassword}
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>
@@ -138,7 +163,9 @@ const Signin = ({ onSignin }) => {
                   </InputAdornment>
                 }
                 label='Password'
+                error={!isPasswordValid && true}
               />
+              {!isPasswordValid && <span className='errors'>This field is required</span>}
             </FormControl>
             <div className='d-flex justify-content-center'>
               <Button
@@ -160,7 +187,7 @@ const Signin = ({ onSignin }) => {
               <Link color='inherit' component='button' onClick={handleClickLink} style={{ verticalAlign: 'top' }}>
                 Create one
               </Link>
-            </Typography>{' '}
+            </Typography>
           </form>
         </div>
       </Grid>

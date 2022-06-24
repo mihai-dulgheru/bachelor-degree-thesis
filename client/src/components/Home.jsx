@@ -44,7 +44,9 @@ const Home = () => {
   const [category, setCategory] = useState(categories[0])
   const [efficiencyClass, setEfficiencyClass] = useState(efficiencyClasses[0])
   const [energyConsumption, setEnergyConsumption] = useState('')
+  const [isEnergyConsumptionValid, setIsEnergyConsumptionValid] = useState(true)
   const [noOperatingHours, setNoOperatingHours] = useState('')
+  const [isNoOperatingHoursValid, setIsNoOperatingHoursValid] = useState(true)
   const [devices, setDevices] = useState([
     {
       value: '',
@@ -62,6 +64,7 @@ const Home = () => {
     const regExp = isSelectedPower && unitMeasurePower.value === 'kW' ? /^(?!0\d)(\d+)?\.?(\d+)?$/ : /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setEnergyConsumption(event.target.value)
+      setIsEnergyConsumptionValid(event.target.value !== '')
     }
   }
 
@@ -72,14 +75,14 @@ const Home = () => {
       (event.target.value === '' || (regExp.test(event.target.value) && parseFloat(event.target.value) <= 24.0))
     if (condition) {
       setNoOperatingHours(event.target.value)
+      setIsNoOperatingHoursValid(event.target.value !== '')
     }
   }
 
   const validation = () => {
-    if (energyConsumption && noOperatingHours) {
-      return true
-    }
-    return false
+    setIsEnergyConsumptionValid(energyConsumption !== '')
+    setIsNoOperatingHoursValid(noOperatingHours !== '')
+    return energyConsumption && noOperatingHours
   }
 
   const clearForm = () => {
@@ -89,10 +92,14 @@ const Home = () => {
     setUnitMeasurementPower(unitsMeasurementsPower[0])
     setEnergyConsumption('')
     setNoOperatingHours('')
+    setIsEnergyConsumptionValid(true)
+    setIsNoOperatingHoursValid(true)
   }
 
   const handleAdd = async () => {
-    if (validation()) {
+    if (!validation()) {
+      return
+    } else {
       const device = {
         energyConsumption: energyConsumption ? parseInt(energyConsumption) : 0,
         noOperatingHours: noOperatingHours ? parseFloat(noOperatingHours) : 0,
@@ -136,20 +143,6 @@ const Home = () => {
           }
         })
       }
-    } else {
-      swal({
-        title: 'Failed',
-        text: `Missing fields (${
-          isSelectedPower ? 'Power' : 'Energy consumption'
-        } and/or Number of operating hours/day)`,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
     }
   }
 
@@ -352,7 +345,12 @@ const Home = () => {
           </div>
           <div className='col d-flex gap-2'>
             <div className='custom-input'>
-              <CustomInput value={energyConsumption} onChange={handleChangeCustomInputEnergyConsumption} />
+              <CustomInput
+                className={!isEnergyConsumptionValid ? 'custom-error' : ''}
+                value={energyConsumption}
+                onChange={handleChangeCustomInputEnergyConsumption}
+              />
+              <span className={!isEnergyConsumptionValid ? 'errors' : ''}>This field is required</span>
             </div>
             {isSelectedPower ? (
               <Select
@@ -383,7 +381,12 @@ const Home = () => {
           </div>
           <div className='col'>
             <div className='custom-input'>
-              <CustomInput value={noOperatingHours} onChange={handleChangeCustomInputNoOperatingHours} />
+              <CustomInput
+                className={!isNoOperatingHoursValid ? 'custom-error' : ''}
+                value={noOperatingHours}
+                onChange={handleChangeCustomInputNoOperatingHours}
+              />
+              <span className={!isNoOperatingHoursValid ? 'errors' : ''}>This field is required</span>
             </div>
           </div>
         </div>

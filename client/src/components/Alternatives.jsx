@@ -130,7 +130,7 @@ const Alternatives = () => {
 
   useEffect(() => {
     // * Setare dispozitiv si buget
-    async function fetchData() {
+    const fetchData = async () => {
       let response = await fetch(`/api/auth/user/devices/${deviceId}`, {
         method: 'GET',
         headers: {
@@ -228,7 +228,7 @@ const Alternatives = () => {
             .filter((element) => {
               return element && element.price <= budget
             })
-            .sort(function (a, b) {
+            .sort((a, b) => {
               const priceA = a.price
               const priceB = b.price
               if (priceA < priceB) {

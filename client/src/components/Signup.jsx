@@ -23,18 +23,24 @@ import './Signup.css'
 const Signup = () => {
   const navigate = useNavigate()
   const [firstName, setFirstName] = useState('')
+  const [isFirstNameValid, setIsFirstNameValid] = useState(true)
   const [lastName, setLastName] = useState('')
+  const [isLastNameValid, setIsLastNameValid] = useState(true)
   const [username, setUsername] = useState('')
+  const [isUsernameValid, setIsUsernameValid] = useState(true)
   const [email, setEmail] = useState('')
+  const [isEmailValid, setIsEmailValid] = useState(true)
   const [password, setPassword] = useState('')
+  const [isPasswordValid, setIsPasswordValid] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
 
   const validation = () => {
-    if (firstName === '' || lastName === '' || username === '' || password === '' || email === '') {
-      return false
-    } else {
-      return true
-    }
+    setIsFirstNameValid(firstName !== '')
+    setIsLastNameValid(lastName !== '')
+    setIsUsernameValid(username !== '')
+    setIsEmailValid(email !== '')
+    setIsPasswordValid(password !== '')
+    return firstName !== '' && lastName !== '' && username !== '' && password !== '' && email !== ''
   }
 
   const clearForm = () => {
@@ -43,10 +49,17 @@ const Signup = () => {
     setUsername('')
     setPassword('')
     setEmail('')
+    setIsFirstNameValid(true)
+    setIsLastNameValid(true)
+    setIsUsernameValid(true)
+    setIsEmailValid(true)
+    setIsPasswordValid(true)
   }
 
   const createUser = async () => {
-    if (validation()) {
+    if (!validation()) {
+      return
+    } else {
       const user = {
         firstName: firstName,
         lastName: lastName,
@@ -90,19 +103,65 @@ const Signup = () => {
           }
         })
       }
-    } else {
-      swal({
-        title: 'Failed',
-        text: 'Please fill in all the required fields!',
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
     }
+
+    // if (validation()) {
+    //   const user = {
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //     username: username,
+    //     password: password,
+    //     email: email
+    //   }
+    //   const response = await fetch('/api/users', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(user)
+    //   })
+    //   const data = await response.json()
+    //   if (data.status === 'ok') {
+    //     clearForm()
+    //     swal({
+    //       title: 'Success',
+    //       text: 'User has been created!',
+    //       icon: 'success',
+    //       buttons: false,
+    //       timer: 2000
+    //     }).then(() => {
+    //       localStorage.setItem('username', username)
+    //       navigate('/login')
+    //     })
+    //   } else {
+    //     swal({
+    //       title: 'Failed',
+    //       text:
+    //         data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+    //           ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+    //           : data.errors[0].message,
+    //       icon: 'error',
+    //       button: {
+    //         text: 'OK',
+    //         value: true,
+    //         visible: true,
+    //         closeModal: true
+    //       }
+    //     })
+    //   }
+    // } else {
+    //   swal({
+    //     title: 'Failed',
+    //     text: 'Please fill in all the required fields!',
+    //     icon: 'error',
+    //     button: {
+    //       text: 'OK',
+    //       value: true,
+    //       visible: true,
+    //       closeModal: true
+    //     }
+    //   })
+    // }
   }
 
   const handleClickShowPassword = () => {
@@ -113,9 +172,34 @@ const Signup = () => {
     event.preventDefault()
   }
 
-  const handleClickLink = (e) => {
-    e.preventDefault()
+  const handleClickLink = (event) => {
+    event.preventDefault()
     navigate('/login')
+  }
+
+  const handleChangeFirstName = (event) => {
+    setFirstName(event.target.value)
+    setIsFirstNameValid(event.target.value !== '')
+  }
+
+  const handleChangeLastName = (event) => {
+    setLastName(event.target.value)
+    setIsLastNameValid(event.target.value !== '')
+  }
+
+  const handleChangeUsername = (event) => {
+    setUsername(event.target.value)
+    setIsUsernameValid(event.target.value !== '')
+  }
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value)
+    setIsEmailValid(event.target.value !== '')
+  }
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value)
+    setIsPasswordValid(event.target.value !== '')
   }
 
   const form = (
@@ -124,7 +208,7 @@ const Signup = () => {
         Create an account
       </Typography>
       <br />
-      <form>
+      <form noValidate>
         <div className='row mb-3'>
           <div className='col'>
             <TextField
@@ -135,7 +219,9 @@ const Signup = () => {
               id='inputFirstName'
               label='First Name'
               value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
+              onChange={handleChangeFirstName}
+              error={!isFirstNameValid}
+              helperText={!isFirstNameValid && 'This field is required'}
             />
           </div>
           <div className='col'>
@@ -147,7 +233,9 @@ const Signup = () => {
               id='inputLastName'
               label='Last Name'
               value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
+              onChange={handleChangeLastName}
+              error={!isLastNameValid}
+              helperText={!isLastNameValid && 'This field is required'}
             />
           </div>
         </div>
@@ -161,7 +249,9 @@ const Signup = () => {
               id='inputUsername'
               label='Username'
               value={username}
-              onChange={(event) => setUsername(event.target.value)}
+              onChange={handleChangeUsername}
+              error={!isUsernameValid}
+              helperText={!isUsernameValid && 'This field is required'}
             />
           </div>
         </div>
@@ -175,19 +265,23 @@ const Signup = () => {
               id='inputEmail'
               label='E-mail'
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={handleChangeEmail}
+              error={!isEmailValid}
+              helperText={!isEmailValid && 'This field is required'}
             />
           </div>
         </div>
         <div className='row mb-3'>
           <div className='col'>
             <FormControl fullWidth required className='form-control' id='inputPassword'>
-              <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+              <InputLabel htmlFor='outlined-adornment-password' error={!isPasswordValid && true}>
+                Password
+              </InputLabel>
               <OutlinedInput
                 id='outlined-adornment-password'
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={handleChangePassword}
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>
@@ -196,7 +290,9 @@ const Signup = () => {
                   </InputAdornment>
                 }
                 label='Password'
+                error={!isPasswordValid && true}
               />
+              {!isPasswordValid && <span className='errors'>This field is required</span>}
               <FormHelperText>
                 The password must contain 8 characters with at least 1 Uppercase [A-Z], 1 lowercase [a-z], and 1 numeric
                 character [0-9]

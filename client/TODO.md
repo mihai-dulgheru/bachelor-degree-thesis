@@ -11,11 +11,10 @@
 - [x] Permite introducerea de `.` atunci cand unitatea de masura pentru Power este kW
 - [x] Opreste loading screen-ul dupa ce apare o eroare - Alternative
 - [x] Login with Google
-- [ ] Validari formulare
+- [x] Validari formulare
+- [x] Sterge ValidationTextFields.jsx si CustomLineChart.jsx
 - [ ] Adauga buton de Back to previous version
 - [ ] Chit integrare priza inteligenta
-- [ ] Sterge ReactGoogleLogin.jsx, ValidationTextFields.jsx si CustomLineChart.jsx
 - [ ] Modifica Energy Consumption (kWh) si Price (RON) in functie de Period (sa se poate modifica din 1 in oricat)
 - [ ] ReactLoading sa ramana pe centrul paginii cand dai scroll
-- [ ] Adauga validari in model (server>models>\*)
 - [ ] toFixed() vs. toPrecision(); precision = 0, 2, 4?

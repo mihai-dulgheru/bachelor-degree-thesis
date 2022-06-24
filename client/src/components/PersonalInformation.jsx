@@ -21,9 +21,13 @@ const PersonalInformation = () => {
   const tempAccessToken = localStorage.getItem('accessToken')
   const [accessToken, setAccessToken] = useState('')
   const [firstName, setFirstName] = useState('')
+  const [isFirstNameValid, setIsFirstNameValid] = useState(true)
   const [lastName, setLastName] = useState('')
+  const [isLastNameValid, setIsLastNameValid] = useState(true)
   const [username, setUsername] = useState('')
+  const [isUsernameValid, setIsUsernameValid] = useState(true)
   const [email, setEmail] = useState('')
+  const [isEmailValid, setIsEmailValid] = useState(true)
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
@@ -98,15 +102,17 @@ const PersonalInformation = () => {
   }, [tempAccessToken])
 
   const validation = () => {
-    if (firstName === '' || lastName === '' || username === '') {
-      return false
-    } else {
-      return true
-    }
+    setIsFirstNameValid(firstName !== '')
+    setIsLastNameValid(lastName !== '')
+    setIsUsernameValid(username !== '')
+    setIsEmailValid(email !== '')
+    return firstName !== '' && lastName !== '' && username !== ''
   }
 
   const handleSave = async () => {
-    if (validation()) {
+    if (!validation()) {
+      return
+    } else {
       let user = {
         firstName: firstName,
         lastName: lastName,
@@ -118,19 +124,33 @@ const PersonalInformation = () => {
       }
       await updateUser(user)
       localStorage.setItem('username', username)
-    } else {
-      swal({
-        title: 'Failed',
-        text: 'Please fill in all the required fields!',
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
     }
+
+    // if (validation()) {
+    //   let user = {
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //     username: username,
+    //     email: email
+    //   }
+    //   if (password) {
+    //     user = { ...user, password: password }
+    //   }
+    //   await updateUser(user)
+    //   localStorage.setItem('username', username)
+    // } else {
+    //   swal({
+    //     title: 'Failed',
+    //     text: 'Please fill in all the required fields!',
+    //     icon: 'error',
+    //     button: {
+    //       text: 'OK',
+    //       value: true,
+    //       visible: true,
+    //       closeModal: true
+    //     }
+    //   })
+    // }
   }
 
   const handleCancel = () => {
@@ -145,13 +165,37 @@ const PersonalInformation = () => {
     event.preventDefault()
   }
 
+  const handleChangeFirstName = (event) => {
+    setFirstName(event.target.value)
+    setIsFirstNameValid(event.target.value !== '')
+  }
+
+  const handleChangeLastName = (event) => {
+    setLastName(event.target.value)
+    setIsLastNameValid(event.target.value !== '')
+  }
+
+  const handleChangeUsername = (event) => {
+    setUsername(event.target.value)
+    setIsUsernameValid(event.target.value !== '')
+  }
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value)
+    setIsEmailValid(event.target.value !== '')
+  }
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value)
+  }
+
   return (
     <div className='position-absolute top-50 start-50 translate-middle'>
       <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
         <Typography variant='h5' textAlign='left'>
           CHANGE YOUR PERSONAL INFORMATION
         </Typography>
-        <form>
+        <form noValidate>
           <div className='row mb-3'>
             <div className='col'>
               <TextField
@@ -162,7 +206,9 @@ const PersonalInformation = () => {
                 id='inputFirstName'
                 label='First Name'
                 value={firstName}
-                onChange={(event) => setFirstName(event.target.value)}
+                onChange={handleChangeFirstName}
+                error={!isFirstNameValid}
+                helperText={!isFirstNameValid && 'This field is required'}
               />
             </div>
             <div className='col'>
@@ -174,7 +220,9 @@ const PersonalInformation = () => {
                 id='inputLastName'
                 label='Last Name'
                 value={lastName}
-                onChange={(event) => setLastName(event.target.value)}
+                onChange={handleChangeLastName}
+                error={!isLastNameValid}
+                helperText={!isLastNameValid && 'This field is required'}
               />
             </div>
           </div>
@@ -188,7 +236,9 @@ const PersonalInformation = () => {
                 id='inputUsername'
                 label='Username'
                 value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                onChange={handleChangeUsername}
+                error={!isUsernameValid}
+                helperText={!isUsernameValid && 'This field is required'}
               />
             </div>
           </div>
@@ -202,7 +252,9 @@ const PersonalInformation = () => {
                 id='inputEmail'
                 label='E-mail'
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={handleChangeEmail}
+                error={!isEmailValid}
+                helperText={!isEmailValid && 'This field is required'}
               />
             </div>
           </div>
@@ -214,7 +266,7 @@ const PersonalInformation = () => {
                   id='outlined-adornment-password'
                   type={showPassword ? 'text' : 'password'}
                   value={password}
-                  onChange={(event) => setPassword(event.target.value)}
+                  onChange={handleChangePassword}
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>

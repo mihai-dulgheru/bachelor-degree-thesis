@@ -12,7 +12,7 @@ const loginUser = async (credentials) => {
   }).then((data) => data.json())
 }
 
-function ReactGoogleLogin({ onSignin }) {
+const ReactGoogleLogin = ({ onSignin }) => {
   const navigate = useNavigate()
 
   const createUser = async (user) => {
