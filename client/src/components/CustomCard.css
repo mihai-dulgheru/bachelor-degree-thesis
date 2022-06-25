@@ -9,6 +9,21 @@
   align-self: center;
 }
 
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 0 !important;
+}
+
+#card-heading {
+  font-weight: 300;
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+
 @media only screen and (min-width: 768px) {
   .card {
     flex-direction: row;
@@ -19,19 +34,4 @@
   .card-media {
     height: 100%;
   }
-}
-
-.card-content {
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  overflow-x: auto;
-}
-
-#card-heading {
-  font-weight: 300;
-  font-size: 3rem;
-  line-height: 1.2;
 }

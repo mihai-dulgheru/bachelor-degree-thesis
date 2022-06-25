@@ -1,6 +1,6 @@
 import counties from '../collections/counties.json'
 
-const fractionDigits = 2
+const fractionDigits = 1
 
 const convertkWhToRON = (kWh, invoiceUnitValue, county) => {
   if (kWh === 0 || county === '') {
@@ -79,7 +79,7 @@ const convertkWhToCoal = (kWh) => {
 
 const convertkWhToTrees = (kWh) => {
   // To compensate 1 tonne of CO2, 31 to 46 trees are needed. (https://www.encon.be/en/calculation-co2-offsetting-trees)
-  return ((convertkWhToCO2(kWh) * 46) / 1000).toFixed(fractionDigits)
+  return Math.round((convertkWhToCO2(kWh) * 46) / 1000)
 }
 
 export { convertkWhToRON, convertkWhToCO2, convertkWhToCoal, convertkWhToTrees }

@@ -99,30 +99,30 @@ const Prizes = () => {
     {
       iconSrc: moneyIcon,
       altText: 'money icon',
-      heading: 'Saved money',
+      heading: 'Saved Money',
       value: amountSaved,
       um: 'RON'
     },
     {
       iconSrc: co2Icon,
-      altText: 'co2 emissions icon',
-      heading: 'CO2 emissions',
+      altText: 'co2 icon',
+      heading: 'CO2 Reduced',
       value: convertkWhToCO2(totalkWh),
-      um: 'kg'
+      um: 'KG'
     },
     {
       iconSrc: coalIcon,
       altText: 'coal icon',
-      heading: 'Coal',
+      heading: 'Bituminous Coal Saved',
       value: convertkWhToCoal(totalkWh),
-      um: 'kg'
+      um: 'KG'
     },
     {
       iconSrc: treeIcon,
       altText: 'tree icon',
-      heading: 'Saved trees',
+      heading: 'Reducing Deforestation',
       value: convertkWhToTrees(totalkWh),
-      um: ''
+      um: 'Tree'
     }
   ]
 
