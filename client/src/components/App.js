@@ -18,7 +18,7 @@ import './App.css'
 
 const App = () => {
   const tempAccessToken = localStorage.getItem('accessToken')
-  const [accessToken, setAccessToken] = useState('')
+  const [accessToken, setAccessToken] = useState(' ')
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'))

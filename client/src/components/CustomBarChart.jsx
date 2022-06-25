@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis } from 'recharts'
 import './CustomBarChart.css'
 
 const COLORS = ['#8884d8', '#82ca9d']
@@ -27,7 +27,7 @@ const CustomBarChart = ({ title, width, height, data, legend, dataKeys }) => {
           <CartesianGrid strokeDasharray={'3 3'} />
           <XAxis dataKey={'name'} />
           <YAxis />
-          <Tooltip />
+          {/* <Tooltip /> */}
           {legend && <Legend />}
           {dataKeys.map((item, index) => (
             <Bar key={item} dataKey={item} fill={COLORS[index % COLORS.length]} />

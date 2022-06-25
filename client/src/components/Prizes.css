@@ -4,6 +4,7 @@
 }
 
 #span-energy {
+  display: contents;
   font-weight: 500;
 }
 

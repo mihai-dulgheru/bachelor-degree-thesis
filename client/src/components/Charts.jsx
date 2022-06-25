@@ -155,7 +155,7 @@ const Charts = () => {
     for (const [key, value] of Object.entries(object)) {
       noOperatingHoursByCategories.push({
         name: key,
-        'Average number of operating hours per day': value.noOperatingHours / value.number
+        avg: value.noOperatingHours / value.number
       })
     }
     return noOperatingHoursByCategories.sort((a, b) => a.name.localeCompare(b.name))
@@ -210,7 +210,7 @@ const Charts = () => {
               title={'Average number of operating hours per day by category'}
               data={getNoOperatingHoursByCategory()}
               legend={false}
-              dataKeys={['Average number of operating hours per day']}
+              dataKeys={['avg']}
             />
           </div>
           <div>

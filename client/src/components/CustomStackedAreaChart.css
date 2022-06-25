@@ -13,3 +13,16 @@
     position: absolute;
   }
 }
+
+#render-legend-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  column-gap: 3rem;
+  padding: 0;
+  padding-left: 3.75rem;
+  list-style: none;
+}
