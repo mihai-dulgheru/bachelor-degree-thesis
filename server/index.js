@@ -19,7 +19,6 @@ const User = require('./models/user')
 const UserDevice = require('./models/user-device')
 const UserPrize = require('./models/user-prize')
 
-// Associations
 User.belongsToMany(Device, { through: UserDevice })
 Device.belongsToMany(User, { through: UserDevice })
 User.hasMany(Prize)

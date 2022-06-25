@@ -103,7 +103,6 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
               sx={{
                 display: { xs: 'block', md: 'none' }
               }}
-              // style={{ top: '1em' }}
               style={{ top: '.5em' }}
             >
               {listOfAppBarItems
@@ -162,7 +161,6 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-              // style={{ top: '1em' }}
             >
               <MenuItem key='Profile' onClick={handleClickProfile}>
                 <Typography textAlign='center'>Profile</Typography>

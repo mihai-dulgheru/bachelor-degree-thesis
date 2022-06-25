@@ -10,16 +10,8 @@ const OtherInformation = () => {
   const [accessToken, setAccessToken] = useState('')
   const [supplier, setSupplier] = useState(suppliers[0].value)
   const [county, setCounty] = useState(counties[0].value)
-  // const [voltageLevel, setVoltageLevel] = useState('')
   const [budget, setBudget] = useState('')
   const [invoiceUnitValue, setInvoiceUnitValue] = useState('')
-
-  // const handleChangeInputVoltageLevel = (event) => {
-  //   const regExp = /^[1-9][0-9]*$/
-  //   if (event.target.value === '' || regExp.test(event.target.value)) {
-  //     setVoltageLevel(event.target.value)
-  //   }
-  // }
 
   const handleChangeInputBudget = (event) => {
     const regExp = /^[1-9][0-9]*$/
@@ -83,9 +75,6 @@ const OtherInformation = () => {
         if (data.user.county) {
           setCounty(data.user.county)
         }
-        // if (data.user.voltageLevel) {
-        //   setVoltageLevel(data.user.voltageLevel)
-        // }
         if (data.user.budget) {
           setBudget(data.user.budget)
         }
@@ -122,7 +111,6 @@ const OtherInformation = () => {
     await updateUser({
       supplier: supplier,
       county: county,
-      // voltageLevel: voltageLevel || 0,
       budget: budget || 0,
       invoiceUnitValue: invoiceUnitValue || 0
     })
@@ -181,19 +169,6 @@ const OtherInformation = () => {
               </TextField>
             </div>
           </div>
-          {/* <div className='row mb-3'>
-            <div className='col'>
-              <TextField
-                fullWidth
-                type='text'
-                value={voltageLevel}
-                onChange={handleChangeInputVoltageLevel}
-                className='form-control'
-                id='inputVoltageLevel'
-                label='Voltage Level'
-              />
-            </div>
-          </div> */}
           <div className='row mb-3'>
             <div className='col'>
               <TextField

@@ -27,7 +27,6 @@ const CustomBarChart = ({ title, width, height, data, legend, dataKeys }) => {
           <CartesianGrid strokeDasharray={'3 3'} />
           <XAxis dataKey={'name'} />
           <YAxis />
-          {/* <Tooltip /> */}
           {legend && <Legend />}
           {dataKeys.map((item, index) => (
             <Bar key={item} dataKey={item} fill={COLORS[index % COLORS.length]} />

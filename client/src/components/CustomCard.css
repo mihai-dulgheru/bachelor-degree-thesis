@@ -1,4 +1,3 @@
-/* For mobile phones: */
 .card {
   flex-direction: row;
   width: calc(100vw - 2rem);
@@ -11,8 +10,6 @@
 }
 
 @media only screen and (min-width: 768px) {
-
-  /* For desktop: */
   .card {
     flex-direction: row;
     width: calc((80vw - 2rem) / 2);

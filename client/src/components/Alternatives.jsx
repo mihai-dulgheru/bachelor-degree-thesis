@@ -129,7 +129,6 @@ const Alternatives = () => {
   }
 
   useEffect(() => {
-    // * Setare dispozitiv si buget
     const fetchData = async () => {
       let response = await fetch(`/api/auth/user/devices/${deviceId}`, {
         method: 'GET',
@@ -189,7 +188,6 @@ const Alternatives = () => {
     fetchData()
   }, [deviceId, navigate])
 
-  // * Setare url
   useEffect(() => {
     setUrl(
       `https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
@@ -215,7 +213,6 @@ const Alternatives = () => {
     navigate(-1)
   }
 
-  // * Setare alternative
   useEffect(() => {
     const getAlternatives = async () => {
       const response = await fetch(`/alternatives/?url=${url}`, {

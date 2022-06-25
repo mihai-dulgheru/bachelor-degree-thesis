@@ -125,32 +125,6 @@ const PersonalInformation = () => {
       await updateUser(user)
       localStorage.setItem('username', username)
     }
-
-    // if (validation()) {
-    //   let user = {
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //     username: username,
-    //     email: email
-    //   }
-    //   if (password) {
-    //     user = { ...user, password: password }
-    //   }
-    //   await updateUser(user)
-    //   localStorage.setItem('username', username)
-    // } else {
-    //   swal({
-    //     title: 'Failed',
-    //     text: 'Please fill in all the required fields!',
-    //     icon: 'error',
-    //     button: {
-    //       text: 'OK',
-    //       value: true,
-    //       visible: true,
-    //       closeModal: true
-    //     }
-    //   })
-    // }
   }
 
   const handleCancel = () => {

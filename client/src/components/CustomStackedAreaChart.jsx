@@ -60,7 +60,6 @@ const CustomStackedAreaChart = ({ title, width, height, data, dataKeys }) => {
           <CartesianGrid strokeDasharray={'3 3'} />
           <XAxis dataKey={'name'} />
           <YAxis />
-          {/* <Tooltip /> */}
           <Legend content={renderLegend} />
           {dataKeys.map((item, index) => (
             <Area

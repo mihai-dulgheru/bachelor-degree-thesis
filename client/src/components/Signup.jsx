@@ -104,64 +104,6 @@ const Signup = () => {
         })
       }
     }
-
-    // if (validation()) {
-    //   const user = {
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //     username: username,
-    //     password: password,
-    //     email: email
-    //   }
-    //   const response = await fetch('/api/users', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(user)
-    //   })
-    //   const data = await response.json()
-    //   if (data.status === 'ok') {
-    //     clearForm()
-    //     swal({
-    //       title: 'Success',
-    //       text: 'User has been created!',
-    //       icon: 'success',
-    //       buttons: false,
-    //       timer: 2000
-    //     }).then(() => {
-    //       localStorage.setItem('username', username)
-    //       navigate('/login')
-    //     })
-    //   } else {
-    //     swal({
-    //       title: 'Failed',
-    //       text:
-    //         data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
-    //           ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
-    //           : data.errors[0].message,
-    //       icon: 'error',
-    //       button: {
-    //         text: 'OK',
-    //         value: true,
-    //         visible: true,
-    //         closeModal: true
-    //       }
-    //     })
-    //   }
-    // } else {
-    //   swal({
-    //     title: 'Failed',
-    //     text: 'Please fill in all the required fields!',
-    //     icon: 'error',
-    //     button: {
-    //       text: 'OK',
-    //       value: true,
-    //       visible: true,
-    //       closeModal: true
-    //     }
-    //   })
-    // }
   }
 
   const handleClickShowPassword = () => {

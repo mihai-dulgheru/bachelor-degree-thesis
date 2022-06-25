@@ -264,7 +264,6 @@ const Profile = () => {
   const rowsOtherInfoCard = [
     createData('Supplier', user.supplier ? user.supplier : ''),
     createData('County', user.county ? user.county : ''),
-    // createData('Voltage Level', user.voltageLevel ? user.voltageLevel : 0),
     createData('Budget', user.budget ? user.budget : ''),
     createData('Invoice Unit Value', user.invoiceUnitValue ? user.invoiceUnitValue : '')
   ]

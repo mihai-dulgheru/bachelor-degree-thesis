@@ -69,20 +69,16 @@ const convertkWhToRON = (kWh, invoiceUnitValue, county) => {
 
 const convertkWhToCO2 = (kWh) => {
   const greenhouseGasEmissionIntensity = 299.5 // g CO2e/kWh
-  // 1 gram = 0.001 kg
   return (kWh * greenhouseGasEmissionIntensity * 0.001).toFixed(fractionDigits) // kg CO2
 }
 
 const convertkWhToCoal = (kWh) => {
-  // 3600 kg CO2 = 1440 kg carbune
   // Burning 1 kg of bituminous coal will produce 2.42 kg of carbon dioxide. (https://360energy.net/how-does-using-energy-create-carbon-emissions/)
   return (convertkWhToCO2(kWh) / 2.42).toFixed(fractionDigits)
 }
 
 const convertkWhToTrees = (kWh) => {
-  // 3600 kg CO2 = 198 copaci
   // To compensate 1 tonne of CO2, 31 to 46 trees are needed. (https://www.encon.be/en/calculation-co2-offsetting-trees)
-  // 1000 kg CO2 = 31 - 46 trees
   return ((convertkWhToCO2(kWh) * 46) / 1000).toFixed(fractionDigits)
 }
 
