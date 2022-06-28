@@ -162,7 +162,14 @@ const Signup = () => {
               value={firstName}
               onChange={handleChangeFirstName}
               error={!isFirstNameValid}
-              helperText={!isFirstNameValid && 'This field is required'}
+              helperText={
+                !isFirstNameValid && (
+                  <span className={'display-flex align-items-center column-gap-1'}>
+                    <i className='fa-solid fa-circle-exclamation'></i>
+                    This field is required
+                  </span>
+                )
+              }
             />
           </div>
           <div className='col'>
@@ -175,7 +182,14 @@ const Signup = () => {
               value={lastName}
               onChange={handleChangeLastName}
               error={!isLastNameValid}
-              helperText={!isLastNameValid && 'This field is required'}
+              helperText={
+                !isLastNameValid && (
+                  <span className={'display-flex align-items-center column-gap-1'}>
+                    <i className='fa-solid fa-circle-exclamation'></i>
+                    This field is required
+                  </span>
+                )
+              }
             />
           </div>
         </div>
@@ -190,7 +204,14 @@ const Signup = () => {
               value={username}
               onChange={handleChangeUsername}
               error={!isUsernameValid}
-              helperText={!isUsernameValid && 'This field is required'}
+              helperText={
+                !isUsernameValid && (
+                  <span className={'display-flex align-items-center column-gap-1'}>
+                    <i className='fa-solid fa-circle-exclamation'></i>
+                    This field is required
+                  </span>
+                )
+              }
             />
           </div>
         </div>
@@ -205,7 +226,14 @@ const Signup = () => {
               value={email}
               onChange={handleChangeEmail}
               error={!isEmailValid}
-              helperText={!isEmailValid && 'This field is required'}
+              helperText={
+                !isEmailValid && (
+                  <span className={'display-flex align-items-center column-gap-1'}>
+                    <i className='fa-solid fa-circle-exclamation'></i>
+                    This field is required
+                  </span>
+                )
+              }
             />
           </div>
         </div>
@@ -230,7 +258,11 @@ const Signup = () => {
                 label='Password'
                 error={!isPasswordValid && true}
               />
-              {!isPasswordValid && <span className='errors'>This field is required</span>}
+              {!isPasswordValid && (
+                <span className='errors'>
+                  <i className='fa-solid fa-circle-exclamation'></i>This field is required
+                </span>
+              )}
               <FormHelperText>
                 The password must contain a minimum of 8 characters with at least 1 Uppercase [A-Z] or 1 lowercase
                 [a-z], and 1 numeric character [0-9]

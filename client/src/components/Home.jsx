@@ -199,7 +199,7 @@ const Home = () => {
     const data = await response.json()
     if (data.status === 'ok') {
       if (data.devices.length > 0) {
-        setDevices(data.devices)
+        setDevices(data.devices.sort((a, b) => a.value.localeCompare(b.value)))
         setDevice(data.devices[0])
       }
     } else {
@@ -264,7 +264,7 @@ const Home = () => {
       const data = await response.json()
       if (data.status === 'ok') {
         if (data.devices.length > 0) {
-          setDevices(data.devices)
+          setDevices(data.devices.sort((a, b) => a.value.localeCompare(b.value)))
           setDevice(data.devices[0])
         }
       } else {
@@ -350,7 +350,9 @@ const Home = () => {
                 value={energyConsumption}
                 onChange={handleChangeCustomInputEnergyConsumption}
               />
-              <span className={!isEnergyConsumptionValid ? 'errors' : ''}>This field is required</span>
+              <span className={!isEnergyConsumptionValid ? 'errors' : ''}>
+                <i className='fa-solid fa-circle-exclamation'></i>This field is required
+              </span>
             </div>
             {isSelectedPower ? (
               <Select
@@ -386,7 +388,9 @@ const Home = () => {
                 value={noOperatingHours}
                 onChange={handleChangeCustomInputNoOperatingHours}
               />
-              <span className={!isNoOperatingHoursValid ? 'errors' : ''}>This field is required</span>
+              <span className={!isNoOperatingHoursValid ? 'errors' : ''}>
+                <i className='fa-solid fa-circle-exclamation'></i>This field is required
+              </span>
             </div>
           </div>
         </div>

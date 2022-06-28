@@ -597,7 +597,7 @@ const DeviceList = () => {
                   return (
                     <TableRow key={index} hover tabIndex={-1}>
                       <TableCell align='left' padding='none'>
-                        <div className='display-flex align-items-center wrap'>
+                        <div className='display-flex align-items-center flex-wrap-wrap'>
                           <div className='previous-version-button'>
                             {row.previousVersion !== null && (
                               <>

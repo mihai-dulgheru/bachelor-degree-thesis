@@ -181,7 +181,14 @@ const PersonalInformation = () => {
                 value={firstName}
                 onChange={handleChangeFirstName}
                 error={!isFirstNameValid}
-                helperText={!isFirstNameValid && 'This field is required'}
+                helperText={
+                  !isFirstNameValid && (
+                    <span className={'display-flex align-items-center column-gap-1'}>
+                      <i className='fa-solid fa-circle-exclamation'></i>
+                      This field is required
+                    </span>
+                  )
+                }
               />
             </div>
             <div className='col'>
@@ -194,7 +201,14 @@ const PersonalInformation = () => {
                 value={lastName}
                 onChange={handleChangeLastName}
                 error={!isLastNameValid}
-                helperText={!isLastNameValid && 'This field is required'}
+                helperText={
+                  !isLastNameValid && (
+                    <span className={'display-flex align-items-center column-gap-1'}>
+                      <i className='fa-solid fa-circle-exclamation'></i>
+                      This field is required
+                    </span>
+                  )
+                }
               />
             </div>
           </div>
@@ -209,7 +223,14 @@ const PersonalInformation = () => {
                 value={username}
                 onChange={handleChangeUsername}
                 error={!isUsernameValid}
-                helperText={!isUsernameValid && 'This field is required'}
+                helperText={
+                  !isUsernameValid && (
+                    <span className={'display-flex align-items-center column-gap-1'}>
+                      <i className='fa-solid fa-circle-exclamation'></i>
+                      This field is required
+                    </span>
+                  )
+                }
               />
             </div>
           </div>
@@ -224,7 +245,14 @@ const PersonalInformation = () => {
                 value={email}
                 onChange={handleChangeEmail}
                 error={!isEmailValid}
-                helperText={!isEmailValid && 'This field is required'}
+                helperText={
+                  !isEmailValid && (
+                    <span className={'display-flex align-items-center column-gap-1'}>
+                      <i className='fa-solid fa-circle-exclamation'></i>
+                      This field is required
+                    </span>
+                  )
+                }
               />
             </div>
           </div>

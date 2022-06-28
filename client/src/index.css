@@ -4,12 +4,9 @@
   --almost-black-color: #504f54;
   --palette-primary-main: #e63946;
   --palette-secondary-main: #f1faee;
-  --palette-tertiary-main: #a8dadc;
-  --palette-quaternary-main: #457b9d;
-  --palette-quinary-main: #1d3557;
   --very-peri: #6667ab;
   --blue-iris: #5a5b9f;
-  --ancient-water: #ccd6e6;
+  --error-color: #d32f2f;
 }
 
 * {
@@ -65,7 +62,7 @@ code {
   flex-direction: column;
 }
 
-.wrap {
+.flex-wrap-wrap {
   flex-wrap: wrap;
 }
 
@@ -131,6 +128,10 @@ code {
   row-gap: 1rem;
 }
 
+.column-gap-1 {
+  column-gap: 0.25rem;
+}
+
 .column-gap-2 {
   column-gap: 0.5rem;
 }
@@ -144,8 +145,10 @@ span {
 }
 
 .errors {
-  display: block;
-  color: #d32f2f;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  color: var(--error-color);
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -160,7 +163,7 @@ span {
 }
 
 .custom-error input {
-  border: 1px solid red;
+  border: 1px solid var(--error-color);
 }
 
 .custom-error input:invalid {
@@ -169,4 +172,9 @@ span {
 
 .custom-error input:focus-visible {
   outline: 0;
+}
+
+.fa-circle-exclamation {
+  padding-bottom: 3px;
+  margin: auto 0;
 }

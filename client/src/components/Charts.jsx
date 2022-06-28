@@ -201,7 +201,7 @@ const Charts = () => {
     <div>
       <CustomAppBar user={user} selectedAppBarItem={'Charts'} />
       <div>
-        <div className='display-flex wrap mt-4 justify-content-space-evenly row-gap-4 column-gap-4'>
+        <div className='display-flex flex-wrap-wrap mt-4 justify-content-space-evenly row-gap-4 column-gap-4'>
           <div>
             <CustomPieChart title={'Estimated consumption by categories'} data={getEstimatedConsumptionByCategory()} />
           </div>

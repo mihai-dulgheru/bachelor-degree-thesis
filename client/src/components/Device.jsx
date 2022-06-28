@@ -244,7 +244,9 @@ const Device = () => {
                 value={energyConsumption}
                 onChange={handleChangeCustomInputEnergyConsumption}
               />
-              <span className={!isEnergyConsumptionValid ? 'errors' : ''}>This field is required</span>
+              <span className={!isEnergyConsumptionValid ? 'errors' : ''}>
+                <i className='fa-solid fa-circle-exclamation'></i>This field is required
+              </span>
             </div>
             {isSelectedPower ? (
               <Select
@@ -280,7 +282,9 @@ const Device = () => {
                 value={noOperatingHours}
                 onChange={handleChangeCustomInputNoOperatingHours}
               />
-              <span className={!isNoOperatingHoursValid ? 'errors' : ''}>This field is required</span>
+              <span className={!isNoOperatingHoursValid ? 'errors' : ''}>
+                <i className='fa-solid fa-circle-exclamation'></i>This field is required
+              </span>
             </div>
           </div>
         </div>

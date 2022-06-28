@@ -143,7 +143,14 @@ const Signin = ({ onSignin }) => {
               value={username}
               onChange={handleChangeUsername}
               error={!isUsernameValid}
-              helperText={!isUsernameValid && 'This field is required'}
+              helperText={
+                !isUsernameValid && (
+                  <span className={'display-flex align-items-center column-gap-1'}>
+                    <i className='fa-solid fa-circle-exclamation'></i>
+                    This field is required
+                  </span>
+                )
+              }
             />
             <FormControl id='password' variant='outlined' margin='normal' fullWidth name='password'>
               <InputLabel htmlFor='outlined-adornment-password' error={!isPasswordValid && true}>
@@ -164,7 +171,11 @@ const Signin = ({ onSignin }) => {
                 label='Password'
                 error={!isPasswordValid && true}
               />
-              {!isPasswordValid && <span className='errors'>This field is required</span>}
+              {!isPasswordValid && (
+                <span className='errors'>
+                  <i className='fa-solid fa-circle-exclamation'></i>This field is required
+                </span>
+              )}
             </FormControl>
             <div className='d-flex justify-content-center'>
               <Button
