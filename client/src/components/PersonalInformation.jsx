@@ -106,7 +106,7 @@ const PersonalInformation = () => {
     setIsLastNameValid(lastName !== '')
     setIsUsernameValid(username !== '')
     setIsEmailValid(email !== '')
-    return firstName !== '' && lastName !== '' && username !== ''
+    return firstName !== '' && lastName !== '' && username !== '' && email !== ''
   }
 
   const handleSave = async () => {
@@ -174,11 +174,10 @@ const PersonalInformation = () => {
             <div className='col'>
               <TextField
                 fullWidth
-                required
                 type='text'
                 className='form-control'
                 id='inputFirstName'
-                label='First Name'
+                label='First Name *'
                 value={firstName}
                 onChange={handleChangeFirstName}
                 error={!isFirstNameValid}
@@ -188,11 +187,10 @@ const PersonalInformation = () => {
             <div className='col'>
               <TextField
                 fullWidth
-                required
                 type='text'
                 className='form-control'
                 id='inputLastName'
-                label='Last Name'
+                label='Last Name *'
                 value={lastName}
                 onChange={handleChangeLastName}
                 error={!isLastNameValid}
@@ -204,11 +202,10 @@ const PersonalInformation = () => {
             <div className='col'>
               <TextField
                 fullWidth
-                required
                 type='text'
                 className='form-control'
                 id='inputUsername'
-                label='Username'
+                label='Username *'
                 value={username}
                 onChange={handleChangeUsername}
                 error={!isUsernameValid}
@@ -220,11 +217,10 @@ const PersonalInformation = () => {
             <div className='col'>
               <TextField
                 fullWidth
-                required
                 type='email'
                 className='form-control'
                 id='inputEmail'
-                label='E-mail'
+                label='E-mail *'
                 value={email}
                 onChange={handleChangeEmail}
                 error={!isEmailValid}
@@ -251,8 +247,8 @@ const PersonalInformation = () => {
                   label='Password'
                 />
                 <FormHelperText>
-                  The password must contain 8 characters with at least 1 Uppercase [A-Z], 1 lowercase [a-z], and 1
-                  numeric character [0-9]
+                  The password must contain a minimum of 8 characters with at least 1 Uppercase [A-Z] or 1 lowercase
+                  [a-z], and 1 numeric character [0-9]
                 </FormHelperText>
               </FormControl>
             </div>

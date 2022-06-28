@@ -132,10 +132,9 @@ const OtherInformation = () => {
               <TextField
                 fullWidth
                 select
-                required
                 className='form-control'
                 id='selectSupplier'
-                label='Supplier'
+                label='Supplier *'
                 value={supplier}
                 onChange={(event) => setSupplier(event.target.value)}
                 helperText='Please select your supplier'
@@ -153,10 +152,9 @@ const OtherInformation = () => {
               <TextField
                 fullWidth
                 select
-                required
                 className='form-control'
                 id='selectCounty'
-                label='County'
+                label='County *'
                 value={county}
                 onChange={(event) => setCounty(event.target.value)}
                 helperText='Please select your county'

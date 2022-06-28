@@ -27,6 +27,8 @@ import swal from 'sweetalert'
 import './Alternatives.css'
 import LoadingScreen from './LoadingScreen'
 
+const timeout = 10000
+
 const Alternatives = () => {
   const navigate = useNavigate()
   const { deviceId } = useParams()
@@ -240,7 +242,7 @@ const Alternatives = () => {
         setTimeout(() => {
           setLoading(false)
           setLoadingDeviceSpecifications(false)
-        }, 6000)
+        }, timeout)
       } else {
         swal({
           title: 'Failed',

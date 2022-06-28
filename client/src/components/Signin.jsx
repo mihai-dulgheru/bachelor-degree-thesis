@@ -137,18 +137,17 @@ const Signin = ({ onSignin }) => {
               type='text'
               variant='outlined'
               margin='normal'
-              required
               fullWidth
               name='username'
-              label='Username'
+              label='Username *'
               value={username}
               onChange={handleChangeUsername}
               error={!isUsernameValid}
               helperText={!isUsernameValid && 'This field is required'}
             />
-            <FormControl id='password' variant='outlined' margin='normal' required fullWidth name='password'>
+            <FormControl id='password' variant='outlined' margin='normal' fullWidth name='password'>
               <InputLabel htmlFor='outlined-adornment-password' error={!isPasswordValid && true}>
-                Password
+                Password *
               </InputLabel>
               <OutlinedInput
                 id='outlined-adornment-password'

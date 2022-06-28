@@ -746,7 +746,7 @@ const DeviceList = () => {
                         <PopupState variant='popper'>
                           {(popupState) => (
                             <div>
-                              <Button color='inherit' {...bindToggle(popupState)}>
+                              <Button color='inherit' {...bindToggle(popupState)} style={{ minWidth: 0 }}>
                                 <i className='fa-solid fa-circle-info'></i>
                               </Button>
                               <Popper

@@ -106,7 +106,11 @@ const Prizes = () => {
     {
       iconSrc: co2Icon,
       altText: 'co2 icon',
-      heading: 'CO2 Reduced',
+      heading: (
+        <p style={{ margin: 0 }}>
+          CO<sub>2</sub> Reduced
+        </p>
+      ),
       value: convertkWhToCO2(totalkWh),
       um: 'KG'
     },

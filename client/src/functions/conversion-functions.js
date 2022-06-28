@@ -69,6 +69,7 @@ const convertkWhToRON = (kWh, invoiceUnitValue, county) => {
 
 const convertkWhToCO2 = (kWh) => {
   const greenhouseGasEmissionIntensity = 299.5 // g CO2e/kWh
+  // https://www.eea.europa.eu/data-and-maps/daviz/co2-emission-intensity-9/#tab-chart_2_filters=%7B%22rowFilters%22%3A%7B%22ugeo%22%3A%5B%22Romania%22%5D%7D%3B%22columnFilters%22%3A%7B%7D%7D
   return (kWh * greenhouseGasEmissionIntensity * 0.001).toFixed(fractionDigits) // kg CO2
 }
 

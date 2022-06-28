@@ -40,7 +40,7 @@ const Signup = () => {
     setIsUsernameValid(username !== '')
     setIsEmailValid(email !== '')
     setIsPasswordValid(password !== '')
-    return firstName !== '' && lastName !== '' && username !== '' && password !== '' && email !== ''
+    return firstName !== '' && lastName !== '' && username !== '' && email !== '' && password !== ''
   }
 
   const clearForm = () => {
@@ -155,11 +155,10 @@ const Signup = () => {
           <div className='col'>
             <TextField
               fullWidth
-              required
               type='text'
               className='form-control'
               id='inputFirstName'
-              label='First Name'
+              label='First Name *'
               value={firstName}
               onChange={handleChangeFirstName}
               error={!isFirstNameValid}
@@ -169,11 +168,10 @@ const Signup = () => {
           <div className='col'>
             <TextField
               fullWidth
-              required
               type='text'
               className='form-control'
               id='inputLastName'
-              label='Last Name'
+              label='Last Name *'
               value={lastName}
               onChange={handleChangeLastName}
               error={!isLastNameValid}
@@ -185,11 +183,10 @@ const Signup = () => {
           <div className='col'>
             <TextField
               fullWidth
-              required
               type='text'
               className='form-control'
               id='inputUsername'
-              label='Username'
+              label='Username *'
               value={username}
               onChange={handleChangeUsername}
               error={!isUsernameValid}
@@ -201,11 +198,10 @@ const Signup = () => {
           <div className='col'>
             <TextField
               fullWidth
-              required
               type='email'
               className='form-control'
               id='inputEmail'
-              label='E-mail'
+              label='E-mail *'
               value={email}
               onChange={handleChangeEmail}
               error={!isEmailValid}
@@ -215,9 +211,9 @@ const Signup = () => {
         </div>
         <div className='row mb-3'>
           <div className='col'>
-            <FormControl fullWidth required className='form-control' id='inputPassword'>
+            <FormControl fullWidth className='form-control' id='inputPassword'>
               <InputLabel htmlFor='outlined-adornment-password' error={!isPasswordValid && true}>
-                Password
+                Password *
               </InputLabel>
               <OutlinedInput
                 id='outlined-adornment-password'
@@ -236,8 +232,8 @@ const Signup = () => {
               />
               {!isPasswordValid && <span className='errors'>This field is required</span>}
               <FormHelperText>
-                The password must contain 8 characters with at least 1 Uppercase [A-Z], 1 lowercase [a-z], and 1 numeric
-                character [0-9]
+                The password must contain a minimum of 8 characters with at least 1 Uppercase [A-Z] or 1 lowercase
+                [a-z], and 1 numeric character [0-9]
               </FormHelperText>
             </FormControl>
           </div>
