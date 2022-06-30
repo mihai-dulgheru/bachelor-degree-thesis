@@ -55,14 +55,14 @@
     "distributionArea": "Muntenia Nord"
   },
   {
-    "value": "Călărași",
-    "label": "Călărași",
-    "distributionArea": "Dobrogea"
-  },
-  {
     "value": "Caraș-Severin",
     "label": "Caraș-Severin",
     "distributionArea": "Banat"
+  },
+  {
+    "value": "Călărași",
+    "label": "Călărași",
+    "distributionArea": "Dobrogea"
   },
   {
     "value": "Cluj",
@@ -115,14 +115,14 @@
     "distributionArea": "Banat"
   },
   {
-    "value": "Iași",
-    "label": "Iași",
-    "distributionArea": "Moldova"
-  },
-  {
     "value": "Ialomița",
     "label": "Ialomița",
     "distributionArea": "Dobrogea"
+  },
+  {
+    "value": "Iași",
+    "label": "Iași",
+    "distributionArea": "Moldova"
   },
   {
     "value": "Ilfov",
@@ -160,13 +160,13 @@
     "distributionArea": "Muntenia Nord"
   },
   {
-    "value": "Sălaj",
-    "label": "Sălaj",
+    "value": "Satu Mare",
+    "label": "Satu Mare",
     "distributionArea": "Transilvania Nord"
   },
   {
-    "value": "Satu Mare",
-    "label": "Satu Mare",
+    "value": "Sălaj",
+    "label": "Sălaj",
     "distributionArea": "Transilvania Nord"
   },
   {
@@ -195,14 +195,14 @@
     "distributionArea": "Dobrogea"
   },
   {
-    "value": "Vâlcea",
-    "label": "Vâlcea",
-    "distributionArea": "Oltenia"
-  },
-  {
     "value": "Vaslui",
     "label": "Vaslui",
     "distributionArea": "Moldova"
+  },
+  {
+    "value": "Vâlcea",
+    "label": "Vâlcea",
+    "distributionArea": "Oltenia"
   },
   {
     "value": "Vrancea",

@@ -1,0 +1,378 @@
+[
+  {
+    "value": "Amplificatoare audio",
+    "label": "Amplificatoare audio"
+  },
+  {
+    "value": "Analizoare",
+    "label": "Analizoare"
+  },
+  {
+    "value": "Aparate casnice de iluminat",
+    "label": "Aparate casnice de iluminat"
+  },
+  {
+    "value": "Aparate de aer condiţionat",
+    "label": "Aparate de aer condiţionat"
+  },
+  {
+    "value": "Aparate de cântărit",
+    "label": "Aparate de cântărit"
+  },
+  {
+    "value": "Aparate de curăţat covoare",
+    "label": "Aparate de curăţat covoare"
+  },
+  {
+    "value": "Aparate de cusut",
+    "label": "Aparate de cusut"
+  },
+  {
+    "value": "Aparate de iluminat pentru lampi fluorescente",
+    "label": "Aparate de iluminat pentru lampi fluorescente"
+  },
+  {
+    "value": "Aparate de înalta fidelitate",
+    "label": "Aparate de înalta fidelitate"
+  },
+  {
+    "value": "Aparate de măsurat",
+    "label": "Aparate de măsurat"
+  },
+  {
+    "value": "Aparate de prajit pâine",
+    "label": "Aparate de prajit pâine"
+  },
+  {
+    "value": "Aparate de radio",
+    "label": "Aparate de radio"
+  },
+  {
+    "value": "Aparate de tesut",
+    "label": "Aparate de tesut"
+  },
+  {
+    "value": "Aparate de tuns parul",
+    "label": "Aparate de tuns parul"
+  },
+  {
+    "value": "Aparate electrice de încălzit",
+    "label": "Aparate electrice de încălzit"
+  },
+  {
+    "value": "Aparate frigorifice",
+    "label": "Aparate frigorifice"
+  },
+  {
+    "value": "Aparate frigorifice mari",
+    "label": "Aparate frigorifice mari"
+  },
+  {
+    "value": "Aparate pentru masaj",
+    "label": "Aparate pentru masaj"
+  },
+  {
+    "value": "Aparate video",
+    "label": "Aparate video"
+  },
+  {
+    "value": "Aspiratoare",
+    "label": "Aspiratoare"
+  },
+  {
+    "value": "Automate cu monede",
+    "label": "Automate cu monede"
+  },
+  {
+    "value": "Calculatoare electronice",
+    "label": "Calculatoare electronice"
+  },
+  {
+    "value": "Calculatoare pentru cros",
+    "label": "Calculatoare pentru cros"
+  },
+  {
+    "value": "Calculatoare pentru scufundare",
+    "label": "Calculatoare pentru scufundare"
+  },
+  {
+    "value": "Camere video",
+    "label": "Camere video"
+  },
+  {
+    "value": "Cantare",
+    "label": "Cantare"
+  },
+  {
+    "value": "Ceasuri de mana",
+    "label": "Ceasuri de mana"
+  },
+  {
+    "value": "Congelatoare",
+    "label": "Congelatoare"
+  },
+  {
+    "value": "Console portabile de jocuri video",
+    "label": "Console portabile de jocuri video"
+  },
+  {
+    "value": "Cuptoare cu microunde",
+    "label": "Cuptoare cu microunde"
+  },
+  {
+    "value": "Cuţite electrice",
+    "label": "Cuţite electrice"
+  },
+  {
+    "value": "Detectoare de fum",
+    "label": "Detectoare de fum"
+  },
+  {
+    "value": "Dispozitive de extragere a cuielor",
+    "label": "Dispozitive de extragere a cuielor"
+  },
+  {
+    "value": "Dispozitive de extragere a niturilor",
+    "label": "Dispozitive de extragere a niturilor"
+  },
+  {
+    "value": "Dispozitive de extragere a suruburilor",
+    "label": "Dispozitive de extragere a suruburilor"
+  },
+  {
+    "value": "Dispozitive pentru fixat cu cuie",
+    "label": "Dispozitive pentru fixat cu cuie"
+  },
+  {
+    "value": "Dispozitive pentru lipit",
+    "label": "Dispozitive pentru lipit"
+  },
+  {
+    "value": "Dispozitive pentru sudura",
+    "label": "Dispozitive pentru sudura"
+  },
+  {
+    "value": "Distribuitoare automate de bani",
+    "label": "Distribuitoare automate de bani"
+  },
+  {
+    "value": "Distribuitoare automate de băuturi calde",
+    "label": "Distribuitoare automate de băuturi calde"
+  },
+  {
+    "value": "Echipamente de cardiologie",
+    "label": "Echipamente de cardiologie"
+  },
+  {
+    "value": "Echipamente de dispersat",
+    "label": "Echipamente de dispersat"
+  },
+  {
+    "value": "Echipamente de faltuit",
+    "label": "Echipamente de faltuit"
+  },
+  {
+    "value": "Echipamente de frezat",
+    "label": "Echipamente de frezat"
+  },
+  {
+    "value": "Echipamente de gaurit",
+    "label": "Echipamente de gaurit"
+  },
+  {
+    "value": "Echipamente de indoit",
+    "label": "Echipamente de indoit"
+  },
+  {
+    "value": "Echipamente de medicina nucleara",
+    "label": "Echipamente de medicina nucleara"
+  },
+  {
+    "value": "Echipamente de perforat",
+    "label": "Echipamente de perforat"
+  },
+  {
+    "value": "Echipamente de pulverizat",
+    "label": "Echipamente de pulverizat"
+  },
+  {
+    "value": "Echipamente de slefuit",
+    "label": "Echipamente de slefuit"
+  },
+  {
+    "value": "Echipamente de stantat",
+    "label": "Echipamente de stantat"
+  },
+  {
+    "value": "Echipamente de strunjit",
+    "label": "Echipamente de strunjit"
+  },
+  {
+    "value": "Echipamente de tăiat",
+    "label": "Echipamente de tăiat"
+  },
+  {
+    "value": "Echipamente de tăiat cu ferastraul",
+    "label": "Echipamente de tăiat cu ferastraul"
+  },
+  {
+    "value": "Echipamente sportive cu componente electrice sau electronice",
+    "label": "Echipamente sportive cu componente electrice sau electronice"
+  },
+  {
+    "value": "Ferastraie",
+    "label": "Ferastraie"
+  },
+  {
+    "value": "Fiare de călcat",
+    "label": "Fiare de călcat"
+  },
+  {
+    "value": "Filtre de cafea",
+    "label": "Filtre de cafea"
+  },
+  {
+    "value": "Frigidere",
+    "label": "Frigidere"
+  },
+  {
+    "value": "Friteuze",
+    "label": "Friteuze"
+  },
+  {
+    "value": "Imprimante",
+    "label": "Imprimante"
+  },
+  {
+    "value": "Instrumente muzicale",
+    "label": "Instrumente muzicale"
+  },
+  {
+    "value": "Jocuri video",
+    "label": "Jocuri video"
+  },
+  {
+    "value": "Lampi cu halogenuri metalice",
+    "label": "Lampi cu halogenuri metalice"
+  },
+  {
+    "value": "Lampi cu vapori de sodiu la înalta presiune",
+    "label": "Lampi cu vapori de sodiu la înalta presiune"
+  },
+  {
+    "value": "Lampi cu vapori de sodiu la joasa presiune",
+    "label": "Lampi cu vapori de sodiu la joasa presiune"
+  },
+  {
+    "value": "Lampi fluorescente compacte",
+    "label": "Lampi fluorescente compacte"
+  },
+  {
+    "value": "Lampi fluorescente drepte",
+    "label": "Lampi fluorescente drepte"
+  },
+  {
+    "value": "Laptopuri",
+    "label": "Laptopuri"
+  },
+  {
+    "value": "Mașini de cursa în miniatura",
+    "label": "Mașini de cursa în miniatura"
+  },
+  {
+    "value": "Mașini de cusut",
+    "label": "Mașini de cusut"
+  },
+  {
+    "value": "Mașini de gaurit",
+    "label": "Mașini de gaurit"
+  },
+  {
+    "value": "Mașini de gătit",
+    "label": "Mașini de gătit"
+  },
+  {
+    "value": "Mașini de macinat cafea",
+    "label": "Mașini de macinat cafea"
+  },
+  {
+    "value": "Mașini de spălat rufe",
+    "label": "Mașini de spălat rufe"
+  },
+  {
+    "value": "Mașini de spălat vase",
+    "label": "Mașini de spălat vase"
+  },
+  {
+    "value": "Minicalculatoare",
+    "label": "Minicalculatoare"
+  },
+  {
+    "value": "Monitoare",
+    "label": "Monitoare"
+  },
+  {
+    "value": "Periute de dinţi",
+    "label": "Periute de dinţi"
+  },
+  {
+    "value": "Plite electrice",
+    "label": "Plite electrice"
+  },
+  {
+    "value": "Radiatoare electrice",
+    "label": "Radiatoare electrice"
+  },
+  {
+    "value": "Roboti telefonici",
+    "label": "Roboti telefonici"
+  },
+  {
+    "value": "Sobe electrice",
+    "label": "Sobe electrice"
+  },
+  {
+    "value": "Tastaturi",
+    "label": "Tastaturi"
+  },
+  {
+    "value": "Telefoane",
+    "label": "Telefoane"
+  },
+  {
+    "value": "Telefoane celulare",
+    "label": "Telefoane celulare"
+  },
+  {
+    "value": "Telefoane fără fir",
+    "label": "Telefoane fără fir"
+  },
+  {
+    "value": "Televizoare",
+    "label": "Televizoare"
+  },
+  {
+    "value": "Termostate",
+    "label": "Termostate"
+  },
+  {
+    "value": "Trenuri electrice",
+    "label": "Trenuri electrice"
+  },
+  {
+    "value": "Unități centrale",
+    "label": "Unități centrale"
+  },
+  {
+    "value": "Uscatoare de haine",
+    "label": "Uscatoare de haine"
+  },
+  {
+    "value": "Uscatoare de par",
+    "label": "Uscatoare de par"
+  },
+  {
+    "value": "Ventilatoare electrice",
+    "label": "Ventilatoare electrice"
+  }
+]

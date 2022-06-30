@@ -54,6 +54,7 @@ alternativesRouter.route('/').get(async (req, res, next) => {
   }
 })
 
+// TODO
 alternativesRouter.route('/one').get(async (req, res, next) => {
   const { url } = req.query
   const reSpecifications =
