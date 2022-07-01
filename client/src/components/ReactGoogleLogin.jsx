@@ -91,7 +91,8 @@ const ReactGoogleLogin = ({ onSignin }) => {
       password: data.email[0].toLocaleUpperCase() + data.sub,
       firstName: data.given_name,
       lastName: data.family_name,
-      email: data.email
+      email: data.email,
+      avatar: data.picture
     }
     response = await loginUser(user)
     if ('accessToken' in response) {
@@ -121,7 +122,7 @@ const ReactGoogleLogin = ({ onSignin }) => {
           await handleLogin(credentialResponse)
         }}
         onError={() => {
-          console.log('Login Failed')
+          console.error('Login Failed')
         }}
         useOneTap
       />

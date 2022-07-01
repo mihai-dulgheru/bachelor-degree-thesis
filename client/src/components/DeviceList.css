@@ -1,5 +1,5 @@
 .table-pagination p {
-  margin: auto 0px;
+  margin: auto 0;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -24,15 +24,15 @@
   content: '';
   border-top: 0.1rem solid #797979;
   width: 100%;
-  margin: auto 0px;
+  margin: auto 0;
 }
 
 .or::before {
-  margin-right: 4px;
+  margin-right: 0.25rem;
 }
 
 .or::after {
-  margin-left: 4px;
+  margin-left: 0.25rem;
 }
 
 #search {

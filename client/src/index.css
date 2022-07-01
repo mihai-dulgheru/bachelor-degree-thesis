@@ -38,7 +38,7 @@ code {
   align-items: center;
   justify-content: center;
   margin: 1rem;
-  padding-bottom: 4px;
+  padding-bottom: 0.25rem;
 }
 
 #root>div>div>header>div>div>div>div {
@@ -51,7 +51,7 @@ code {
   left: 0;
   z-index: 1300;
   opacity: 0.8;
-  backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(1.25rem);
 }
 
 .display-flex {
@@ -156,9 +156,9 @@ span {
   letter-spacing: 0.03333em;
   text-align: left;
   margin-top: 3px;
-  margin-right: 14px;
+  margin-right: 0.875rem;
   margin-bottom: 0;
-  margin-left: 14px;
+  margin-left: 0.875rem;
   box-sizing: inherit;
 }
 

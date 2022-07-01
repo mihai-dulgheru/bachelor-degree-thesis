@@ -16,7 +16,7 @@ const StyledInputElement = styled('input')(
   () => `
   display: block;
   width: 100%;
-  padding: 2px 8px;
+  padding: 0.125rem 0.5rem;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
@@ -24,7 +24,7 @@ const StyledInputElement = styled('input')(
   border: 1px solid #ced4da;
   font-size: 1.25rem;
   border-radius: 0.3rem;
-  height: 44px;
+  height: 2.75rem;
 
   &:focus-visible {
     outline: var(--outline-color) auto 1px;
@@ -46,10 +46,7 @@ const Device = () => {
   const [unitMeasurementPower, setUnitMeasurementPower] = useState('')
   const [noOperatingHours, setNoOperatingHours] = useState('')
   const [isNoOperatingHoursValid, setIsNoOperatingHoursValid] = useState(true)
-  const [efficiencyClass, setEfficiencyClass] = useState({
-    value: '',
-    label: ''
-  })
+  const [efficiencyClass, setEfficiencyClass] = useState(efficiencyClasses[0])
   const [category, setCategory] = useState({
     value: '',
     label: ''
@@ -84,9 +81,12 @@ const Device = () => {
           })
         }
         setNoOperatingHours(data.device.noOperatingHours)
+        const temporaryEfficiencyClass = efficiencyClasses.find(
+          (element) => element.value === data.device.efficiencyClass
+        )
         setEfficiencyClass({
-          value: data.device.efficiencyClass,
-          label: data.device.efficiencyClass
+          value: temporaryEfficiencyClass.value,
+          label: temporaryEfficiencyClass.label
         })
         setCategory({
           value: data.device.category,

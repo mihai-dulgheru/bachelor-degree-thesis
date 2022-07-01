@@ -54,12 +54,13 @@ alternativesRouter.route('/').get(async (req, res, next) => {
   }
 })
 
-// TODO
 alternativesRouter.route('/one').get(async (req, res, next) => {
   const { url } = req.query
   const reSpecifications =
     /(.*\W|^)(kWh|W|kW|Clasa energetica|Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE)(\W.*|$)/g
   const reEnergyConsumption = /(.*\W|^)(Consum energie electrica|Consum anual energie|Consum de energie)(\W.*|$)/g
+  const reNotMatchEnergyConsumption = /^((?!Consum de energie pe zi).)*$/g
+  const rePower = /(^)(Putere)(\W.*|$)/g
   try {
     if (url) {
       const browser = await puppeteer.launch({
@@ -79,8 +80,14 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           ? extractedText.split('\n').filter((element) => element.match(reSpecifications))
           : []
         const specificationEnergyConsumption = specifications.find((item) => {
-          return item.match(reEnergyConsumption) && item.match(/^((?!Consum de energie pe zi).)*$/g)
+          return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
         })
+          ? specifications.find((item) => {
+              return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
+            })
+          : specifications.find((item) => {
+              return item.match(rePower)
+            })
         data.energyConsumption = specificationEnergyConsumption
           ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
           : 0

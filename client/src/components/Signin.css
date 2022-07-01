@@ -3,26 +3,26 @@
 }
 
 #paper {
-  margin: 64px 32px;
+  margin: 4rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 #avatar-lock {
-  margin: 8px;
-  width: 40px;
-  height: 40px;
+  margin: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background-color: var(--palette-primary-main);
 }
 
 #form {
   width: 100%;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 #submit-button {
-  margin: 24px 0px 16px 0px;
+  margin: 1.5rem 0 1rem 0;
 }
 
 #image {

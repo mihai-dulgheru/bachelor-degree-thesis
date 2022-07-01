@@ -659,7 +659,7 @@ const DeviceList = () => {
                               })
                             }
                           }}
-                          style={{ margin: '0px 4px' }}
+                          style={{ margin: '0 0.25rem' }}
                         >
                           Del
                         </Button>
@@ -718,7 +718,7 @@ const DeviceList = () => {
   const fractionDigits = 4
   const tableEstimatedConsumptionAndTotalCosts = (
     <div className='d-flex justify-content-center'>
-      <Box sx={{ width: '90%', margin: 'opx auto' }}>
+      <Box sx={{ width: '90%', margin: '0 auto' }}>
         <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 650 }}>

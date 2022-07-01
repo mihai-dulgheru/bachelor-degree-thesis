@@ -99,7 +99,7 @@ const Prizes = () => {
     {
       iconSrc: moneyIcon,
       altText: 'money icon',
-      heading: 'Saved Money',
+      heading: 'Money Saved',
       value: amountSaved,
       um: 'RON'
     },

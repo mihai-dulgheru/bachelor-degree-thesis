@@ -179,13 +179,7 @@ apiRouter
       const id = parseInt(req.params.id)
       const user = await User.findByPk(id)
       if (user) {
-        if (
-          req.body.energyConsumption &&
-          req.body.unitMeasurement &&
-          req.body.noOperatingHours &&
-          req.body.efficiencyClass &&
-          req.body.category
-        ) {
+        if (req.body.energyConsumption && req.body.unitMeasurement && req.body.noOperatingHours && req.body.category) {
           const device = await Device.create(req.body)
           await user.addDevice(device)
           res.status(200).json({
@@ -196,8 +190,7 @@ apiRouter
         } else {
           res.status(400).json({
             status: 'error',
-            message:
-              'Missing fields (energyConsumption, unitMeasurement, noOperatingHours, efficiencyClass and/or category)'
+            message: 'Missing fields (energyConsumption, unitMeasurement, noOperatingHours and/or category)'
           })
         }
       } else {

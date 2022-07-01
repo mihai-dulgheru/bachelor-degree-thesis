@@ -146,8 +146,8 @@ const Signup = () => {
 
   const form = (
     <>
-      <Typography variant='h4' textAlign='center'>
-        Create an account
+      <Typography variant='h4' textAlign='left'>
+        CREATE AN ACCOUNT
       </Typography>
       <br />
       <form noValidate>

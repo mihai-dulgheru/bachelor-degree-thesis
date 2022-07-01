@@ -24,6 +24,12 @@ import { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { useNavigate, useParams } from 'react-router-dom'
 import swal from 'sweetalert'
+import {
+  convertkWhToCO2,
+  convertkWhToCoal,
+  convertkWhToRON,
+  convertkWhToTrees
+} from '../functions/conversion-functions'
 import './Alternatives.css'
 import LoadingScreen from './LoadingScreen'
 
@@ -41,6 +47,8 @@ const Alternatives = () => {
   const [open, setOpen] = useState(true)
   const [inputBudget, setInputBudget] = useState('')
   const [error, setError] = useState(false)
+  const [invoiceUnitValue, setInvoiceUnitValue] = useState(0)
+  const [county, setCounty] = useState('')
 
   const updateUser = async (user) => {
     const response = await fetch('/api/auth/user', {
@@ -266,6 +274,40 @@ const Alternatives = () => {
     }
   }, [budget, url])
 
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setInvoiceUnitValue(data.user.invoiceUnitValue && data.user.invoiceUnitValue)
+        setCounty(data.user.county && data.user.county)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
+    getUser()
+  }, [navigate])
+
   const appBar = (
     <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
       <Toolbar>
@@ -288,6 +330,7 @@ const Alternatives = () => {
       prize.prizeValue = device.energyConsumption - newDevice.energyConsumption
       await addPrize(prize)
     }
+    return prize
   }
 
   const handleChoose = async (element) => {
@@ -299,12 +342,22 @@ const Alternatives = () => {
     if (data.status === 'ok') {
       if (data.data.energyConsumption && data.data.unitMeasurement) {
         await updateDevice(data.data)
-        await calculatePrize(data.data)
+        const prize = await calculatePrize(data.data)
         await updateUser({ budget: Math.trunc(budget - element.price) })
         setLoadingDeviceSpecifications(false)
+        const newLine = '\n\r'
         swal({
           title: 'Success',
-          text: 'The device has been added to your list!',
+          text:
+            'The device has been added to your list! ' +
+            (prize.prizeValue > 0
+              ? 'You have won the following awards:' +
+                `${newLine}SAVED ENERGY: ${prize.prizeValue} kWh` +
+                `${newLine}MONEY SAVED: ${convertkWhToRON(prize.prizeValue, invoiceUnitValue, county)} RON` +
+                `${newLine}REDUCED CARBON DIOXIDE: ${convertkWhToCO2(prize.prizeValue)} KG` +
+                `${newLine}BITUMINOUS COAL SAVED: ${convertkWhToCoal(prize.prizeValue)} KG` +
+                `${newLine}REDUCING DEFORESTATION: ${convertkWhToTrees(prize.prizeValue)} Tree`
+              : "Unfortunately, you didn't win any awards."),
           icon: 'success',
           button: {
             text: 'OK',
@@ -445,16 +498,15 @@ const Alternatives = () => {
           ) : (
             <>
               {appBar}
-              <Box sx={{ width: '90%', margin: '1rem auto 0px auto' }}>
+              <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
                 <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
                   <Typography variant='h4' gutterBottom component='div'>
                     Alternatives for device
                   </Typography>
-                  <Typography variant='subtitle1' gutterBottom component='div'>
-                    {`${device.category}, Energy efficiency class: ${device.efficiencyClass}, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
-                  </Typography>
-                  <Typography variant='subtitle1' gutterBottom component='div'>
-                    {`Budget: ${budget} RON`}
+                  <Typography variant='h5' gutterBottom component='div'>
+                    {`${device.category}${
+                      device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''
+                    }, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
                   </Typography>
                   {table}
                 </Paper>

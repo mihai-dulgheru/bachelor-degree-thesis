@@ -1,17 +1,17 @@
 #avatar-profile {
-  width: 160px;
-  height: 160px;
+  width: 10rem;
+  height: 10rem;
   position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .container {
   position: relative;
-  width: 160px;
-  height: 160px;
+  width: 10rem;
+  height: 10rem;
   border-radius: 50%;
 }
 
@@ -21,10 +21,10 @@
 
 .overlay {
   position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 100%;
   width: 100%;
   border-radius: 50%;

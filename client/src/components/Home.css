@@ -4,7 +4,7 @@
 }
 
 .row {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .col {
@@ -42,7 +42,7 @@
 }
 
 .choose-device-select {
-  margin-left: 8px;
+  margin-left: 0.5rem;
 }
 
 @media only screen and (max-width: 768px) {

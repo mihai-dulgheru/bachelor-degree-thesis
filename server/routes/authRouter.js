@@ -89,7 +89,11 @@ authRouter.route('/devices').get(async (_req, res, next) => {
     for (const device of devices) {
       const item = {
         value: `${device.dataValues.category};${device.dataValues.efficiencyClass};${device.dataValues.energyConsumption};${device.dataValues.unitMeasurement};${device.dataValues.noOperatingHours}`,
-        label: `${device.dataValues.category}, ${device.dataValues.efficiencyClass}, ${device.dataValues.energyConsumption} ${device.dataValues.unitMeasurement}, ${device.dataValues.noOperatingHours} h/day`
+        label: `${device.dataValues.category}${
+          device.dataValues.efficiencyClass ? ', ' + device.dataValues.efficiencyClass : ''
+        }, ${device.dataValues.energyConsumption} ${device.dataValues.unitMeasurement}, ${
+          device.dataValues.noOperatingHours
+        } h/day`
       }
       if (!deviceCollection.some((element) => element.value === item.value)) {
         deviceCollection.push(item)
@@ -135,13 +139,7 @@ authRouter
           token: req.headers.authorization
         }
       })
-      if (
-        req.body.energyConsumption &&
-        req.body.unitMeasurement &&
-        req.body.noOperatingHours &&
-        req.body.efficiencyClass &&
-        req.body.category
-      ) {
+      if (req.body.energyConsumption && req.body.unitMeasurement && req.body.noOperatingHours && req.body.category) {
         const device = await Device.create(req.body)
         await user.addDevice(device)
         res.status(200).json({
@@ -152,8 +150,7 @@ authRouter
       } else {
         res.status(400).json({
           status: 'error',
-          message:
-            'Missing fields (energyConsumption, unitMeasurement, noOperatingHours, efficiencyClass and/or category)'
+          message: 'Missing fields (energyConsumption, unitMeasurement, noOperatingHours and/or category)'
         })
       }
     } catch (err) {

@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { Area, AreaChart, CartesianGrid, Legend, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 import './CustomStackedAreaChart.css'
 
 const STROKE_COLORS = ['#82ca9d', '#ffc658']
@@ -60,6 +60,7 @@ const CustomStackedAreaChart = ({ title, width, height, data, dataKeys }) => {
           <CartesianGrid strokeDasharray={'3 3'} />
           <XAxis dataKey={'name'} />
           <YAxis />
+          <Tooltip />
           <Legend content={renderLegend} />
           {dataKeys.map((item, index) => (
             <Area
