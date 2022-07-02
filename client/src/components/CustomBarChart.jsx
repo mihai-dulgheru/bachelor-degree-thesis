@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material'
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 import './CustomBarChart.css'
+import CustomTooltip from './CustomTooltip'
 
 const COLORS = ['#8884d8', '#82ca9d']
 
@@ -25,9 +26,9 @@ const CustomBarChart = ({ title, width, height, data, legend, dataKeys }) => {
           }}
         >
           <CartesianGrid strokeDasharray={'3 3'} />
-          <XAxis dataKey={'name'} />
+          <XAxis dataKey='name' height={90} interval={0} angle={30} dx={20} dy={32} />
           <YAxis />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip colors={COLORS} />} />
           {legend && <Legend />}
           {dataKeys.map((item, index) => (
             <Bar key={item} dataKey={item} fill={COLORS[index % COLORS.length]} />

@@ -51,7 +51,7 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
   const handleClickMenuItem = (item) => {
     setAnchorElNav(null)
     navigate(item.path)
-    localStorage.setItem('to', item.path)
+    sessionStorage.setItem('to', item.path)
   }
 
   const handleOpenUserMenu = (event) => {
@@ -70,7 +70,7 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
   const handleClickLogout = () => {
     setAnchorElUser(null)
     localStorage.removeItem('accessToken')
-    localStorage.removeItem('to')
+    sessionStorage.removeItem('to')
     navigate('/login')
   }
 

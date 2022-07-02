@@ -137,12 +137,12 @@ const Profile = () => {
   }, [tempAccessToken])
 
   const handleBack = () => {
-    navigate(localStorage.getItem('to') !== null ? localStorage.getItem('to') : '/')
+    navigate(sessionStorage.getItem('to') !== null ? sessionStorage.getItem('to') : '/')
   }
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken')
-    localStorage.removeItem('to')
+    sessionStorage.removeItem('to')
     navigate('/login')
   }
 

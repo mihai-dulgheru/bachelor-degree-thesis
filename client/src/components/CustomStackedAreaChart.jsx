@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material'
 import { Area, AreaChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 import './CustomStackedAreaChart.css'
+import CustomTooltip from './CustomTooltip'
 
 const STROKE_COLORS = ['#82ca9d', '#ffc658']
 const FILL_COLORS = ['#82ca9d', '#ffc658']
@@ -21,7 +22,7 @@ const renderLegend = (props) => {
             style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.25rem' }}
           >
             <path
-              strokeWidth={'4'}
+              strokeWidth='4'
               fill='none'
               stroke={STROKE_COLORS[index % STROKE_COLORS.length]}
               d='M0,16h10.666666666666666
@@ -57,19 +58,30 @@ const CustomStackedAreaChart = ({ title, width, height, data, dataKeys }) => {
             bottom: 0
           }}
         >
-          <CartesianGrid strokeDasharray={'3 3'} />
-          <XAxis dataKey={'name'} />
+          <defs>
+            <linearGradient id='color-0' x1='0' y1='0' x2='0' y2='1'>
+              <stop offset='5%' stopColor={FILL_COLORS[0]} stopOpacity={0.8} />
+              <stop offset='95%' stopColor={FILL_COLORS[0]} stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id='color-1' x1='0' y1='0' x2='0' y2='1'>
+              <stop offset='5%' stopColor={FILL_COLORS[1]} stopOpacity={0.8} />
+              <stop offset='95%' stopColor={FILL_COLORS[1]} stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='name' height={90} interval={0} angle={30} dx={20} dy={32} />
           <YAxis />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip colors={TEXT_COLORS} />} />
           <Legend content={renderLegend} />
           {dataKeys.map((item, index) => (
             <Area
               key={item}
-              type={'monotone'}
+              type='monotone'
               dataKey={item}
-              stackId={'1'}
+              stackId='1'
               stroke={STROKE_COLORS[index % STROKE_COLORS.length]}
-              fill={FILL_COLORS[index % FILL_COLORS.length]}
+              fillOpacity={1}
+              fill={`url(#color-${index})`}
             />
           ))}
         </AreaChart>

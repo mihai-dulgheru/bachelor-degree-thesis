@@ -44,13 +44,14 @@ const CustomPieChart = ({ title, data, width, height, outerRadius }) => {
         <PieChart width={width ? width : 400} height={height ? height : 400}>
           <Pie
             data={data}
+            dataKey='value'
+            nameKey='name'
             cx='50%'
             cy='50%'
             labelLine={false}
             label={renderCustomizedLabel}
             outerRadius={outerRadius ? outerRadius : 160}
             fill='#8884d8'
-            dataKey='value'
           >
             {data.map((_entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
