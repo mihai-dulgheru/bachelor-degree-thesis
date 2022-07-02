@@ -123,7 +123,9 @@ const PersonalInformation = () => {
         user = { ...user, password: password }
       }
       await updateUser(user)
-      localStorage.setItem('username', username)
+      if (!localStorage.getItem('loggedInWithGoogle')) {
+        localStorage.setItem('username', username)
+      }
     }
   }
 

@@ -224,7 +224,9 @@ const Profile = () => {
             buttons: false,
             timer: 2000
           }).then(() => {
-            localStorage.removeItem('username')
+            if (!localStorage.getItem('loggedInWithGoogle')) {
+              localStorage.removeItem('username')
+            }
             handleLogout()
           })
         } else {
