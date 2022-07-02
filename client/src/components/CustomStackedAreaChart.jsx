@@ -48,8 +48,8 @@ const CustomStackedAreaChart = ({ title, width, height, data, dataKeys }) => {
       <div id='area-chart-container' className='display-flex justify-content-center'>
         <AreaChart
           id='area-chart'
-          width={width ? width : 800}
-          height={height ? height : 400}
+          width={width ? width : 960}
+          height={height ? height : 480}
           data={data}
           margin={{
             top: 10,

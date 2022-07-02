@@ -70,6 +70,7 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
   const handleClickLogout = () => {
     setAnchorElUser(null)
     localStorage.removeItem('accessToken')
+    localStorage.removeItem('loggedInWithGoogle')
     sessionStorage.removeItem('to')
     navigate('/login')
   }

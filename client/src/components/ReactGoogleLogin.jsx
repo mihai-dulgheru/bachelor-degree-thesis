@@ -113,6 +113,7 @@ const ReactGoogleLogin = ({ onSignin }) => {
     } else {
       await createUser(user)
     }
+    localStorage.setItem('loggedInWithGoogle', 'true')
   }
 
   return (

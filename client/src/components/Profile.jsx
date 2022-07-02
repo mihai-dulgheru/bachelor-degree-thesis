@@ -142,6 +142,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken')
+    localStorage.removeItem('loggedInWithGoogle')
     sessionStorage.removeItem('to')
     navigate('/login')
   }
@@ -206,9 +207,8 @@ const Profile = () => {
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this account!',
-      icon: 'warning',
-      buttons: true,
-      dangerMode: true
+      dangerMode: true,
+      buttons: true
     }).then(async (willDelete) => {
       if (willDelete) {
         const response = await fetch('/api/auth/user', {

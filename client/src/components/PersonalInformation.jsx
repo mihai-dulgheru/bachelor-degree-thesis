@@ -256,31 +256,33 @@ const PersonalInformation = () => {
               />
             </div>
           </div>
-          <div className='row mb-3'>
-            <div className='col'>
-              <FormControl fullWidth className='form-control' id='inputPassword'>
-                <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
-                <OutlinedInput
-                  id='outlined-adornment-password'
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={handleChangePassword}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label='Password'
-                />
-                <FormHelperText>
-                  The password must contain a minimum of 8 characters with at least 1 Uppercase [A-Z] or 1 lowercase
-                  [a-z], and 1 numeric character [0-9]
-                </FormHelperText>
-              </FormControl>
+          {!localStorage.getItem('loggedInWithGoogle') && (
+            <div className='row mb-3'>
+              <div className='col'>
+                <FormControl fullWidth className='form-control' id='inputPassword'>
+                  <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+                  <OutlinedInput
+                    id='outlined-adornment-password'
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={handleChangePassword}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label='Password'
+                  />
+                  <FormHelperText>
+                    The password must contain a minimum of 8 characters with at least 1 Uppercase [A-Z] or 1 lowercase
+                    [a-z], and 1 numeric character [0-9]
+                  </FormHelperText>
+                </FormControl>
+              </div>
             </div>
-          </div>
+          )}
           <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
             <Button variant='text' color='inherit' onClick={handleCancel} style={{ minWidth: '10%' }}>
               Cancel

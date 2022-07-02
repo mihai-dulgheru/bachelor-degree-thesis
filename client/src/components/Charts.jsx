@@ -199,15 +199,15 @@ const Charts = () => {
 
   return (
     <div>
-      <CustomAppBar user={user} selectedAppBarItem={'Charts'} />
+      <CustomAppBar user={user} selectedAppBarItem='Charts' />
       <div>
-        <div className='display-flex flex-wrap-wrap mt-4 justify-content-space-evenly row-gap-4 column-gap-4'>
+        <div className='display-flex flex-direction-column row-gap-4 mt-4'>
           <div>
-            <CustomPieChart title={'Estimated consumption by categories'} data={getEstimatedConsumptionByCategory()} />
+            <CustomPieChart title='Estimated consumption by categories' data={getEstimatedConsumptionByCategory()} />
           </div>
           <div>
             <CustomBarChart
-              title={'The average number of operating hours per day by category'}
+              title='The average number of operating hours per day by category'
               data={getNoOperatingHoursByCategory()}
               legend={false}
               dataKeys={['The average number of operating hours per day']}
@@ -215,7 +215,7 @@ const Charts = () => {
           </div>
           <div>
             <CustomStackedAreaChart
-              title={'Estimated consumption history'}
+              title='Estimated consumption history'
               data={getEstimatedConsumptionHistory()}
               dataKeys={['previous', 'current']}
             />

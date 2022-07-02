@@ -15,8 +15,8 @@ const CustomBarChart = ({ title, width, height, data, legend, dataKeys }) => {
       <div id='bar-chart-container' className='display-flex justify-content-center'>
         <BarChart
           id='bar-chart'
-          width={width ? width : 800}
-          height={height ? height : 400}
+          width={width ? width : 960}
+          height={height ? height : 480}
           data={data}
           margin={{
             top: 5,
@@ -25,7 +25,7 @@ const CustomBarChart = ({ title, width, height, data, legend, dataKeys }) => {
             bottom: 5
           }}
         >
-          <CartesianGrid strokeDasharray={'3 3'} />
+          <CartesianGrid strokeDasharray='3 3' />
           <XAxis dataKey='name' height={90} interval={0} angle={30} dx={20} dy={32} />
           <YAxis />
           <Tooltip content={<CustomTooltip colors={COLORS} />} />
