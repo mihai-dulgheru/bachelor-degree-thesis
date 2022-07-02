@@ -109,8 +109,8 @@ const OtherInformation = () => {
 
   const handleSave = async () => {
     await updateUser({
-      supplier: supplier,
-      county: county,
+      supplier,
+      county,
       budget: budget || 0,
       invoiceUnitValue: invoiceUnitValue || 0
     })

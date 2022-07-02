@@ -418,7 +418,7 @@ const Alternatives = () => {
               <TableCell align='left'>{element.name}</TableCell>
               <TableCell align='right'>{element.price}</TableCell>
               <TableCell className='d-flex flex-row gap-3 justify-content-around align-items-center'>
-                <a className='link-primary' target={'_blank'} rel={'noreferrer'} href={`${element.link}`}>
+                <a className='link-primary' target='_blank' rel='noreferrer' href={`${element.link}`}>
                   Check!
                 </a>
                 <button className='btn btn-outline-secondary' onClick={() => handleChoose(element)}>
@@ -457,7 +457,7 @@ const Alternatives = () => {
   const dialog = (
     <div>
       <Dialog open={open}>
-        <DialogTitle>{'Please enter the amount of your budget'}</DialogTitle>
+        <DialogTitle>Please enter the amount of your budget</DialogTitle>
         <DialogContent className='dialog-content'>
           <TextField
             autoFocus
@@ -468,10 +468,10 @@ const Alternatives = () => {
             variant='standard'
             value={inputBudget}
             onChange={handleChangeInputBudget}
-            autoComplete={'off'}
+            autoComplete='off'
           />
           <DialogContentText
-            className={'dialog-content-text'}
+            className='dialog-content-text'
             style={error ? { display: 'contents', color: 'rgba(255, 0, 0, 0.8)' } : {}}
           >
             Please enter a value
@@ -491,32 +491,36 @@ const Alternatives = () => {
           <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
         </div>
       )}
-      {budget ? (
-        <>
-          {loading ? (
-            <LoadingScreen />
-          ) : (
-            <>
-              {appBar}
-              <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
-                <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
-                  <Typography variant='h4' gutterBottom component='div'>
-                    Alternatives for device
-                  </Typography>
-                  <Typography variant='h5' gutterBottom component='div'>
-                    {`${device.category}${
+      {budget
+        ? (
+          <>
+            {loading
+              ? (
+                <LoadingScreen />
+                )
+              : (
+                <>
+                  {appBar}
+                  <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
+                    <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
+                      <Typography variant='h4' gutterBottom component='div'>
+                        Alternatives for device
+                      </Typography>
+                      <Typography variant='h5' gutterBottom component='div'>
+                        {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''
                     }, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
-                  </Typography>
-                  {table}
-                </Paper>
-              </Box>
-            </>
+                      </Typography>
+                      {table}
+                    </Paper>
+                  </Box>
+                </>
+                )}
+          </>
+          )
+        : (
+            dialog
           )}
-        </>
-      ) : (
-        dialog
-      )}
     </div>
   )
 }

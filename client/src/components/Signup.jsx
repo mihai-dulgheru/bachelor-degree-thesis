@@ -57,15 +57,13 @@ const Signup = () => {
   }
 
   const createUser = async () => {
-    if (!validation()) {
-      return
-    } else {
+    if (validation()) {
       const user = {
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        password: password,
-        email: email
+        firstName,
+        lastName,
+        username,
+        password,
+        email
       }
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -164,8 +162,8 @@ const Signup = () => {
               error={!isFirstNameValid}
               helperText={
                 !isFirstNameValid && (
-                  <span className={'display-flex align-items-center column-gap-1'}>
-                    <i className='fa-solid fa-circle-exclamation'></i>
+                  <span className='display-flex align-items-center column-gap-1'>
+                    <i className='fa-solid fa-circle-exclamation' />
                     This field is required
                   </span>
                 )
@@ -184,8 +182,8 @@ const Signup = () => {
               error={!isLastNameValid}
               helperText={
                 !isLastNameValid && (
-                  <span className={'display-flex align-items-center column-gap-1'}>
-                    <i className='fa-solid fa-circle-exclamation'></i>
+                  <span className='display-flex align-items-center column-gap-1'>
+                    <i className='fa-solid fa-circle-exclamation' />
                     This field is required
                   </span>
                 )
@@ -206,8 +204,8 @@ const Signup = () => {
               error={!isUsernameValid}
               helperText={
                 !isUsernameValid && (
-                  <span className={'display-flex align-items-center column-gap-1'}>
-                    <i className='fa-solid fa-circle-exclamation'></i>
+                  <span className='display-flex align-items-center column-gap-1'>
+                    <i className='fa-solid fa-circle-exclamation' />
                     This field is required
                   </span>
                 )
@@ -228,8 +226,8 @@ const Signup = () => {
               error={!isEmailValid}
               helperText={
                 !isEmailValid && (
-                  <span className={'display-flex align-items-center column-gap-1'}>
-                    <i className='fa-solid fa-circle-exclamation'></i>
+                  <span className='display-flex align-items-center column-gap-1'>
+                    <i className='fa-solid fa-circle-exclamation' />
                     This field is required
                   </span>
                 )
@@ -260,7 +258,8 @@ const Signup = () => {
               />
               {!isPasswordValid && (
                 <span className='errors'>
-                  <i className='fa-solid fa-circle-exclamation'></i>This field is required
+                  <i className='fa-solid fa-circle-exclamation' />
+                  This field is required
                 </span>
               )}
               <FormHelperText>

@@ -33,26 +33,28 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/signup' element={<Signup />} />
-          {accessToken ? (
-            <>
-              <Route path='/' element={<Home />} />
-              <Route path='/home' element={<Home />} />
-              <Route path='/login' element={<Signin onSignin={handleSignin} />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='/edit-personal-information' element={<PersonalInformation />} />
-              <Route path='/edit-other-information' element={<OtherInformation />} />
-              <Route path='/device-list' element={<DeviceList />} />
-              <Route path='/device-list/:deviceId' element={<Device />} />
-              <Route path='/alternatives/:deviceId' element={<Alternatives />} />
-              <Route path='/prizes' element={<Prizes />} />
-              <Route path='/charts' element={<Charts />} />
-              <Route path='*' element={<NotFound />} />
-            </>
-          ) : (
-            <>
-              <Route path='*' element={<Signin onSignin={handleSignin} />} />
-            </>
-          )}
+          {accessToken
+            ? (
+              <>
+                <Route path='/' element={<Home />} />
+                <Route path='/home' element={<Home />} />
+                <Route path='/login' element={<Signin onSignin={handleSignin} />} />
+                <Route path='/profile' element={<Profile />} />
+                <Route path='/edit-personal-information' element={<PersonalInformation />} />
+                <Route path='/edit-other-information' element={<OtherInformation />} />
+                <Route path='/device-list' element={<DeviceList />} />
+                <Route path='/device-list/:deviceId' element={<Device />} />
+                <Route path='/alternatives/:deviceId' element={<Alternatives />} />
+                <Route path='/prizes' element={<Prizes />} />
+                <Route path='/charts' element={<Charts />} />
+                <Route path='*' element={<NotFound />} />
+              </>
+              )
+            : (
+              <>
+                <Route path='*' element={<Signin onSignin={handleSignin} />} />
+              </>
+              )}
         </Routes>
       </BrowserRouter>
     </div>

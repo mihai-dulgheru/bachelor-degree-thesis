@@ -34,7 +34,7 @@ const StyledInputElement = styled('input')(
 `
 )
 
-const CustomInput = forwardRef(function CustomInput(props, ref) {
+const CustomInput = forwardRef(function CustomInput (props, ref) {
   return <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref} />
 })
 
@@ -97,9 +97,7 @@ const Home = () => {
   }
 
   const handleAdd = async () => {
-    if (!validation()) {
-      return
-    } else {
+    if (validation()) {
       const device = {
         energyConsumption: energyConsumption ? parseInt(energyConsumption) : 0,
         noOperatingHours: noOperatingHours ? parseFloat(noOperatingHours) : 0,
@@ -351,30 +349,33 @@ const Home = () => {
                 onChange={handleChangeCustomInputEnergyConsumption}
               />
               <span className={!isEnergyConsumptionValid ? 'errors' : ''}>
-                <i className='fa-solid fa-circle-exclamation'></i>This field is required
+                <i className='fa-solid fa-circle-exclamation' />
+                This field is required
               </span>
             </div>
-            {isSelectedPower ? (
-              <Select
-                className='select-units-measures'
-                isSearchable
-                value={unitMeasurePower}
-                onChange={(unitMeasurePower) => {
-                  setUnitMeasurementPower(unitMeasurePower)
-                }}
-                options={unitsMeasurementsPower}
-              />
-            ) : (
-              <Select
-                className='select-units-measures'
-                isSearchable
-                value={unitMeasureEnergyConsumption}
-                onChange={(unitMeasureEnergyConsumption) => {
-                  setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
-                }}
-                options={unitsMeasurementsEnergyConsumption}
-              />
-            )}
+            {isSelectedPower
+              ? (
+                <Select
+                  className='select-units-measures'
+                  isSearchable
+                  value={unitMeasurePower}
+                  onChange={(unitMeasurePower) => {
+                    setUnitMeasurementPower(unitMeasurePower)
+                  }}
+                  options={unitsMeasurementsPower}
+                />
+                )
+              : (
+                <Select
+                  className='select-units-measures'
+                  isSearchable
+                  value={unitMeasureEnergyConsumption}
+                  onChange={(unitMeasureEnergyConsumption) => {
+                    setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
+                  }}
+                  options={unitsMeasurementsEnergyConsumption}
+                />
+                )}
           </div>
         </div>
         <div className='row'>
@@ -389,7 +390,8 @@ const Home = () => {
                 onChange={handleChangeCustomInputNoOperatingHours}
               />
               <span className={!isNoOperatingHoursValid ? 'errors' : ''}>
-                <i className='fa-solid fa-circle-exclamation'></i>This field is required
+                <i className='fa-solid fa-circle-exclamation' />
+                This field is required
               </span>
             </div>
           </div>
@@ -444,7 +446,7 @@ const Home = () => {
 
   return (
     <div className='root'>
-      <CustomAppBar user={user} selectedAppBarItem={'Home'} />
+      <CustomAppBar user={user} selectedAppBarItem='Home' />
       <div className='position-absolute top-50 start-50 translate-middle col-10 mx-auto'>
         <div className='mt-4'>{setUpDevice}</div>
         <div className='mt-2'>{chooseDevice}</div>

@@ -132,7 +132,7 @@ const Prizes = () => {
 
   return (
     <div>
-      <CustomAppBar user={user} selectedAppBarItem={'Prizes'} />
+      <CustomAppBar user={user} selectedAppBarItem='Prizes' />
       <div>
         <Typography id='awards-title' variant='h2'>
           You have saved <span id='span-energy'>{totalkWh} kWh</span> of energy. The equivalent of:

@@ -29,7 +29,7 @@ const renderLegend = (props) => {
             A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
             H32M21.333333333333332,16
             A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16'
-            ></path>
+            />
           </svg>
           <span style={{ display: 'contents', color: TEXT_COLORS[index % TEXT_COLORS.length] }}>{entry.value}</span>
         </li>
@@ -48,8 +48,8 @@ const CustomStackedAreaChart = ({ title, width, height, data, dataKeys }) => {
       <div id='area-chart-container' className='display-flex justify-content-center'>
         <AreaChart
           id='area-chart'
-          width={width ? width : 960}
-          height={height ? height : 480}
+          width={width || 960}
+          height={height || 480}
           data={data}
           margin={{
             top: 10,

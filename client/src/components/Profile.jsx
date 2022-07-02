@@ -27,7 +27,7 @@ import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import './Profile.css'
 
-const Alert = React.forwardRef(function Alert(props, ref) {
+const Alert = React.forwardRef(function Alert (props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
@@ -255,12 +255,18 @@ const Profile = () => {
     return { property, value }
   }
 
-  const rowsPersonalInfoCard = [
-    createData('First Name', user.firstName),
-    createData('Last Name', user.lastName),
-    createData('Username', user.username),
-    createData('E-mail', user.email)
-  ]
+  const rowsPersonalInfoCard = !localStorage.getItem('loggedInWithGoogle')
+    ? [
+        createData('First Name', user.firstName),
+        createData('Last Name', user.lastName),
+        createData('Username', user.username),
+        createData('E-mail', user.email)
+      ]
+    : [
+        createData('First Name', user.firstName),
+        createData('Last Name', user.lastName),
+        createData('E-mail', user.email)
+      ]
 
   const rowsOtherInfoCard = [
     createData('Supplier', user.supplier ? user.supplier : ''),
@@ -283,7 +289,7 @@ const Profile = () => {
           variant='outlined'
           color='inherit'
           size='medium'
-          endIcon={<i className='fa-solid fa-arrow-right-from-bracket'></i>}
+          endIcon={<i className='fa-solid fa-arrow-right-from-bracket' />}
         >
           Sign Out{' '}
         </Button>
@@ -308,7 +314,7 @@ const Profile = () => {
                     onChange={handleChange}
                   />
                   <div className='overlay'>
-                    <i className='fa-solid fa-upload icon'></i>
+                    <i className='fa-solid fa-upload icon' />
                   </div>
                 </label>
               </div>
@@ -317,7 +323,7 @@ const Profile = () => {
           <div>
             <Typography variant='h5'>
               Welcome, {user.firstName} {user.lastName}
-              {'!'}
+              !
             </Typography>
           </div>
         </div>

@@ -41,7 +41,7 @@ const CustomPieChart = ({ title, data, width, height, outerRadius }) => {
       </Typography>
 
       <div className='display-flex flex-wrap-wrap justify-content-center'>
-        <PieChart width={width ? width : 480} height={height ? height : 480}>
+        <PieChart width={width || 480} height={height || 480}>
           <Pie
             data={data}
             dataKey='value'
@@ -50,7 +50,7 @@ const CustomPieChart = ({ title, data, width, height, outerRadius }) => {
             cy='50%'
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={outerRadius ? outerRadius : 160}
+            outerRadius={outerRadius || 160}
             fill='#8884d8'
           >
             {data.map((_entry, index) => (
@@ -61,7 +61,7 @@ const CustomPieChart = ({ title, data, width, height, outerRadius }) => {
         <div className='display-flex flex-direction-column justify-content-center'>
           {data.map((_entry, index) => (
             <div key={`legend-${index}`} className='display-flex align-items-center'>
-              <div className='w-4 h-4 br-50 mr-2' style={{ backgroundColor: COLORS[index] }}></div>
+              <div className='w-4 h-4 br-50 mr-2' style={{ backgroundColor: COLORS[index] }} />
               <Typography className='text-align-left vertical-align-middle' style={{ lineHeight: 2 }}>
                 {data[index].name}
               </Typography>

@@ -41,7 +41,7 @@ alternativesRouter.route('/').get(async (req, res, next) => {
       await browser.close()
       res.status(200).json({
         status: 'ok',
-        data: data
+        data
       })
     } else {
       res.status(400).json({
@@ -83,11 +83,11 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
         })
           ? specifications.find((item) => {
-              return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
-            })
+            return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
+          })
           : specifications.find((item) => {
-              return item.match(rePower)
-            })
+            return item.match(rePower)
+          })
         data.energyConsumption = specificationEnergyConsumption
           ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
           : 0
@@ -116,13 +116,13 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           return item.match(new RegExp('Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE'))
         })
           ? specifications.find((item) => {
-              return item.match(
-                new RegExp('Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE')
-              )
-            })
+            return item.match(
+              new RegExp('Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE')
+            )
+          })
           : specifications.find((item) => {
-              return item.match(new RegExp('Clasa energetica'))
-            })
+            return item.match(new RegExp('Clasa energetica'))
+          })
         data.efficiencyClass = specificationEfficiencyClass
           ? specificationEfficiencyClass.split(' ').pop().replace('.', '')
           : ''
@@ -130,7 +130,7 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
       await browser.close()
       res.status(200).json({
         status: 'ok',
-        data: data
+        data
       })
     } else {
       res.status(400).json({

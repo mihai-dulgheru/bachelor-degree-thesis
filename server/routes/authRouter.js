@@ -145,7 +145,7 @@ authRouter
         res.status(200).json({
           status: 'ok',
           message: `Device with ID = ${device.id} is created`,
-          device: device
+          device
         })
       } else {
         res.status(400).json({
@@ -211,7 +211,7 @@ authRouter
           req.body.previousVersion !== undefined
             ? req.body.previousVersion
             : `${updatedDevice.energyConsumption};${updatedDevice.unitMeasurement};${updatedDevice.efficiencyClass}`
-        await updatedDevice.update({ ...req.body, previousVersion: previousVersion })
+        await updatedDevice.update({ ...req.body, previousVersion })
         res.status(200).json({
           status: 'ok',
           message: `Device with ID = ${deviceId} is updated`,
@@ -270,7 +270,7 @@ authRouter.route('/prizes').get(async (_req, res, next) => {
     })
     res.status(200).json({
       status: 'ok',
-      prizes: prizes
+      prizes
     })
   } catch (err) {
     next(err)
@@ -314,7 +314,7 @@ authRouter
         res.status(200).json({
           status: 'ok',
           message: `Prize with ID = ${prize.id} is created`,
-          prize: prize
+          prize
         })
       } else {
         res.status(400).json({

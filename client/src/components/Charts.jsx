@@ -132,7 +132,7 @@ const Charts = () => {
     for (const [key, value] of Object.entries(object)) {
       estimatedConsumptionByCategory.push({
         name: key,
-        value: value
+        value
       })
     }
     return estimatedConsumptionByCategory.sort((a, b) => b.value - a.value)
@@ -163,7 +163,7 @@ const Charts = () => {
 
   const getEstimatedConsumptionHistory = () => {
     const tempDevices = devices.map((device) => {
-      let items = device.previousVersion && device.previousVersion.split(';')
+      const items = device.previousVersion && device.previousVersion.split(';')
       const fractionDigits = 2
       return {
         name: device.category,
@@ -171,13 +171,13 @@ const Charts = () => {
           device.previousVersion === null
             ? parseFloat(getEstimatedConsumption(device).toFixed(fractionDigits))
             : parseFloat(
-                getEstimatedConsumption({
-                  ...device,
-                  energyConsumption: parseInt(items[0]),
-                  unitMeasurement: items[1],
-                  efficiencyClass: items[2]
-                }).toFixed(fractionDigits)
-              ),
+              getEstimatedConsumption({
+                ...device,
+                energyConsumption: parseInt(items[0]),
+                unitMeasurement: items[1],
+                efficiencyClass: items[2]
+              }).toFixed(fractionDigits)
+            ),
         current: parseFloat(getEstimatedConsumption(device).toFixed(fractionDigits))
       }
     })
@@ -186,7 +186,7 @@ const Charts = () => {
       const name = device.name
       if (Object.hasOwnProperty.call(object, name)) {
         object[name] = {
-          name: name,
+          name,
           previous: object[name].previous + device.previous,
           current: object[name].current + device.current
         }

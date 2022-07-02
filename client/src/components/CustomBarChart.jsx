@@ -15,8 +15,8 @@ const CustomBarChart = ({ title, width, height, data, legend, dataKeys }) => {
       <div id='bar-chart-container' className='display-flex justify-content-center'>
         <BarChart
           id='bar-chart'
-          width={width ? width : 960}
-          height={height ? height : 480}
+          width={width || 960}
+          height={height || 480}
           data={data}
           margin={{
             top: 5,

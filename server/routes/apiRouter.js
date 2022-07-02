@@ -17,7 +17,7 @@ apiRouter.route('/login').post(async (req, res, next) => {
         const response = {
           status: 'ok',
           message: 'Logged in',
-          accessToken: accessToken,
+          accessToken,
           user: tempUser
         }
         user.token = accessToken
@@ -185,7 +185,7 @@ apiRouter
           res.status(200).json({
             status: 'ok',
             message: `Device with ID = ${device.id} is created`,
-            device: device
+            device
           })
         } else {
           res.status(400).json({
@@ -257,7 +257,7 @@ apiRouter
             req.body.previousVersion !== undefined
               ? req.body.previousVersion
               : `${updatedDevice.energyConsumption};${updatedDevice.unitMeasurement};${updatedDevice.efficiencyClass}`
-          await updatedDevice.update({ ...req.body, previousVersion: previousVersion })
+          await updatedDevice.update({ ...req.body, previousVersion })
           res.status(200).json({
             status: 'ok',
             message: `Device with ID = ${deviceId} is updated`,
@@ -362,7 +362,7 @@ apiRouter
           res.status(200).json({
             status: 'ok',
             message: `Prize with ID = ${prize.id} is created`,
-            prize: prize
+            prize
           })
         } else {
           res.status(400).json({

@@ -145,8 +145,8 @@ const Signin = ({ onSignin }) => {
               error={!isUsernameValid}
               helperText={
                 !isUsernameValid && (
-                  <span className={'display-flex align-items-center column-gap-1'}>
-                    <i className='fa-solid fa-circle-exclamation'></i>
+                  <span className='display-flex align-items-center column-gap-1'>
+                    <i className='fa-solid fa-circle-exclamation' />
                     This field is required
                   </span>
                 )
@@ -173,7 +173,7 @@ const Signin = ({ onSignin }) => {
               />
               {!isPasswordValid && (
                 <span className='errors'>
-                  <i className='fa-solid fa-circle-exclamation'></i>This field is required
+                  <i className='fa-solid fa-circle-exclamation' />This field is required
                 </span>
               )}
             </FormControl>
@@ -188,7 +188,7 @@ const Signin = ({ onSignin }) => {
                 Sign In
               </Button>
             </div>
-            <div className='pm-awesome-divider' data-label='or'></div>
+            <div className='pm-awesome-divider' data-label='or' />
             <div id='google-auth' className='d-flex justify-content-center'>
               <ReactGoogleLogin onSignin={onSignin} />
             </div>

@@ -127,19 +127,21 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} className='box'>
             {listOfAppBarItems.map((item) => {
-              return item.name === selectedAppBarItem ? (
-                <Typography key={item.name} variant='h6' noWrap component='div'>
-                  {selectedAppBarItem}
-                </Typography>
-              ) : (
-                <Button
-                  key={item.name}
-                  onClick={() => handleClickMenuItem(item)}
-                  sx={{ py: 2, color: 'white', display: 'block' }}
-                >
-                  {item.name}
-                </Button>
-              )
+              return item.name === selectedAppBarItem
+                ? (
+                  <Typography key={item.name} variant='h6' noWrap component='div'>
+                    {selectedAppBarItem}
+                  </Typography>
+                  )
+                : (
+                  <Button
+                    key={item.name}
+                    onClick={() => handleClickMenuItem(item)}
+                    sx={{ py: 2, color: 'white', display: 'block' }}
+                  >
+                    {item.name}
+                  </Button>
+                  )
             })}
           </Box>
 

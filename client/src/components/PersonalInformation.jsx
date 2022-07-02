@@ -110,17 +110,15 @@ const PersonalInformation = () => {
   }
 
   const handleSave = async () => {
-    if (!validation()) {
-      return
-    } else {
+    if (validation()) {
       let user = {
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        email: email
+        firstName,
+        lastName,
+        username,
+        email
       }
       if (password) {
-        user = { ...user, password: password }
+        user = { ...user, password }
       }
       await updateUser(user)
       if (!localStorage.getItem('loggedInWithGoogle')) {
@@ -172,119 +170,179 @@ const PersonalInformation = () => {
           CHANGE YOUR PERSONAL INFORMATION
         </Typography>
         <form noValidate>
-          <div className='row mb-3'>
-            <div className='col'>
-              <TextField
-                fullWidth
-                type='text'
-                className='form-control'
-                id='inputFirstName'
-                label='First Name *'
-                value={firstName}
-                onChange={handleChangeFirstName}
-                error={!isFirstNameValid}
-                helperText={
-                  !isFirstNameValid && (
-                    <span className={'display-flex align-items-center column-gap-1'}>
-                      <i className='fa-solid fa-circle-exclamation'></i>
-                      This field is required
-                    </span>
-                  )
-                }
-              />
-            </div>
-            <div className='col'>
-              <TextField
-                fullWidth
-                type='text'
-                className='form-control'
-                id='inputLastName'
-                label='Last Name *'
-                value={lastName}
-                onChange={handleChangeLastName}
-                error={!isLastNameValid}
-                helperText={
-                  !isLastNameValid && (
-                    <span className={'display-flex align-items-center column-gap-1'}>
-                      <i className='fa-solid fa-circle-exclamation'></i>
-                      This field is required
-                    </span>
-                  )
-                }
-              />
-            </div>
-          </div>
-          <div className='row mb-3'>
-            <div className='col'>
-              <TextField
-                fullWidth
-                type='text'
-                className='form-control'
-                id='inputUsername'
-                label='Username *'
-                value={username}
-                onChange={handleChangeUsername}
-                error={!isUsernameValid}
-                helperText={
-                  !isUsernameValid && (
-                    <span className={'display-flex align-items-center column-gap-1'}>
-                      <i className='fa-solid fa-circle-exclamation'></i>
-                      This field is required
-                    </span>
-                  )
-                }
-              />
-            </div>
-          </div>
-          <div className='row mb-3'>
-            <div className='col'>
-              <TextField
-                fullWidth
-                type='email'
-                className='form-control'
-                id='inputEmail'
-                label='E-mail *'
-                value={email}
-                onChange={handleChangeEmail}
-                error={!isEmailValid}
-                helperText={
-                  !isEmailValid && (
-                    <span className={'display-flex align-items-center column-gap-1'}>
-                      <i className='fa-solid fa-circle-exclamation'></i>
-                      This field is required
-                    </span>
-                  )
-                }
-              />
-            </div>
-          </div>
-          {!localStorage.getItem('loggedInWithGoogle') && (
-            <div className='row mb-3'>
-              <div className='col'>
-                <FormControl fullWidth className='form-control' id='inputPassword'>
-                  <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
-                  <OutlinedInput
-                    id='outlined-adornment-password'
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={handleChangePassword}
-                    endAdornment={
-                      <InputAdornment position='end'>
-                        <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge='end'>
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
+          {!localStorage.getItem('loggedInWithGoogle')
+            ? (
+              <div>
+                <div className='row mb-3'>
+                  <div className='col'>
+                    <TextField
+                      fullWidth
+                      type='text'
+                      className='form-control'
+                      id='inputFirstName'
+                      label='First Name *'
+                      value={firstName}
+                      onChange={handleChangeFirstName}
+                      error={!isFirstNameValid}
+                      helperText={
+                      !isFirstNameValid && (
+                        <span className='display-flex align-items-center column-gap-1'>
+                          <i className='fa-solid fa-circle-exclamation' />
+                          This field is required
+                        </span>
+                      )
                     }
-                    label='Password'
-                  />
-                  <FormHelperText>
-                    The password must contain a minimum of 8 characters with at least 1 Uppercase [A-Z] or 1 lowercase
-                    [a-z], and 1 numeric character [0-9]
-                  </FormHelperText>
-                </FormControl>
+                    />
+                  </div>
+                  <div className='col'>
+                    <TextField
+                      fullWidth
+                      type='text'
+                      className='form-control'
+                      id='inputLastName'
+                      label='Last Name *'
+                      value={lastName}
+                      onChange={handleChangeLastName}
+                      error={!isLastNameValid}
+                      helperText={
+                      !isLastNameValid && (
+                        <span className='display-flex align-items-center column-gap-1'>
+                          <i className='fa-solid fa-circle-exclamation' />
+                          This field is required
+                        </span>
+                      )
+                    }
+                    />
+                  </div>
+                </div>
+                <div className='row mb-3'>
+                  <div className='col'>
+                    <TextField
+                      fullWidth
+                      type='text'
+                      className='form-control'
+                      id='inputUsername'
+                      label='Username *'
+                      value={username}
+                      onChange={handleChangeUsername}
+                      error={!isUsernameValid}
+                      helperText={
+                      !isUsernameValid && (
+                        <span className='display-flex align-items-center column-gap-1'>
+                          <i className='fa-solid fa-circle-exclamation' />
+                          This field is required
+                        </span>
+                      )
+                    }
+                    />
+                  </div>
+                </div>
+                <div className='row mb-3'>
+                  <div className='col'>
+                    <TextField
+                      fullWidth
+                      type='email'
+                      className='form-control'
+                      id='inputEmail'
+                      label='E-mail *'
+                      value={email}
+                      onChange={handleChangeEmail}
+                      error={!isEmailValid}
+                      helperText={
+                      !isEmailValid && (
+                        <span className='display-flex align-items-center column-gap-1'>
+                          <i className='fa-solid fa-circle-exclamation' />
+                          This field is required
+                        </span>
+                      )
+                    }
+                    />
+                  </div>
+                </div>
+                <div className='row mb-3'>
+                  <div className='col'>
+                    <FormControl fullWidth className='form-control' id='inputPassword'>
+                      <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+                      <OutlinedInput
+                        id='outlined-adornment-password'
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={handleChangePassword}
+                        endAdornment={
+                          <InputAdornment position='end'>
+                            <IconButton
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge='end'
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                      }
+                        label='Password'
+                      />
+                      <FormHelperText>
+                        The password must contain a minimum of 8 characters with at least 1 Uppercase [A-Z] or 1 lowercase
+                        [a-z], and 1 numeric character [0-9]
+                      </FormHelperText>
+                    </FormControl>
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
+              )
+            : (
+              <div>
+                <div className='row mb-3'>
+                  <div className='col'>
+                    <TextField
+                      fullWidth
+                      type='text'
+                      className='form-control'
+                      id='inputFirstName'
+                      label='First Name *'
+                      value={firstName}
+                      onChange={handleChangeFirstName}
+                      error={!isFirstNameValid}
+                      helperText={
+                      !isFirstNameValid && (
+                        <span className='display-flex align-items-center column-gap-1'>
+                          <i className='fa-solid fa-circle-exclamation' />
+                          This field is required
+                        </span>
+                      )
+                    }
+                    />
+                  </div>
+                </div>
+                <div className='row mb-3'>
+                  <div className='col'>
+                    <TextField
+                      fullWidth
+                      type='text'
+                      className='form-control'
+                      id='inputLastName'
+                      label='Last Name *'
+                      value={lastName}
+                      onChange={handleChangeLastName}
+                      error={!isLastNameValid}
+                      helperText={
+                      !isLastNameValid && (
+                        <span className='display-flex align-items-center column-gap-1'>
+                          <i className='fa-solid fa-circle-exclamation' />
+                          This field is required
+                        </span>
+                      )
+                    }
+                    />
+                  </div>
+                </div>
+                <div className='row mb-3'>
+                  <div className='col'>
+                    <TextField fullWidth disabled id='email-disabled' label='E-mail' value={email} />
+                  </div>
+                </div>
+              </div>
+              )}
           <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
             <Button variant='text' color='inherit' onClick={handleCancel} style={{ minWidth: '10%' }}>
               Cancel
