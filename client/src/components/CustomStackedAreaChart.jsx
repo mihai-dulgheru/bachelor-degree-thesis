@@ -69,7 +69,7 @@ const CustomStackedAreaChart = ({ title, width, height, data, dataKeys }) => {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='name' height={90} interval={0} angle={30} dx={20} dy={32} />
+          <XAxis dataKey='name' height={90} interval={0} angle={30} dx={10} dy={32} />
           <YAxis />
           <Tooltip content={<CustomTooltip colors={TEXT_COLORS} />} />
           <Legend content={renderLegend} />
