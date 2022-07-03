@@ -113,15 +113,13 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           }
         }
         const specificationEfficiencyClass = specifications.find((item) => {
-          return item.match(new RegExp('Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE'))
+          return item.match(/Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE/)
         })
           ? specifications.find((item) => {
-            return item.match(
-              new RegExp('Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE')
-            )
+            return item.match(/Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE/)
           })
           : specifications.find((item) => {
-            return item.match(new RegExp('Clasa energetica'))
+            return item.match(/Clasa energetica/)
           })
         data.efficiencyClass = specificationEfficiencyClass
           ? specificationEfficiencyClass.split(' ').pop().replace('.', '')

@@ -1,4 +1,4 @@
-import categories from './collections/categories-v2.json'
+import categories from './collections/categories-v3.json'
 import counties from './collections/counties.json'
 import efficiencyClasses from './collections/efficiency-classes.json'
 import suppliers from './collections/suppliers.json'

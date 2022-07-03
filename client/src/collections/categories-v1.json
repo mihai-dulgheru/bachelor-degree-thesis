@@ -1,0 +1,394 @@
+[
+  {
+    "value": "Aparate frigorifice mari",
+    "label": "Aparate frigorifice mari"
+  },
+  {
+    "value": "Frigidere",
+    "label": "Frigidere"
+  },
+  {
+    "value": "Congelatoare",
+    "label": "Congelatoare"
+  },
+  {
+    "value": "Alte aparate mari utilizate pentru refrigerarea, conservarea şi păstrarea produselor alimentare",
+    "label": "Alte aparate mari utilizate pentru refrigerarea, conservarea şi păstrarea produselor alimentare"
+  },
+  {
+    "value": "Maşini de spălat rufe",
+    "label": "Maşini de spălat rufe"
+  },
+  {
+    "value": "Uscatoare de haine",
+    "label": "Uscatoare de haine"
+  },
+  {
+    "value": "Maşini de spălat vase",
+    "label": "Maşini de spălat vase"
+  },
+  {
+    "value": "Maşini de gătit",
+    "label": "Maşini de gătit"
+  },
+  {
+    "value": "Sobe electrice",
+    "label": "Sobe electrice"
+  },
+  {
+    "value": "Plite electrice",
+    "label": "Plite electrice"
+  },
+  {
+    "value": "Cuptoare cu microunde",
+    "label": "Cuptoare cu microunde"
+  },
+  {
+    "value": "Alte aparate de uz casnic de mari dimensiuni utilizate pentru gătit şi prelucrarea alimentelor",
+    "label": "Alte aparate de uz casnic de mari dimensiuni utilizate pentru gătit şi prelucrarea alimentelor"
+  },
+  {
+    "value": "Aparate electrice de încălzit",
+    "label": "Aparate electrice de încălzit"
+  },
+  {
+    "value": "Radiatoare electrice",
+    "label": "Radiatoare electrice"
+  },
+  {
+    "value": "Alte aparate de uz casnic de mari dimensiuni utilizate pentru încălzirea camerelor, a paturilor şi a scaunelor şi fotoliilor",
+    "label": "Alte aparate de uz casnic de mari dimensiuni utilizate pentru încălzirea camerelor, a paturilor şi a scaunelor şi fotoliilor"
+  },
+  {
+    "value": "Ventilatoare electrice",
+    "label": "Ventilatoare electrice"
+  },
+  {
+    "value": "Aparate de aer condiţionat",
+    "label": "Aparate de aer condiţionat"
+  },
+  {
+    "value": "Alte echipamente de ventilare, de ventilare pentru evacuare şi de climatizare",
+    "label": "Alte echipamente de ventilare, de ventilare pentru evacuare şi de climatizare"
+  },
+  {
+    "value": "Aspiratoare",
+    "label": "Aspiratoare"
+  },
+  {
+    "value": "Aparate de curăţat covoare",
+    "label": "Aparate de curăţat covoare"
+  },
+  {
+    "value": "Alte aparate de curăţat",
+    "label": "Alte aparate de curăţat"
+  },
+  {
+    "value": "Aparate de cusut, tricotat, tesut şi alte prelucrari ale textilelor",
+    "label": "Aparate de cusut, tricotat, tesut şi alte prelucrari ale textilelor"
+  },
+  {
+    "value": "Fiare de călcat şi alte aparate de călcat, calandrat şi alte forme de întreţinere a imbracamintei",
+    "label": "Fiare de călcat şi alte aparate de călcat, calandrat şi alte forme de întreţinere a imbracamintei"
+  },
+  {
+    "value": "Aparate de prajit pâine",
+    "label": "Aparate de prajit pâine"
+  },
+  {
+    "value": "Friteuze",
+    "label": "Friteuze"
+  },
+  {
+    "value": "Maşini de macinat cafea, filtre de cafea şi echipamente de deschis sau sigilat recipiente ori ambalaje",
+    "label": "Maşini de macinat cafea, filtre de cafea şi echipamente de deschis sau sigilat recipiente ori ambalaje"
+  },
+  {
+    "value": "Cuţite electrice",
+    "label": "Cuţite electrice"
+  },
+  {
+    "value": "Aparate de tuns parul, uscatoare de par, periute de dinţi, aparate de ras, aparate pentru masaj şi alte aparate de îngrijire corporală",
+    "label": "Aparate de tuns parul, uscatoare de par, periute de dinţi, aparate de ras, aparate pentru masaj şi alte aparate de îngrijire corporală"
+  },
+  {
+    "value": "Ceasuri desteptatoare, ceasuri de mana şi alte echipamente de măsurat, indicat sau înregistrat timpul",
+    "label": "Ceasuri desteptatoare, ceasuri de mana şi alte echipamente de măsurat, indicat sau înregistrat timpul"
+  },
+  {
+    "value": "Cantare",
+    "label": "Cantare"
+  },
+  {
+    "value": "Unităţi centrale",
+    "label": "Unităţi centrale"
+  },
+  {
+    "value": "Minicalculatoare",
+    "label": "Minicalculatoare"
+  },
+  {
+    "value": "Imprimante",
+    "label": "Imprimante"
+  },
+  {
+    "value": "Calculatoare personale (inclusiv unitate centrala, mouse, monitor şi tastatura)",
+    "label": "Calculatoare personale (inclusiv unitate centrala, mouse, monitor şi tastatura)"
+  },
+  {
+    "value": "Calculatoare portabile (inclusiv unitate centrala, mouse, monitor şi tastatura)",
+    "label": "Calculatoare portabile (inclusiv unitate centrala, mouse, monitor şi tastatura)"
+  },
+  {
+    "value": "Calculatoare mici portabile (calculatoare foarte mici, portabile cu ecran sensibil - notebook)",
+    "label": "Calculatoare mici portabile (calculatoare foarte mici, portabile cu ecran sensibil - notebook)"
+  },
+  {
+    "value": "Calculatoare electronice",
+    "label": "Calculatoare electronice"
+  },
+  {
+    "value": "Imprimante",
+    "label": "Imprimante"
+  },
+  {
+    "value": "Fotocopiatoare",
+    "label": "Fotocopiatoare"
+  },
+  {
+    "value": "Maşini de scris electrice şi electronice",
+    "label": "Maşini de scris electrice şi electronice"
+  },
+  {
+    "value": "Calculatoare de buzunar şi de birou",
+    "label": "Calculatoare de buzunar şi de birou"
+  },
+  {
+    "value": "Alte produse şi echipamente de colectat, stocat, prelucrat, prezentat sau comunicat informaţii prin mijloace electronice",
+    "label": "Alte produse şi echipamente de colectat, stocat, prelucrat, prezentat sau comunicat informaţii prin mijloace electronice"
+  },
+  {
+    "value": "Faxuri",
+    "label": "Faxuri"
+  },
+  {
+    "value": "Telexuri",
+    "label": "Telexuri"
+  },
+  {
+    "value": "Telefoane",
+    "label": "Telefoane"
+  },
+  {
+    "value": "Telefoane publice",
+    "label": "Telefoane publice"
+  },
+  {
+    "value": "Telefoane fără fir",
+    "label": "Telefoane fără fir"
+  },
+  {
+    "value": "Telefoane celulare",
+    "label": "Telefoane celulare"
+  },
+  {
+    "value": "Roboti telefonici",
+    "label": "Roboti telefonici"
+  },
+  {
+    "value": "Alte produse sau echipamente de transmis sunete, imagini ori alte informaţii prin telecomunicaţie",
+    "label": "Alte produse sau echipamente de transmis sunete, imagini ori alte informaţii prin telecomunicaţie"
+  },
+  {
+    "value": "Aparate de radio",
+    "label": "Aparate de radio"
+  },
+  {
+    "value": "Televizoare",
+    "label": "Televizoare"
+  },
+  {
+    "value": "Camere video",
+    "label": "Camere video"
+  },
+  {
+    "value": "Aparate video",
+    "label": "Aparate video"
+  },
+  {
+    "value": "Aparate de înalta fidelitate",
+    "label": "Aparate de înalta fidelitate"
+  },
+  {
+    "value": "Amplificatoare audio",
+    "label": "Amplificatoare audio"
+  },
+  {
+    "value": "Instrumente muzicale",
+    "label": "Instrumente muzicale"
+  },
+  {
+    "value": "Alte produse sau echipamente de înregistrat sau reprodus sunete ori imagini, inclusiv semnale sau alte tehnologii de propagare a sunetului ori imaginii, altfel decât prin telecomunicaţii",
+    "label": "Alte produse sau echipamente de înregistrat sau reprodus sunete ori imagini, inclusiv semnale sau alte tehnologii de propagare a sunetului ori imaginii, altfel decât prin telecomunicaţii"
+  },
+  {
+    "value": "Aparate de iluminat pentru lampi fluorescente, cu excepţia aparatelor casnice de iluminat",
+    "label": "Aparate de iluminat pentru lampi fluorescente, cu excepţia aparatelor casnice de iluminat"
+  },
+  {
+    "value": "Lampi fluorescente drepte",
+    "label": "Lampi fluorescente drepte"
+  },
+  {
+    "value": "Lampi fluorescente compacte",
+    "label": "Lampi fluorescente compacte"
+  },
+  {
+    "value": "Lampi cu descărcare în gaze de înalta intensitate, inclusiv lampi cu vapori de sodiu la înalta presiune şi lampi cu halogenuri metalice",
+    "label": "Lampi cu descărcare în gaze de înalta intensitate, inclusiv lampi cu vapori de sodiu la înalta presiune şi lampi cu halogenuri metalice"
+  },
+  {
+    "value": "Lampi cu vapori de sodiu la joasa presiune",
+    "label": "Lampi cu vapori de sodiu la joasa presiune"
+  },
+  {
+    "value": "Alte materiale de iluminat sau echipamente de difuzat ori controlat lumina, cu excepţia becurilor cu filament",
+    "label": "Alte materiale de iluminat sau echipamente de difuzat ori controlat lumina, cu excepţia becurilor cu filament"
+  },
+  {
+    "value": "Maşini de gaurit",
+    "label": "Maşini de gaurit"
+  },
+  {
+    "value": "Ferastraie",
+    "label": "Ferastraie"
+  },
+  {
+    "value": "Maşini de cusut",
+    "label": "Maşini de cusut"
+  },
+  {
+    "value": "Echipamente de strunjit, de frezat, de slefuit, de polizat, de tăiat cu ferastraul, de tăiat, de forfecat, de perforat, de gaurit, de stantat, de faltuit, de indoit sau destinate altor operaţiuni de prelucrare a lemnului, metalului sau altor materiale",
+    "label": "Echipamente de strunjit, de frezat, de slefuit, de polizat, de tăiat cu ferastraul, de tăiat, de forfecat, de perforat, de gaurit, de stantat, de faltuit, de indoit sau destinate altor operaţiuni de prelucrare a lemnului, metalului sau altor materiale"
+  },
+  {
+    "value": "Dispozitive pentru nituit, pentru fixat cu cuie sau pentru insurubat sau de extragere a niturilor, cuielor, suruburilor sau pentru alte utilizări similare",
+    "label": "Dispozitive pentru nituit, pentru fixat cu cuie sau pentru insurubat sau de extragere a niturilor, cuielor, suruburilor sau pentru alte utilizări similare"
+  },
+  {
+    "value": "Dispozitive pentru sudura, pentru lipit sau pentru utilizări similare",
+    "label": "Dispozitive pentru sudura, pentru lipit sau pentru utilizări similare"
+  },
+  {
+    "value": "Echipamente de pulverizat, de împrăştiat, de dispersat sau alte operaţiuni de tratare a substanţelor lichide sau gazoase prin alte mijloace",
+    "label": "Echipamente de pulverizat, de împrăştiat, de dispersat sau alte operaţiuni de tratare a substanţelor lichide sau gazoase prin alte mijloace"
+  },
+  {
+    "value": "Unelte de tuns iarba sau pentru alte activităţi de gradinarit",
+    "label": "Unelte de tuns iarba sau pentru alte activităţi de gradinarit"
+  },
+  {
+    "value": "Trenuri electrice sau maşini de cursa în miniatura",
+    "label": "Trenuri electrice sau maşini de cursa în miniatura"
+  },
+  {
+    "value": "Console portabile de jocuri video",
+    "label": "Console portabile de jocuri video"
+  },
+  {
+    "value": "Jocuri video",
+    "label": "Jocuri video"
+  },
+  {
+    "value": "Calculatoare pentru ciclism, scufundare, cros, canotaj etc",
+    "label": "Calculatoare pentru ciclism, scufundare, cros, canotaj etc"
+  },
+  {
+    "value": "Echipamente sportive cu componente electrice sau electronice",
+    "label": "Echipamente sportive cu componente electrice sau electronice"
+  },
+  {
+    "value": "Automate cu monede",
+    "label": "Automate cu monede"
+  },
+  {
+    "value": "Echipamente de radioterapie",
+    "label": "Echipamente de radioterapie"
+  },
+  {
+    "value": "Echipamente de cardiologie",
+    "label": "Echipamente de cardiologie"
+  },
+  {
+    "value": "Dializoare",
+    "label": "Dializoare"
+  },
+  {
+    "value": "Ventilatoare pulmonare",
+    "label": "Ventilatoare pulmonare"
+  },
+  {
+    "value": "Echipamente de medicina nucleara",
+    "label": "Echipamente de medicina nucleara"
+  },
+  {
+    "value": "Echipamente de laborator pentru diagnosticare în-vitro",
+    "label": "Echipamente de laborator pentru diagnosticare în-vitro"
+  },
+  {
+    "value": "Analizoare",
+    "label": "Analizoare"
+  },
+  {
+    "value": "Aparate frigorifice",
+    "label": "Aparate frigorifice"
+  },
+  {
+    "value": "Teste de fecundare",
+    "label": "Teste de fecundare"
+  },
+  {
+    "value": "Alte aparate de detectare, prevenire, supraveghere, tratare, alinare a bolilor, rănilor sau incapacitatilor",
+    "label": "Alte aparate de detectare, prevenire, supraveghere, tratare, alinare a bolilor, rănilor sau incapacitatilor"
+  },
+  {
+    "value": "Detectoare de fum",
+    "label": "Detectoare de fum"
+  },
+  {
+    "value": "Regulatoare de căldura",
+    "label": "Regulatoare de căldura"
+  },
+  {
+    "value": "Termostate",
+    "label": "Termostate"
+  },
+  {
+    "value": "Aparate de măsurat, cântărit sau reglat de uz casnic ori utilizate ca echipamente de laborator",
+    "label": "Aparate de măsurat, cântărit sau reglat de uz casnic ori utilizate ca echipamente de laborator"
+  },
+  {
+    "value": "Alte instrumente de supraveghere şi control utilizate în instalaţii industriale (de exemplu în panourile de control)",
+    "label": "Alte instrumente de supraveghere şi control utilizate în instalaţii industriale (de exemplu în panourile de control)"
+  },
+  {
+    "value": "Distribuitoare automate de băuturi calde",
+    "label": "Distribuitoare automate de băuturi calde"
+  },
+  {
+    "value": "Distribuitoare automate de sticle sau doze calde ori reci",
+    "label": "Distribuitoare automate de sticle sau doze calde ori reci"
+  },
+  {
+    "value": "Distribuitoare automate de produse solide",
+    "label": "Distribuitoare automate de produse solide"
+  },
+  {
+    "value": "Distribuitoare automate de bani",
+    "label": "Distribuitoare automate de bani"
+  },
+  {
+    "value": "Toate aparatele care furnizează automat o gama larga de produse",
+    "label": "Toate aparatele care furnizează automat o gama larga de produse"
+  }
+]
