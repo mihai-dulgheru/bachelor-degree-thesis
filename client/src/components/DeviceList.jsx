@@ -24,7 +24,7 @@ import { visuallyHidden } from '@mui/utils'
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import swal from 'sweetalert'
 import { counties, suppliers } from '../collections'
 import CustomAppBar from './CustomAppBar'
@@ -147,8 +147,9 @@ const DeviceList = () => {
   const [user, setUser] = useState({})
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('category')
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [page, setPage] = useState(parseInt(searchParams.get('page')) || 0)
+  const [rowsPerPage, setRowsPerPage] = useState(parseInt(searchParams.get('rowsPerPage')) || 5)
   const [rows, setRows] = useState([])
   const [buttonIsClicked, setButtonIsClicked] = useState(false)
   const [tableRowsEstimatedConsumptionAndTotalCosts, setTableRowsEstimatedConsumptionAndTotalCosts] = useState([])
@@ -254,6 +255,10 @@ const DeviceList = () => {
   }
 
   useEffect(() => {
+    setSearchParams({ rowsPerPage, page })
+  }, [page, rowsPerPage, setSearchParams])
+
+  useEffect(() => {
     const getUser = async () => {
       const response = await fetch('/api/auth/user', {
         method: 'GET',
@@ -329,11 +334,14 @@ const DeviceList = () => {
 
   const handleChangePage = (_event, newPage) => {
     setPage(newPage)
+    setSearchParams({ rowsPerPage, page: newPage })
   }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
+    const value = parseInt(event.target.value, 10)
+    setRowsPerPage(value)
     setPage(0)
+    setSearchParams({ rowsPerPage: value, page: 0 })
   }
 
   const year = 365.242199
@@ -696,7 +704,7 @@ const DeviceList = () => {
           component='div'
           count={rows.length}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={rows.length && page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
@@ -797,7 +805,8 @@ const DeviceList = () => {
                                               </div>
                                               <div>
                                                 <Typography variant='body2'>
-                                                  Preţul final al facturii = Consum estimativ (kWh) * Valoarea unitară a facturii (RON/kWh)
+                                                  Preţul final al facturii = Consum estimativ (kWh) * Valoarea unitară a
+                                                  facturii (RON/kWh)
                                                 </Typography>
                                               </div>
                                             </div>

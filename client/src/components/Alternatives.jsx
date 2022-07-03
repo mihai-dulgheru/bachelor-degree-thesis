@@ -366,7 +366,7 @@ const Alternatives = () => {
             closeModal: true
           }
         }).then(() => {
-          navigate('/device-list')
+          handleBack()
         })
       } else {
         setLoadingDeviceSpecifications(false)

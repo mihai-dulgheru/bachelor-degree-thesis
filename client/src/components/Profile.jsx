@@ -322,8 +322,7 @@ const Profile = () => {
           </div>
           <div>
             <Typography variant='h5'>
-              Welcome, {user.firstName} {user.lastName}
-              !
+              Welcome, {user.firstName} {user.lastName}!
             </Typography>
           </div>
         </div>
