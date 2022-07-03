@@ -1,0 +1,14 @@
+img {
+  height: 25rem;
+}
+
+#info {
+  font-size: 2.5rem;
+  width: 80%;
+}
+
+#go-homepage-button {
+  min-width: 10%;
+  border-radius: 1.5rem;
+  background-color: var(--very-peri);
+}
