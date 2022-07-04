@@ -68,7 +68,6 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
     /(.*\W|^)(kWh|W|kW|Clasa energetica|Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE)(\W.*|$)/g
   const reEnergyConsumption = /(.*\W|^)(Consum energie electrica|Consum anual energie|Consum de energie)(\W.*|$)/g
   const reNotMatchEnergyConsumption = /^((?!Consum de energie pe zi).)*$/g
-  // const rePower = /(^)(Putere)(\W.*|$)/g
   try {
     if (url) {
       const [browser, page] = await setup()
@@ -91,30 +90,14 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
             return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
           })
           : specifications.find((item) => {
-            // return item.match(rePower)
             return item.includes('Putere\t')
           })
-        try {
-          data.energyConsumption = specificationEnergyConsumption
-            ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
-            : 0
-          data.unitMeasurement = specificationEnergyConsumption
-            ? specificationEnergyConsumption.split('\t')[1].split(' ')[1]
-            : ''
-        } catch (error) {
-          const newString = specificationEnergyConsumption.replace(/\s+/g, ' ').trim()
-          const arrayOfStrings = newString.split(' ')
-          const elements = ['W', 'kW', 'kWh']
-          let i = 0
-          let idx = arrayOfStrings.indexOf(elements[i])
-          while (idx === -1 && ++i < elements.length) {
-            idx = arrayOfStrings.indexOf(elements[i])
-          }
-          if (idx > 0) {
-            data.energyConsumption = parseInt(arrayOfStrings[idx - 1])
-            data.unitMeasurement = arrayOfStrings[idx]
-          }
-        }
+        data.energyConsumption = specificationEnergyConsumption
+          ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
+          : 0
+        data.unitMeasurement = specificationEnergyConsumption
+          ? specificationEnergyConsumption.split('\t')[1].split(' ')[1]
+          : ''
         if (data.unitMeasurement === 'kWh') {
           if (specificationEnergyConsumption.includes('/')) {
             const um = specificationEnergyConsumption.split('/')[1].split('\t')[0].trim()
