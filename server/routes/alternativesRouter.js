@@ -1,14 +1,22 @@
 const alternativesRouter = require('express').Router()
 const puppeteer = require('puppeteer')
 
+const setup = async () => {
+  const browser = await puppeteer.launch()
+  const page = await browser.newPage()
+  page.setDefaultNavigationTimeout(0)
+  return [browser, page]
+}
+
+const teardown = async (browser) => {
+  await browser.close()
+}
+
 alternativesRouter.route('/').get(async (req, res, next) => {
   const { url } = req.query
   try {
     if (url) {
-      const browser = await puppeteer.launch({
-        ignoreDefaultArgs: ['--disable-extensions']
-      })
-      const page = await browser.newPage()
+      const [browser, page] = await setup()
       await page.goto(url)
       const data = await page.evaluate(() => {
         return Array.from(document.querySelectorAll('#card_grid > div > div > div'))
@@ -38,7 +46,7 @@ alternativesRouter.route('/').get(async (req, res, next) => {
             }
           })
       })
-      await browser.close()
+      await teardown(browser)
       res.status(200).json({
         status: 'ok',
         data
@@ -63,10 +71,7 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
   const rePower = /(^)(Putere)(\W.*|$)/g
   try {
     if (url) {
-      const browser = await puppeteer.launch({
-        ignoreDefaultArgs: ['--disable-extensions']
-      })
-      const page = await browser.newPage()
+      const [browser, page] = await setup()
       await page.goto(url)
       const found = (await page.content()).match(reSpecifications)
       const data = {
@@ -139,7 +144,7 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           ? specificationEfficiencyClass.split(' ').pop().replace('.', '')
           : ''
       }
-      await browser.close()
+      await teardown(browser)
       res.status(200).json({
         status: 'ok',
         data
