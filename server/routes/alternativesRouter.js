@@ -88,12 +88,26 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           : specifications.find((item) => {
             return item.match(rePower)
           })
-        data.energyConsumption = specificationEnergyConsumption
-          ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
-          : 0
-        data.unitMeasurement = specificationEnergyConsumption
-          ? specificationEnergyConsumption.split('\t')[1].split(' ')[1]
-          : ''
+        try {
+          data.energyConsumption = specificationEnergyConsumption
+            ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
+            : 0
+          data.unitMeasurement = specificationEnergyConsumption
+            ? specificationEnergyConsumption.split('\t')[1].split(' ')[1]
+            : ''
+        } catch (error) {
+          const arrayOfStrings = specificationEnergyConsumption.split(' ')
+          const elements = ['W', 'kW', 'kWh']
+          let i = 0
+          let idx = arrayOfStrings.indexOf(elements[i])
+          while (idx === -1 && ++i < elements.length) {
+            idx = arrayOfStrings.indexOf(elements[i])
+          }
+          if (idx > 0) {
+            data.energyConsumption = parseInt(arrayOfStrings[idx - 1])
+            data.unitMeasurement = arrayOfStrings[idx]
+          }
+        }
         if (data.unitMeasurement === 'kWh') {
           if (specificationEnergyConsumption.includes('/')) {
             const um = specificationEnergyConsumption.split('/')[1].split('\t')[0].trim()
