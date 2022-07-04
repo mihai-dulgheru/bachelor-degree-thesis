@@ -68,7 +68,7 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
     /(.*\W|^)(kWh|W|kW|Clasa energetica|Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE)(\W.*|$)/g
   const reEnergyConsumption = /(.*\W|^)(Consum energie electrica|Consum anual energie|Consum de energie)(\W.*|$)/g
   const reNotMatchEnergyConsumption = /^((?!Consum de energie pe zi).)*$/g
-  const rePower = /(^)(Putere)(\W.*|$)/g
+  // const rePower = /(^)(Putere)(\W.*|$)/g
   try {
     if (url) {
       const [browser, page] = await setup()
@@ -91,7 +91,8 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
             return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
           })
           : specifications.find((item) => {
-            return item.match(rePower)
+            // return item.match(rePower)
+            return item.includes('Putere\t')
           })
         try {
           data.energyConsumption = specificationEnergyConsumption
@@ -101,7 +102,8 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
             ? specificationEnergyConsumption.split('\t')[1].split(' ')[1]
             : ''
         } catch (error) {
-          const arrayOfStrings = specificationEnergyConsumption.split(' ')
+          const newString = specificationEnergyConsumption.replace(/\s+/g, ' ').trim()
+          const arrayOfStrings = newString.split(' ')
           const elements = ['W', 'kW', 'kWh']
           let i = 0
           let idx = arrayOfStrings.indexOf(elements[i])
