@@ -511,7 +511,7 @@ const Alternatives = () => {
                     <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
                       <Typography variant='h4' gutterBottom component='div'>
                         Alternatives for device
-                    </Typography>
+                      </Typography>
                       <Typography variant='h5' gutterBottom component='div'>
                         {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''
