@@ -34,7 +34,6 @@ import { getEstimatedConsumptionPerYear } from '../functions/estimated-consumpti
 import './Alternatives.css'
 import LoadingScreen from './LoadingScreen'
 
-const timeout = 0
 const fractionDigits = 1
 
 const Alternatives = () => {
@@ -230,27 +229,24 @@ const Alternatives = () => {
         })
         const data = await response.json()
         if (data.status === 'ok') {
-          setAlternatives(
-            data.data
-              .filter((element) => {
-                return element && element.price <= value.budget
-              })
-              .sort((a, b) => {
-                const priceA = a.price
-                const priceB = b.price
-                if (priceA < priceB) {
-                  return 1
-                }
-                if (priceA > priceB) {
-                  return -1
-                }
-                return 0
-              })
-          )
-          setTimeout(() => {
-            setLoading(false)
-            setLoadingDeviceSpecifications(false)
-          }, timeout)
+          const alternatives = data.data
+            .filter((element) => {
+              return element && element.price <= value.budget
+            })
+            .sort((a, b) => {
+              const priceA = a.price
+              const priceB = b.price
+              if (priceA < priceB) {
+                return 1
+              }
+              if (priceA > priceB) {
+                return -1
+              }
+              return 0
+            })
+          setAlternatives(alternatives)
+          setLoading(false)
+          setLoadingDeviceSpecifications(false)
         } else {
           swal({
             title: 'Failed',
@@ -478,7 +474,7 @@ const Alternatives = () => {
                     <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
                       <Typography variant='h4' gutterBottom component='div'>
                         Alternatives for device
-                    </Typography>
+                      </Typography>
                       <Typography variant='h5' gutterBottom component='div'>
                         {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''

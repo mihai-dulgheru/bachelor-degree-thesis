@@ -95,7 +95,15 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
         const specifications = extractedText
           ? extractedText.split('\n').filter((element) => element.match(reSpecifications))
           : []
-        specifications.reverse()
+        const conditions = [
+          'Putere\t',
+          'Putere arzator mare\t',
+          'Putere bec\t',
+          'Putere consumata\t',
+          'Putere maxima\t',
+          'Putere nominala\t',
+          'Putere sursa\t'
+        ]
         const specificationEnergyConsumption = specifications.find((item) => {
           return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
         })
@@ -103,7 +111,9 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
             return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
           })
           : specifications.find((item) => {
-            return item.includes('Putere\t') || item.includes('Putere maxima\t') || item.includes('Putere bec\t')
+            return conditions.some((element) => {
+              item.includes(element)
+            })
           })
         data.energyConsumption = specificationEnergyConsumption
           ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
@@ -137,6 +147,7 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           )
           data.unitMeasurement = 'W'
         }
+        specifications.reverse()
         let specificationEfficiencyClass = specifications.find((item) => {
           return item.match(/Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE/)
         })
