@@ -34,24 +34,22 @@ import { getEstimatedConsumptionPerYear } from '../functions/estimated-consumpti
 import './Alternatives.css'
 import LoadingScreen from './LoadingScreen'
 
-// const timeout = 10000
 const timeout = 0
-const fractionDigits = 2
+const fractionDigits = 1
 
 const Alternatives = () => {
   const navigate = useNavigate()
   const { deviceId } = useParams()
-  const [device, setDevice] = useState({})
-  const [budget, setBudget] = useState(true)
   const [alternatives, setAlternatives] = useState([])
-  const [url, setUrl] = useState('')
+  const [budget, setBudget] = useState(true)
+  const [county, setCounty] = useState('')
+  const [device, setDevice] = useState({})
+  const [error, setError] = useState(false)
+  const [inputBudget, setInputBudget] = useState('')
+  const [invoiceUnitValue, setInvoiceUnitValue] = useState(0)
   const [loading, setLoading] = useState(true)
   const [loadingDeviceSpecifications, setLoadingDeviceSpecifications] = useState(false)
   const [open, setOpen] = useState(true)
-  const [inputBudget, setInputBudget] = useState('')
-  const [error, setError] = useState(false)
-  const [invoiceUnitValue, setInvoiceUnitValue] = useState(0)
-  const [county, setCounty] = useState('')
 
   const updateUser = async (user) => {
     const response = await fetch('/api/auth/user', {
@@ -150,8 +148,10 @@ const Alternatives = () => {
         }
       })
       let data = await response.json()
+      const value = {}
       if (data.status === 'ok') {
         setDevice(data.device)
+        value.category = data.device.category
       } else {
         swal({
           title: 'Failed',
@@ -178,7 +178,10 @@ const Alternatives = () => {
       })
       data = await response.json()
       if (data.status === 'ok') {
-        setBudget(data.user.budget ? data.user.budget : 0)
+        setBudget(data.user.budget || 0)
+        setInvoiceUnitValue(data.user.invoiceUnitValue && data.user.invoiceUnitValue)
+        setCounty(data.user.county && data.user.county)
+        value.budget = data.user.budget || 0
       } else {
         swal({
           title: 'Failed',
@@ -197,119 +200,80 @@ const Alternatives = () => {
           navigate('/login')
         })
       }
+      return value
     }
     fetchData()
+      .then((value) => {
+        return {
+          url: `https://www.emag.ro/search/stoc/pret,intre-0-si-${value.budget}/${
+            value.category &&
+            value.category
+              .trim()
+              .toLocaleLowerCase()
+              .replaceAll(' ', '+')
+              .replaceAll('ă', 'a')
+              .replaceAll('î', 'i')
+              .replaceAll('â', 'a')
+              .replaceAll('ş', 's')
+              .replaceAll('ș', 's')
+              .replaceAll('ț', 't')
+              .replaceAll(',', '%2C')
+              .replaceAll('(', '%28')
+              .replaceAll(')', '%29')
+          }`,
+          budget: value.budget
+        }
+      })
+      .then(async (value) => {
+        const response = await fetch(`/alternatives/?url=${value.url}`, {
+          method: 'GET'
+        })
+        const data = await response.json()
+        if (data.status === 'ok') {
+          setAlternatives(
+            data.data
+              .filter((element) => {
+                return element && element.price <= value.budget
+              })
+              .sort((a, b) => {
+                const priceA = a.price
+                const priceB = b.price
+                if (priceA < priceB) {
+                  return 1
+                }
+                if (priceA > priceB) {
+                  return -1
+                }
+                return 0
+              })
+          )
+          setTimeout(() => {
+            setLoading(false)
+            setLoadingDeviceSpecifications(false)
+          }, timeout)
+        } else {
+          swal({
+            title: 'Failed',
+            text: data.message
+              ? data.message[0] >= 'a' && data.message[0] <= 'z'
+                ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+                : data.message
+              : 'Error: net::ERR_SOCKET_NOT_CONNECTED',
+            icon: 'error',
+            button: {
+              text: 'OK',
+              value: true,
+              visible: true,
+              closeModal: true
+            }
+          })
+        }
+      })
   }, [deviceId, navigate])
-
-  useEffect(() => {
-    setUrl(
-      `https://www.emag.ro/search/stoc/pret,intre-0-si-${budget}/${
-        device.category &&
-        device.category
-          .trim()
-          .toLocaleLowerCase()
-          .replaceAll(' ', '+')
-          .replaceAll('ă', 'a')
-          .replaceAll('î', 'i')
-          .replaceAll('â', 'a')
-          .replaceAll('ş', 's')
-          .replaceAll('ș', 's')
-          .replaceAll('ț', 't')
-          .replaceAll(',', '%2C')
-          .replaceAll('(', '%28')
-          .replaceAll(')', '%29')
-      }/c`
-    )
-  }, [budget, device.category])
 
   const handleBack = () => {
     navigate(-1)
   }
-
-  useEffect(() => {
-    const getAlternatives = async () => {
-      const response = await fetch(`/alternatives/?url=${url}`, {
-        method: 'GET'
-      })
-      const data = await response.json()
-      if (data.status === 'ok') {
-        setAlternatives(
-          data.data
-            .filter((element) => {
-              return element && element.price <= budget
-            })
-            .sort((a, b) => {
-              const priceA = a.price
-              const priceB = b.price
-              if (priceA < priceB) {
-                return 1
-              }
-              if (priceA > priceB) {
-                return -1
-              }
-              return 0
-            })
-        )
-        setTimeout(() => {
-          setLoading(false)
-          setLoadingDeviceSpecifications(false)
-        }, timeout)
-      } else {
-        swal({
-          title: 'Failed',
-          text:
-            data.message[0] >= 'a' && data.message[0] <= 'z'
-              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-              : data.message,
-          icon: 'error',
-          button: {
-            text: 'OK',
-            value: true,
-            visible: true,
-            closeModal: true
-          }
-        })
-      }
-    }
-
-    if (url) {
-      getAlternatives()
-    }
-  }, [budget, url])
-
-  useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch('/api/auth/user', {
-        method: 'GET',
-        headers: {
-          authorization: localStorage.getItem('accessToken')
-        }
-      })
-      const data = await response.json()
-      if (data.status === 'ok') {
-        setInvoiceUnitValue(data.user.invoiceUnitValue && data.user.invoiceUnitValue)
-        setCounty(data.user.county && data.user.county)
-      } else {
-        swal({
-          title: 'Failed',
-          text:
-            data.message[0] >= 'a' && data.message[0] <= 'z'
-              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-              : data.message,
-          icon: 'error',
-          button: {
-            text: 'OK',
-            value: true,
-            visible: true,
-            closeModal: true
-          }
-        }).then(() => {
-          navigate('/login')
-        })
-      }
-    }
-    getUser()
-  }, [navigate])
 
   const appBar = (
     <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>

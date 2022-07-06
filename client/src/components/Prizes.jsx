@@ -13,6 +13,8 @@ import CustomAppBar from './CustomAppBar'
 import CustomCard from './CustomCard'
 import './Prizes.css'
 
+const fractionDigits = 1
+
 const Prizes = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
@@ -70,6 +72,7 @@ const Prizes = () => {
             .reduce((previous, current) => {
               return previous + current
             }, 0)
+            .toFixed(fractionDigits)
         )
       } else {
         swal({
