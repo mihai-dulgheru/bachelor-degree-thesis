@@ -62,10 +62,22 @@ alternativesRouter.route('/').get(async (req, res, next) => {
   }
 })
 
+const isEfficiencyClass = (value) => {
+  const efficiencyClasses = ['A+++', 'A++', 'A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G']
+  let isEfficiencyClass = false
+  for (const efficiencyClass of efficiencyClasses) {
+    if (value === efficiencyClass) {
+      isEfficiencyClass = true
+      break
+    }
+  }
+  return isEfficiencyClass
+}
+
 alternativesRouter.route('/one').get(async (req, res, next) => {
   const { url } = req.query
   const reSpecifications =
-    /(.*\W|^)(kWh|W|kW|Clasa energetica|Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE)(\W.*|$)/g
+    /(.*\W|^)(kWh|W|kW|Clasa energetica|Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE|Eficienta energetica)(\W.*|$)/g
   const reEnergyConsumption = /(.*\W|^)(Consum energie electrica|Consum anual energie|Consum de energie)(\W.*|$)/g
   const reNotMatchEnergyConsumption = /^((?!Consum de energie pe zi).)*$/g
   try {
@@ -83,15 +95,16 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
         const specifications = extractedText
           ? extractedText.split('\n').filter((element) => element.match(reSpecifications))
           : []
+        specifications.reverse()
         const specificationEnergyConsumption = specifications.find((item) => {
           return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
         })
           ? specifications.find((item) => {
-            return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
-          })
+              return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
+            })
           : specifications.find((item) => {
-            return item.includes('Putere\t')
-          })
+              return item.includes('Putere\t') || item.includes('Putere maxima\t') || item.includes('Putere bec\t')
+            })
         data.energyConsumption = specificationEnergyConsumption
           ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
           : 0
@@ -116,18 +129,19 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
             data.unitMeasurement += '/annum'
           }
         }
-        const specificationEfficiencyClass = specifications.find((item) => {
+        let specificationEfficiencyClass = specifications.find((item) => {
           return item.match(/Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE/)
         })
-          ? specifications.find((item) => {
-            return item.match(/Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE/)
+        if (!specificationEfficiencyClass) {
+          specificationEfficiencyClass = specifications.find((item) => {
+            return item.match(/Clasa energetica/) || item.includes('Eficienta energetica\t')
           })
-          : specifications.find((item) => {
-            return item.match(/Clasa energetica/)
-          })
-        data.efficiencyClass = specificationEfficiencyClass
-          ? specificationEfficiencyClass.split(' ').pop().replace('.', '')
-          : ''
+        }
+        data.efficiencyClass =
+          specificationEfficiencyClass &&
+          isEfficiencyClass(specificationEfficiencyClass.split(' ').pop().replace('.', ''))
+            ? (data.efficiencyClass = specificationEfficiencyClass.split(' ').pop().replace('.', ''))
+            : ''
       }
       await teardown(browser)
       res.status(200).json({

@@ -16,7 +16,7 @@ import './Prizes.css'
 const Prizes = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
-  const [totalkWh, setTotalkWh] = useState(0)
+  const [totalkWhPerYear, setTotalkWhPerYear] = useState(0)
   const [invoiceUnitValue, setInvoiceUnitValue] = useState(0)
   const [county, setCounty] = useState('')
   const [amountSaved, setAmountSaved] = useState(0)
@@ -64,7 +64,7 @@ const Prizes = () => {
       })
       const data = await response.json()
       if (data.status === 'ok') {
-        setTotalkWh(
+        setTotalkWhPerYear(
           data.prizes
             .map((item) => parseFloat(item.prizeValue))
             .reduce((previous, current) => {
@@ -92,8 +92,8 @@ const Prizes = () => {
   }, [navigate])
 
   useEffect(() => {
-    setAmountSaved(convertkWhToRON(totalkWh, invoiceUnitValue, county))
-  }, [totalkWh, invoiceUnitValue, county])
+    setAmountSaved(convertkWhToRON(totalkWhPerYear, invoiceUnitValue, county))
+  }, [totalkWhPerYear, invoiceUnitValue, county])
 
   const awards = [
     {
@@ -111,21 +111,21 @@ const Prizes = () => {
           CO<sub>2</sub> Reduced
         </p>
       ),
-      value: convertkWhToCO2(totalkWh),
+      value: convertkWhToCO2(totalkWhPerYear),
       um: 'KG'
     },
     {
       iconSrc: coalIcon,
       altText: 'coal icon',
       heading: 'Bituminous Coal Saved',
-      value: convertkWhToCoal(totalkWh),
+      value: convertkWhToCoal(totalkWhPerYear),
       um: 'KG'
     },
     {
       iconSrc: treeIcon,
       altText: 'tree icon',
       heading: 'Reducing Deforestation',
-      value: convertkWhToTrees(totalkWh),
+      value: convertkWhToTrees(totalkWhPerYear),
       um: 'Tree'
     }
   ]
@@ -135,7 +135,7 @@ const Prizes = () => {
       <CustomAppBar user={user} selectedAppBarItem='Prizes' />
       <div>
         <Typography id='awards-title' variant='h2'>
-          You have saved <span id='span-energy'>{totalkWh} kWh</span> of energy. The equivalent of:
+          You have saved <span id='span-energy'>{totalkWhPerYear} kWh/annum</span> of energy. The equivalent of:
         </Typography>
         <div className='center'>
           <div id='cards-container'>

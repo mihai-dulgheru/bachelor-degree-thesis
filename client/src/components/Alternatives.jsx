@@ -30,10 +30,13 @@ import {
   convertkWhToRON,
   convertkWhToTrees
 } from '../functions/conversion-functions'
+import { getEstimatedConsumptionPerYear } from '../functions/estimated-consumption-functions'
 import './Alternatives.css'
 import LoadingScreen from './LoadingScreen'
 
-const timeout = 10000
+// const timeout = 10000
+const timeout = 0
+const fractionDigits = 2
 
 const Alternatives = () => {
   const navigate = useNavigate()
@@ -326,8 +329,10 @@ const Alternatives = () => {
       prizeType: 'SAVED_ENERGY',
       prizeValue: 0
     }
-    if (newDevice.energyConsumption < device.energyConsumption) {
-      prize.prizeValue = device.energyConsumption - newDevice.energyConsumption
+    const estimatedConsumptionkWhPerYear = getEstimatedConsumptionPerYear(device)
+    const newEstimatedConsumptionkWhPerYear = getEstimatedConsumptionPerYear(newDevice)
+    if (newEstimatedConsumptionkWhPerYear < estimatedConsumptionkWhPerYear) {
+      prize.prizeValue = (estimatedConsumptionkWhPerYear - newEstimatedConsumptionkWhPerYear).toFixed(fractionDigits)
       await addPrize(prize)
     }
     return prize
@@ -344,7 +349,6 @@ const Alternatives = () => {
         await updateDevice(data.data)
         const prize = await calculatePrize(data.data)
         await updateUser({ budget: Math.trunc(budget - element.price) })
-        setLoadingDeviceSpecifications(false)
         const newLine = '\n\r'
         swal({
           title: 'Success',
@@ -352,7 +356,7 @@ const Alternatives = () => {
             'The device has been added to your list! ' +
             (prize.prizeValue > 0
               ? 'You have won the following awards:' +
-                `${newLine}SAVED ENERGY: ${prize.prizeValue} kWh` +
+                `${newLine}SAVED ENERGY: ${prize.prizeValue} kWh/annum` +
                 `${newLine}MONEY SAVED: ${convertkWhToRON(prize.prizeValue, invoiceUnitValue, county)} RON` +
                 `${newLine}REDUCED CARBON DIOXIDE: ${convertkWhToCO2(prize.prizeValue)} KG` +
                 `${newLine}BITUMINOUS COAL SAVED: ${convertkWhToCoal(prize.prizeValue)} KG` +
@@ -366,10 +370,10 @@ const Alternatives = () => {
             closeModal: true
           }
         }).then(() => {
+          setLoadingDeviceSpecifications(false)
           handleBack()
         })
       } else {
-        setLoadingDeviceSpecifications(false)
         swal({
           title: 'Failed',
           text: 'You cannot choose this device!',
@@ -380,6 +384,8 @@ const Alternatives = () => {
             visible: true,
             closeModal: true
           }
+        }).then(() => {
+          setLoadingDeviceSpecifications(false)
         })
       }
     } else {
@@ -491,36 +497,32 @@ const Alternatives = () => {
           <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
         </div>
       )}
-      {budget
-        ? (
-          <>
-            {loading
-              ? (
-                <LoadingScreen />
-                )
-              : (
-                <>
-                  {appBar}
-                  <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
-                    <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
-                      <Typography variant='h4' gutterBottom component='div'>
-                        Alternatives for device
-                      </Typography>
-                      <Typography variant='h5' gutterBottom component='div'>
-                        {`${device.category}${
+      {budget ? (
+        <>
+          {loading ? (
+            <LoadingScreen />
+          ) : (
+            <>
+              {appBar}
+              <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
+                <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
+                  <Typography variant='h4' gutterBottom component='div'>
+                    Alternatives for device
+                  </Typography>
+                  <Typography variant='h5' gutterBottom component='div'>
+                    {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''
                     }, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
-                      </Typography>
-                      {table}
-                    </Paper>
-                  </Box>
-                </>
-                )}
-          </>
-          )
-        : (
-            dialog
+                  </Typography>
+                  {table}
+                </Paper>
+              </Box>
+            </>
           )}
+        </>
+      ) : (
+        dialog
+      )}
     </div>
   )
 }
