@@ -329,10 +329,13 @@ const Alternatives = () => {
       prizeType: 'SAVED_ENERGY',
       prizeValue: 0
     }
-    const estimatedConsumptionkWhPerYear = getEstimatedConsumptionPerYear(device)
-    const newEstimatedConsumptionkWhPerYear = getEstimatedConsumptionPerYear(newDevice)
-    if (newEstimatedConsumptionkWhPerYear < estimatedConsumptionkWhPerYear) {
-      prize.prizeValue = (estimatedConsumptionkWhPerYear - newEstimatedConsumptionkWhPerYear).toFixed(fractionDigits)
+    const oldEstimatedConsumptionkWhPerYear = getEstimatedConsumptionPerYear(device)
+    const newEstimatedConsumptionkWhPerYear = getEstimatedConsumptionPerYear({
+      ...newDevice,
+      noOperatingHours: device.noOperatingHours
+    })
+    if (newEstimatedConsumptionkWhPerYear < oldEstimatedConsumptionkWhPerYear) {
+      prize.prizeValue = (oldEstimatedConsumptionkWhPerYear - newEstimatedConsumptionkWhPerYear).toFixed(fractionDigits)
       await addPrize(prize)
     }
     return prize
@@ -511,7 +514,7 @@ const Alternatives = () => {
                     <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
                       <Typography variant='h4' gutterBottom component='div'>
                         Alternatives for device
-                      </Typography>
+                    </Typography>
                       <Typography variant='h5' gutterBottom component='div'>
                         {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''
