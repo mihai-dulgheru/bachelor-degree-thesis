@@ -95,15 +95,6 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
         const specifications = extractedText
           ? extractedText.split('\n').filter((element) => element.match(reSpecifications))
           : []
-        const conditions = [
-          'Putere\t',
-          'Putere arzator mare\t',
-          'Putere bec\t',
-          'Putere consumata\t',
-          'Putere maxima\t',
-          'Putere nominala\t',
-          'Putere sursa\t'
-        ]
         const specificationEnergyConsumption = specifications.find((item) => {
           return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
         })
@@ -111,9 +102,15 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
             return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
           })
           : specifications.find((item) => {
-            return conditions.some((element) => {
-              item.includes(element)
-            })
+            return (
+              item.includes('Putere\t') ||
+                item.includes('Putere arzator mare\t') ||
+                item.includes('Putere bec\t') ||
+                item.includes('Putere consumata\t') ||
+                item.includes('Putere maxima\t') ||
+                item.includes('Putere nominala\t') ||
+                item.includes('Putere sursa\t')
+            )
           })
         data.energyConsumption = specificationEnergyConsumption
           ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
