@@ -100,11 +100,11 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
         })
           ? specifications.find((item) => {
-              return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
-            })
+            return item.match(reEnergyConsumption) && item.match(reNotMatchEnergyConsumption)
+          })
           : specifications.find((item) => {
-              return item.includes('Putere\t') || item.includes('Putere maxima\t') || item.includes('Putere bec\t')
-            })
+            return item.includes('Putere\t') || item.includes('Putere maxima\t') || item.includes('Putere bec\t')
+          })
         data.energyConsumption = specificationEnergyConsumption
           ? parseInt(specificationEnergyConsumption.split('\t')[1].split(' ')[0])
           : 0
@@ -128,6 +128,14 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
           } else {
             data.unitMeasurement += '/annum'
           }
+        } else if (
+          data.unitMeasurement === 'kW' &&
+          specificationEnergyConsumption.split('\t')[1].split(' ')[0].includes('.')
+        ) {
+          data.energyConsumption = parseInt(
+            parseFloat(specificationEnergyConsumption.split('\t')[1].split(' ')[0]) * 1000
+          )
+          data.unitMeasurement = 'W'
         }
         let specificationEfficiencyClass = specifications.find((item) => {
           return item.match(/Clasa energetica potrivit noilor etichete energetice adoptate la nivelul UE/)

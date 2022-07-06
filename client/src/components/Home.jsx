@@ -59,6 +59,7 @@ const Home = () => {
   )
   const [unitMeasurePower, setUnitMeasurementPower] = useState(unitsMeasurementsPower[0])
   const [isSelectedPower, setIsSelectedPower] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('This field is required')
 
   const handleChangeCustomInputEnergyConsumption = (event) => {
     const regExp = isSelectedPower && unitMeasurePower.value === 'kW' ? /^(?!0\d)(\d+)?\.?(\d+)?$/ : /^[1-9][0-9]*$/
@@ -75,14 +76,15 @@ const Home = () => {
       (event.target.value === '' || (regExp.test(event.target.value) && parseFloat(event.target.value) <= 24.0))
     if (condition) {
       setNoOperatingHours(event.target.value)
-      setIsNoOperatingHoursValid(event.target.value !== '')
+      setIsNoOperatingHoursValid(event.target.value !== '' && parseFloat(event.target.value) !== 0)
+      setErrorMessage(parseFloat(event.target.value) === 0 ? 'This field cannot be 0' : 'This field is required')
     }
   }
 
   const validation = () => {
     setIsEnergyConsumptionValid(energyConsumption !== '')
-    setIsNoOperatingHoursValid(noOperatingHours !== '')
-    return energyConsumption && noOperatingHours
+    setIsNoOperatingHoursValid(noOperatingHours !== '' && parseFloat(noOperatingHours) !== 0)
+    return energyConsumption && noOperatingHours && parseFloat(noOperatingHours) !== 0
   }
 
   const clearForm = () => {
@@ -391,7 +393,7 @@ const Home = () => {
               />
               <span className={!isNoOperatingHoursValid ? 'errors' : ''}>
                 <i className='fa-solid fa-circle-exclamation' />
-                This field is required
+                {errorMessage}
               </span>
             </div>
           </div>

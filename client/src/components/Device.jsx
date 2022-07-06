@@ -52,6 +52,7 @@ const Device = () => {
     label: ''
   })
   const [previousVersion, setPreviousVersion] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('This field is required')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -129,12 +130,13 @@ const Device = () => {
       (event.target.value === '' || (regExp.test(event.target.value) && parseFloat(event.target.value) <= 24.0))
     if (condition) {
       setNoOperatingHours(event.target.value)
-      setIsNoOperatingHoursValid(event.target.value !== '')
+      setIsNoOperatingHoursValid(event.target.value !== '' && parseFloat(event.target.value) !== 0)
+      setErrorMessage(parseFloat(event.target.value) === 0 ? 'This field cannot be 0' : 'This field is required')
     }
   }
 
   const validation = () => {
-    return energyConsumption && noOperatingHours
+    return energyConsumption && noOperatingHours && parseFloat(noOperatingHours) !== 0
   }
 
   const handleSave = async () => {
@@ -285,7 +287,7 @@ const Device = () => {
               />
               <span className={!isNoOperatingHoursValid ? 'errors' : ''}>
                 <i className='fa-solid fa-circle-exclamation' />
-                This field is required
+                {errorMessage}
               </span>
             </div>
           </div>
