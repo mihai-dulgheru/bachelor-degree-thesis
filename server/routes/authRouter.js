@@ -121,7 +121,7 @@ authRouter
       const devices = user.Devices
       const tempDevices = []
       for (const device of devices) {
-        const { User_Device, ...tempDevice } = device.dataValues
+        const { UserDevice, ...tempDevice } = device.dataValues
         tempDevices.push(tempDevice)
       }
       res.status(200).json({
@@ -290,7 +290,7 @@ authRouter
       const prizes = user.Prizes
       const tempPrizes = []
       for (const prize of prizes) {
-        const { User_Prize, UserId, ...tempPrize } = prize.dataValues
+        const { UserPrize, UserId, ...tempPrize } = prize.dataValues
         tempPrizes.push(tempPrize)
       }
       res.status(200).json({

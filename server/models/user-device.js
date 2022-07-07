@@ -1,5 +1,5 @@
 const sequelize = require('../sequelize')
 
-const UserDevice = sequelize.define('User_Device', {})
+const UserDevice = sequelize.define('UserDevice', {})
 
 module.exports = UserDevice

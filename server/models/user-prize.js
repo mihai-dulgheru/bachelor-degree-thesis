@@ -1,5 +1,5 @@
 const sequelize = require('../sequelize')
 
-const UserPrize = sequelize.define('User_Prize', {})
+const UserPrize = sequelize.define('UserPrize', {})
 
 module.exports = UserPrize
