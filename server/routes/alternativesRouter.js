@@ -109,7 +109,8 @@ alternativesRouter.route('/one').get(async (req, res, next) => {
                 item.includes('Putere consumata\t') ||
                 item.includes('Putere maxima\t') ||
                 item.includes('Putere nominala\t') ||
-                item.includes('Putere sursa\t')
+                item.includes('Putere sursa\t') ||
+                item.includes('Putere utila maxima incalzire\t')
             )
           })
         data.energyConsumption = specificationEnergyConsumption
