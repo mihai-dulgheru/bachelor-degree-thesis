@@ -140,6 +140,8 @@ const Alternatives = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const value = {}
+
       let response = await fetch(`/api/auth/user/devices/${deviceId}`, {
         method: 'GET',
         headers: {
@@ -147,7 +149,6 @@ const Alternatives = () => {
         }
       })
       let data = await response.json()
-      const value = {}
       if (data.status === 'ok') {
         setDevice(data.device)
         value.category = data.device.category
@@ -169,6 +170,7 @@ const Alternatives = () => {
           navigate('/login')
         })
       }
+
       response = await fetch('/api/auth/user', {
         method: 'GET',
         headers: {
@@ -199,8 +201,10 @@ const Alternatives = () => {
           navigate('/login')
         })
       }
+
       return value
     }
+
     fetchData()
       .then((value) => {
         return {

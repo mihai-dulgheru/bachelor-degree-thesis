@@ -173,7 +173,8 @@ const Signin = ({ onSignin }) => {
               />
               {!isPasswordValid && (
                 <span className='errors'>
-                  <i className='fa-solid fa-circle-exclamation' />This field is required
+                  <i className='fa-solid fa-circle-exclamation' />
+                  This field is required
                 </span>
               )}
             </FormControl>

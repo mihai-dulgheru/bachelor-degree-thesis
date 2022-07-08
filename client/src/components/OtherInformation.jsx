@@ -6,8 +6,6 @@ import { counties, suppliers } from '../collections'
 
 const OtherInformation = () => {
   const navigate = useNavigate()
-  const tempAccessToken = localStorage.getItem('accessToken')
-  const [accessToken, setAccessToken] = useState('')
   const [supplier, setSupplier] = useState(suppliers[0].value)
   const [county, setCounty] = useState(counties[0].value)
   const [budget, setBudget] = useState('')
@@ -32,7 +30,7 @@ const OtherInformation = () => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        authorization: accessToken
+        authorization: localStorage.getItem('accessToken')
       },
       body: JSON.stringify(user)
     })
@@ -100,12 +98,9 @@ const OtherInformation = () => {
         })
       }
     }
+
     getUser()
   }, [navigate])
-
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('accessToken'))
-  }, [tempAccessToken])
 
   const handleSave = async () => {
     await updateUser({

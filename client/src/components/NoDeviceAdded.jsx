@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { oopsIcon } from '../images'
 import './NoDeviceAdded.css'
 
-function NoDeviceAdded () {
+const NoDeviceAdded = () => {
   const navigate = useNavigate()
 
   return (

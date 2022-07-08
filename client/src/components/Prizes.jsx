@@ -17,25 +17,25 @@ const fractionDigits = 1
 
 const Prizes = () => {
   const navigate = useNavigate()
-  const [user, setUser] = useState({})
-  const [totalkWhPerYear, setTotalkWhPerYear] = useState(0)
-  const [invoiceUnitValue, setInvoiceUnitValue] = useState(0)
-  const [county, setCounty] = useState('')
   const [amountSaved, setAmountSaved] = useState(0)
+  const [totalkWhPerYear, setTotalkWhPerYear] = useState(0)
+  const [user, setUser] = useState({})
 
   useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch('/api/auth/user', {
+    const fetchData = async () => {
+      const value = {}
+
+      let response = await fetch('/api/auth/user', {
         method: 'GET',
         headers: {
           authorization: localStorage.getItem('accessToken')
         }
       })
-      const data = await response.json()
+      let data = await response.json()
       if (data.status === 'ok') {
         setUser(data.user)
-        setInvoiceUnitValue(data.user.invoiceUnitValue && data.user.invoiceUnitValue)
-        setCounty(data.user.county && data.user.county)
+        value.invoiceUnitValue = data.user.invoiceUnitValue && data.user.invoiceUnitValue
+        value.county = data.user.county && data.user.county
       } else {
         swal({
           title: 'Failed',
@@ -54,26 +54,23 @@ const Prizes = () => {
           navigate('/login')
         })
       }
-    }
-    getUser()
 
-    const getPrizes = async () => {
-      const response = await fetch('/api/auth/user/prizes', {
+      response = await fetch('/api/auth/user/prizes', {
         method: 'GET',
         headers: {
           authorization: localStorage.getItem('accessToken')
         }
       })
-      const data = await response.json()
+      data = await response.json()
       if (data.status === 'ok') {
-        setTotalkWhPerYear(
-          data.prizes
-            .map((item) => parseFloat(item.prizeValue))
-            .reduce((previous, current) => {
-              return previous + current
-            }, 0)
-            .toFixed(fractionDigits)
-        )
+        const totalkWhPerYear = data.prizes
+          .map((item) => parseFloat(item.prizeValue))
+          .reduce((previous, current) => {
+            return previous + current
+          }, 0)
+          .toFixed(fractionDigits)
+        setTotalkWhPerYear(totalkWhPerYear)
+        value.totalkWhPerYear = totalkWhPerYear
       } else {
         swal({
           title: 'Failed',
@@ -90,13 +87,14 @@ const Prizes = () => {
           }
         })
       }
-    }
-    getPrizes()
-  }, [navigate])
 
-  useEffect(() => {
-    setAmountSaved(convertkWhToRON(totalkWhPerYear, invoiceUnitValue, county))
-  }, [totalkWhPerYear, invoiceUnitValue, county])
+      return value
+    }
+
+    fetchData().then((value) => {
+      setAmountSaved(convertkWhToRON(value.totalkWhPerYear, value.invoiceUnitValue, value.county))
+    })
+  }, [navigate])
 
   const awards = [
     {

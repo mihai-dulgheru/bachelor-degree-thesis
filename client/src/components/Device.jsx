@@ -32,7 +32,7 @@ const StyledInputElement = styled('input')(
 `
 )
 
-const CustomInput = forwardRef(function CustomInput (props, ref) {
+const CustomInput = forwardRef((props, ref) => {
   return <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref} />
 })
 
@@ -112,6 +112,7 @@ const Device = () => {
         })
       }
     }
+
     fetchData()
   }, [deviceId, navigate])
 

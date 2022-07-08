@@ -256,9 +256,7 @@ const DeviceList = () => {
 
   useEffect(() => {
     setSearchParams({ rowsPerPage, page })
-  }, [page, rowsPerPage, setSearchParams])
 
-  useEffect(() => {
     const getUser = async () => {
       const response = await fetch('/api/auth/user', {
         method: 'GET',
@@ -291,7 +289,6 @@ const DeviceList = () => {
         })
       }
     }
-    getUser()
 
     const getDevices = async () => {
       const response = await fetch('/api/auth/user/devices', {
@@ -323,8 +320,10 @@ const DeviceList = () => {
         })
       }
     }
+
+    getUser()
     getDevices()
-  }, [navigate])
+  }, [navigate, page, rowsPerPage, setSearchParams])
 
   const handleRequestSort = (_event, property) => {
     const isAsc = orderBy === property && order === 'asc'

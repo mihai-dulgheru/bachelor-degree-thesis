@@ -43,7 +43,6 @@ const Charts = () => {
         })
       }
     }
-    getUser()
 
     const getDevices = async () => {
       const response = await fetch('/api/auth/user/devices', {
@@ -75,6 +74,7 @@ const Charts = () => {
       }
     }
 
+    getUser()
     getDevices()
   }, [navigate])
 

@@ -7,7 +7,7 @@ if (process.env.MODE === 'development') {
   sequelize = new Sequelize('database_bachelor_degree_thesis', 'root', 'password', {
     host: 'localhost',
     dialect: 'mysql',
-    logging: console.log,
+    logging: false,
     define: {
       timestamps: false
     }

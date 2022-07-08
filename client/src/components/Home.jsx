@@ -34,7 +34,7 @@ const StyledInputElement = styled('input')(
 `
 )
 
-const CustomInput = forwardRef(function CustomInput (props, ref) {
+const CustomInput = forwardRef((props, ref) => {
   return <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref} />
 })
 
@@ -147,45 +147,47 @@ const Home = () => {
   }
 
   const handleChoose = async () => {
-    const chosenDevice = {
-      category: device.value.split(';')[0],
-      efficiencyClass: device.value.split(';')[1],
-      energyConsumption: parseInt(device.value.split(';')[2]),
-      unitMeasurement: device.value.split(';')[3],
-      noOperatingHours: parseFloat(device.value.split(';')[4])
-    }
-    const response = await fetch('/api/auth/user/devices', {
-      method: 'POST',
-      headers: {
-        authorization: localStorage.getItem('accessToken'),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(chosenDevice)
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      swal({
-        title: 'Success',
-        text: 'Device has been created!',
-        icon: 'success',
-        buttons: false,
-        timer: 2000
+    if (device.value !== '') {
+      const chosenDevice = {
+        category: device.value.split(';')[0],
+        efficiencyClass: device.value.split(';')[1],
+        energyConsumption: parseInt(device.value.split(';')[2]),
+        unitMeasurement: device.value.split(';')[3],
+        noOperatingHours: parseFloat(device.value.split(';')[4])
+      }
+      const response = await fetch('/api/auth/user/devices', {
+        method: 'POST',
+        headers: {
+          authorization: localStorage.getItem('accessToken'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(chosenDevice)
       })
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
-            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
-            : data.errors[0].message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        swal({
+          title: 'Success',
+          text: 'Device has been created!',
+          icon: 'success',
+          buttons: false,
+          timer: 2000
+        })
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+              ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+              : data.errors[0].message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        })
+      }
     }
   }
 
@@ -252,7 +254,6 @@ const Home = () => {
         })
       }
     }
-    getUser()
 
     const getDevices = async () => {
       const response = await fetch('/api/auth/devices', {
@@ -286,6 +287,8 @@ const Home = () => {
         })
       }
     }
+
+    getUser()
     getDevices()
   }, [navigate])
 

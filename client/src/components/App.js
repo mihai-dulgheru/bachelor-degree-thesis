@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import {
   Alternatives,
@@ -14,15 +14,9 @@ import {
   Signin,
   Signup
 } from '../components'
-import './App.css'
 
 const App = () => {
-  const tempAccessToken = localStorage.getItem('accessToken')
-  const [accessToken, setAccessToken] = useState(' ')
-
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('accessToken'))
-  }, [tempAccessToken])
+  const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'))
 
   const handleSignin = (accessToken) => {
     setAccessToken(accessToken)

@@ -18,8 +18,6 @@ import swal from 'sweetalert'
 
 const PersonalInformation = () => {
   const navigate = useNavigate()
-  const tempAccessToken = localStorage.getItem('accessToken')
-  const [accessToken, setAccessToken] = useState('')
   const [firstName, setFirstName] = useState('')
   const [isFirstNameValid, setIsFirstNameValid] = useState(true)
   const [lastName, setLastName] = useState('')
@@ -36,7 +34,7 @@ const PersonalInformation = () => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        authorization: accessToken
+        authorization: localStorage.getItem('accessToken')
       },
       body: JSON.stringify(user)
     })
@@ -94,12 +92,9 @@ const PersonalInformation = () => {
         })
       }
     }
+
     getUser()
   }, [navigate])
-
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('accessToken'))
-  }, [tempAccessToken])
 
   const validation = () => {
     setIsFirstNameValid(firstName !== '')

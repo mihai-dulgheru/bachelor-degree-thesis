@@ -27,7 +27,7 @@ import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import './Profile.css'
 
-const Alert = React.forwardRef(function Alert (props, ref) {
+const Alert = React.forwardRef((props, ref) => {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
@@ -85,8 +85,6 @@ const BootstrapButton = styled(Button)({
 
 const Profile = () => {
   const navigate = useNavigate()
-  const tempAccessToken = localStorage.getItem('accessToken')
-  const [accessToken, setAccessToken] = useState('')
   const [user, setUser] = useState({})
   const [state, setState] = useState({
     open: false,
@@ -129,12 +127,9 @@ const Profile = () => {
         })
       }
     }
+
     getUser()
   }, [navigate])
-
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('accessToken'))
-  }, [tempAccessToken])
 
   const handleBack = () => {
     navigate(sessionStorage.getItem('to') !== null ? sessionStorage.getItem('to') : '/')
@@ -175,7 +170,7 @@ const Profile = () => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        authorization: accessToken
+        authorization: localStorage.getItem('accessToken')
       },
       body: JSON.stringify(user)
     })
@@ -214,7 +209,7 @@ const Profile = () => {
         const response = await fetch('/api/auth/user', {
           method: 'DELETE',
           headers: {
-            authorization: accessToken
+            authorization: localStorage.getItem('accessToken')
           }
         })
         const data = await response.json()
