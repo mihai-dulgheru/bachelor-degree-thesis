@@ -1,6 +1,6 @@
 import { Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { oopsIcon } from '../images'
+import { oopsIcon } from '../../images'
 import './NoDeviceAdded.css'
 
 const NoDeviceAdded = () => {

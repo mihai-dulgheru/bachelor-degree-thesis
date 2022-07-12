@@ -13,7 +13,7 @@ import {
   Profile,
   Signin,
   Signup
-} from '.'
+} from '..'
 
 const App = () => {
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'))

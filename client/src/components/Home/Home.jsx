@@ -2,15 +2,17 @@ import InputUnstyled from '@mui/base/InputUnstyled'
 import { Button, Paper, Stack, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { forwardRef, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import swal from 'sweetalert'
+import { CustomAppBar } from '..'
 import {
   categories,
   efficiencyClasses,
   unitsMeasurementsEnergyConsumption,
   unitsMeasurementsPower
-} from '../collections'
+} from '../../collections'
+import './Home.css'
 
 const StyledInputElement = styled('input')(
   () => `
@@ -36,27 +38,32 @@ const CustomInput = forwardRef((props, ref) => {
   return <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref} />
 })
 
-const Device = () => {
+const Home = () => {
   const navigate = useNavigate()
-  const { deviceId } = useParams()
-  const [isSelectedPower, setIsSelectedPower] = useState(false)
+  const [user, setUser] = useState({})
+  const [category, setCategory] = useState(categories[0])
+  const [efficiencyClass, setEfficiencyClass] = useState(efficiencyClasses[0])
   const [energyConsumption, setEnergyConsumption] = useState('')
   const [isEnergyConsumptionValid, setIsEnergyConsumptionValid] = useState(true)
-  const [unitMeasurementEnergyConsumption, setUnitMeasurementEnergyConsumption] = useState('')
-  const [unitMeasurementPower, setUnitMeasurementPower] = useState('')
   const [noOperatingHours, setNoOperatingHours] = useState('')
   const [isNoOperatingHoursValid, setIsNoOperatingHoursValid] = useState(true)
-  const [efficiencyClass, setEfficiencyClass] = useState(efficiencyClasses[0])
-  const [category, setCategory] = useState({
-    value: '',
-    label: ''
-  })
-  const [previousVersion, setPreviousVersion] = useState(null)
+  const [devices, setDevices] = useState([
+    {
+      value: '',
+      label: ''
+    }
+  ])
+  const [device, setDevice] = useState(devices[0])
+  const [unitMeasureEnergyConsumption, setUnitMeasurementEnergyConsumption] = useState(
+    unitsMeasurementsEnergyConsumption[0]
+  )
+  const [unitMeasurePower, setUnitMeasurementPower] = useState(unitsMeasurementsPower[0])
+  const [isSelectedPower, setIsSelectedPower] = useState(false)
   const [errorMessage, setErrorMessage] = useState('This field is required')
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
         method: 'GET',
         headers: {
           authorization: localStorage.getItem('accessToken')
@@ -64,35 +71,7 @@ const Device = () => {
       })
       const data = await response.json()
       if (data.status === 'ok') {
-        setEnergyConsumption(data.device.energyConsumption)
-        setUnitMeasurementEnergyConsumption(unitsMeasurementsEnergyConsumption[0])
-        setUnitMeasurementPower(unitsMeasurementsPower[0])
-        setPreviousVersion(data.device.previousVersion)
-        if (data.device.unitMeasurement === 'W' || data.device.unitMeasurement === 'kW') {
-          setIsSelectedPower(true)
-          setUnitMeasurementPower({
-            value: data.device.unitMeasurement,
-            label: data.device.unitMeasurement
-          })
-        } else {
-          setIsSelectedPower(false)
-          setUnitMeasurementEnergyConsumption({
-            value: data.device.unitMeasurement,
-            label: data.device.unitMeasurement
-          })
-        }
-        setNoOperatingHours(data.device.noOperatingHours)
-        const temporaryEfficiencyClass = efficiencyClasses.find(
-          (element) => element.value === data.device.efficiencyClass
-        )
-        setEfficiencyClass({
-          value: temporaryEfficiencyClass.value,
-          label: temporaryEfficiencyClass.label
-        })
-        setCategory({
-          value: data.device.category,
-          label: data.device.category
-        })
+        setUser(data.user)
       } else {
         swal({
           title: 'Failed',
@@ -113,11 +92,45 @@ const Device = () => {
       }
     }
 
-    fetchData()
-  }, [deviceId, navigate])
+    const getDevices = async () => {
+      const response = await fetch('/api/auth/devices', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        if (data.devices.length > 0) {
+          setDevices(data.devices.sort((a, b) => a.value.localeCompare(b.value)))
+          setDevice(data.devices[0])
+        }
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
+
+    getUser()
+    getDevices()
+  }, [navigate])
 
   const handleChangeCustomInputEnergyConsumption = (event) => {
-    const regExp = /^[1-9][0-9]*$/
+    const regExp = isSelectedPower && unitMeasurePower.value === 'kW' ? /^(?!0\d)(\d+)?\.?(\d+)?$/ : /^[1-9][0-9]*$/
     if (event.target.value === '' || regExp.test(event.target.value)) {
       setEnergyConsumption(event.target.value)
       setIsEnergyConsumptionValid(event.target.value !== '')
@@ -137,30 +150,51 @@ const Device = () => {
   }
 
   const validation = () => {
+    setIsEnergyConsumptionValid(energyConsumption !== '')
+    setIsNoOperatingHoursValid(noOperatingHours !== '' && parseFloat(noOperatingHours) !== 0)
     return energyConsumption && noOperatingHours && parseFloat(noOperatingHours) !== 0
   }
 
-  const handleSave = async () => {
+  const clearForm = () => {
+    setCategory(categories[0])
+    setEfficiencyClass(efficiencyClasses[0])
+    setUnitMeasurementEnergyConsumption(unitsMeasurementsEnergyConsumption[0])
+    setUnitMeasurementPower(unitsMeasurementsPower[0])
+    setEnergyConsumption('')
+    setNoOperatingHours('')
+    setIsEnergyConsumptionValid(true)
+    setIsNoOperatingHoursValid(true)
+  }
+
+  const handleAdd = async () => {
     if (validation()) {
       const device = {
-        energyConsumption: parseInt(energyConsumption),
-        unitMeasurement: isSelectedPower ? unitMeasurementPower.value : unitMeasurementEnergyConsumption.value,
-        noOperatingHours: parseFloat(noOperatingHours),
+        energyConsumption: energyConsumption ? parseInt(energyConsumption) : 0,
+        noOperatingHours: noOperatingHours ? parseFloat(noOperatingHours) : 0,
         efficiencyClass: efficiencyClass.value,
         category: category.value,
-        previousVersion
+        unitMeasurement: isSelectedPower ? unitMeasurePower.value : unitMeasureEnergyConsumption.value
       }
-      const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
-        method: 'PUT',
+      const response = await fetch('/api/auth/user/devices', {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          authorization: localStorage.getItem('accessToken')
+          authorization: localStorage.getItem('accessToken'),
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(device)
       })
       const data = await response.json()
       if (data.status === 'ok') {
-        navigate(-1)
+        swal({
+          title: 'Success',
+          text: 'Device has been created!',
+          icon: 'success',
+          buttons: false,
+          timer: 2000
+        }).then(() => {
+          clearForm()
+          getDevices()
+        })
       } else {
         swal({
           title: 'Failed',
@@ -180,14 +214,88 @@ const Device = () => {
     }
   }
 
-  const handleCancel = () => {
-    navigate(-1)
+  const handleChoose = async () => {
+    if (device.value !== '') {
+      const chosenDevice = {
+        category: device.value.split(';')[0],
+        efficiencyClass: device.value.split(';')[1],
+        energyConsumption: parseInt(device.value.split(';')[2]),
+        unitMeasurement: device.value.split(';')[3],
+        noOperatingHours: parseFloat(device.value.split(';')[4])
+      }
+      const response = await fetch('/api/auth/user/devices', {
+        method: 'POST',
+        headers: {
+          authorization: localStorage.getItem('accessToken'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(chosenDevice)
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        swal({
+          title: 'Success',
+          text: 'Device has been created!',
+          icon: 'success',
+          buttons: false,
+          timer: 2000
+        })
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+              ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+              : data.errors[0].message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        })
+      }
+    }
   }
 
-  const editDevice = (
+  const getDevices = async () => {
+    const response = await fetch('/api/auth/devices', {
+      method: 'GET',
+      headers: {
+        authorization: localStorage.getItem('accessToken')
+      }
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      if (data.devices.length > 0) {
+        setDevices(data.devices.sort((a, b) => a.value.localeCompare(b.value)))
+        setDevice(data.devices[0])
+      }
+    } else {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
+        navigate('/login')
+      })
+    }
+  }
+
+  const setUpDevice = (
     <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
       <Typography variant='h5' textAlign='left'>
-        EDIT DEVICE
+        SET UP A DEVICE
       </Typography>
       <form>
         <div className='row'>
@@ -255,7 +363,7 @@ const Device = () => {
                 <Select
                   className='select-units-measures'
                   isSearchable
-                  value={unitMeasurementPower}
+                  value={unitMeasurePower}
                   onChange={(unitMeasurePower) => {
                     setUnitMeasurementPower(unitMeasurePower)
                   }}
@@ -266,7 +374,7 @@ const Device = () => {
                 <Select
                   className='select-units-measures'
                   isSearchable
-                  value={unitMeasurementEnergyConsumption}
+                  value={unitMeasureEnergyConsumption}
                   onChange={(unitMeasureEnergyConsumption) => {
                     setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
                   }}
@@ -294,11 +402,47 @@ const Device = () => {
           </div>
         </div>
         <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-          <Button variant='outlined' color='success' style={{ minWidth: '10%' }} onClick={handleCancel}>
-            Cancel
+          <Button variant='text' color='inherit' style={{ minWidth: '10%' }} onClick={clearForm}>
+            Reset
           </Button>
-          <Button variant='contained' color='success' style={{ minWidth: '10%' }} onClick={handleSave}>
-            Save
+          <Button
+            variant='contained'
+            style={{ minWidth: '10%', backgroundColor: 'var(--very-peri)' }}
+            onClick={handleAdd}
+          >
+            Add
+          </Button>
+        </div>
+      </form>
+    </Stack>
+  )
+
+  const chooseDevice = (
+    <Stack direction='column' spacing={2} xs={6} p={2} component={Paper}>
+      <form>
+        <div className='row'>
+          <div className='col'>
+            <Typography variant='h5' textAlign='left' noWrap className='fit-content'>
+              Or choose a device from our list:
+            </Typography>
+            <Select
+              className='choose-device-select'
+              isSearchable
+              value={device}
+              onChange={(device) => {
+                setDevice(device)
+              }}
+              options={devices}
+            />
+          </div>
+        </div>
+        <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
+          <Button
+            variant='contained'
+            style={{ minWidth: '10%', backgroundColor: 'var(--very-peri)' }}
+            onClick={handleChoose}
+          >
+            Choose
           </Button>
         </div>
       </form>
@@ -306,12 +450,14 @@ const Device = () => {
   )
 
   return (
-    <div>
+    <div className='root'>
+      <CustomAppBar user={user} selectedAppBarItem='Home' />
       <div className='position-absolute top-50 start-50 translate-middle col-10 mx-auto'>
-        <div>{editDevice}</div>
+        <div className='mt-4'>{setUpDevice}</div>
+        <div className='mt-2'>{chooseDevice}</div>
       </div>
     </div>
   )
 }
 
-export default Device
+export default Home

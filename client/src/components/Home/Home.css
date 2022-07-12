@@ -43,6 +43,7 @@
 
 .choose-device-select {
   margin-left: 0.5rem;
+  min-width: 25rem;
 }
 
 @media only screen and (max-width: 768px) {

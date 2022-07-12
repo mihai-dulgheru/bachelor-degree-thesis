@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import { Area, AreaChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
-import { CustomTooltip } from '.'
+import { CustomTooltip } from '..'
 import './CustomStackedAreaChart.css'
 
 const STROKE_COLORS = ['#82ca9d', '#ffc658']

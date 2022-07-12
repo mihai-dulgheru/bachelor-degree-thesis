@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import { ReactGoogleLogin } from '.'
+import { ReactGoogleLogin } from '..'
 import './Signin.css'
 
 const loginUser = async (credentials) => {

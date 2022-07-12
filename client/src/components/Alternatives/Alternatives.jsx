@@ -24,14 +24,14 @@ import { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { useNavigate, useParams } from 'react-router-dom'
 import swal from 'sweetalert'
-import { LoadingScreen } from '.'
+import { LoadingScreen } from '..'
 import {
   convertkWhToCO2,
   convertkWhToCoal,
   convertkWhToRON,
   convertkWhToTrees,
   getEstimatedConsumptionPerYear
-} from '../functions'
+} from '../../functions'
 import './Alternatives.css'
 
 const fractionDigits = 1
@@ -49,94 +49,6 @@ const Alternatives = () => {
   const [loading, setLoading] = useState(true)
   const [loadingDeviceSpecifications, setLoadingDeviceSpecifications] = useState(false)
   const [open, setOpen] = useState(true)
-
-  const updateUser = async (user) => {
-    const response = await fetch('/api/auth/user', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('accessToken')
-      },
-      body: JSON.stringify(user)
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      setBudget(data.user.budget)
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.message[0] >= 'a' && data.message[0] <= 'z'
-            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-            : data.message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      }).then(() => {
-        navigate('/login')
-      })
-    }
-  }
-
-  const updateDevice = async (device) => {
-    const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('accessToken')
-      },
-      body: JSON.stringify(device)
-    })
-    const data = await response.json()
-    if (data.status !== 'ok') {
-      swal({
-        title: 'Failed',
-        text:
-          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
-            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
-            : data.errors[0].message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
-    }
-  }
-
-  const addPrize = async (prize) => {
-    const response = await fetch('/api/auth/user/prizes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('accessToken')
-      },
-      body: JSON.stringify(prize)
-    })
-    const data = await response.json()
-    if (data.status !== 'ok') {
-      swal({
-        title: 'Failed',
-        text:
-          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
-            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
-            : data.errors[0].message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -271,22 +183,93 @@ const Alternatives = () => {
       })
   }, [deviceId, navigate])
 
-  const handleBack = () => {
-    navigate(-1)
+  const updateUser = async (user) => {
+    const response = await fetch('/api/auth/user', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify(user)
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      setBudget(data.user.budget)
+    } else {
+      swal({
+        title: 'Failed',
+        text:
+          data.message[0] >= 'a' && data.message[0] <= 'z'
+            ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+            : data.message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      }).then(() => {
+        navigate('/login')
+      })
+    }
   }
 
-  const appBar = (
-    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
-      <Toolbar>
-        <IconButton onClick={handleBack} color='inherit'>
-          <ArrowBackIosNewIcon />
-        </IconButton>
-        <Typography variant='h6' className='title'>
-          Alternatives
-        </Typography>
-      </Toolbar>
-    </AppBar>
-  )
+  const updateDevice = async (device) => {
+    const response = await fetch(`/api/auth/user/devices/${deviceId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify(device)
+    })
+    const data = await response.json()
+    if (data.status !== 'ok') {
+      swal({
+        title: 'Failed',
+        text:
+          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+            : data.errors[0].message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
+    }
+  }
+
+  const addPrize = async (prize) => {
+    const response = await fetch('/api/auth/user/prizes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify(prize)
+    })
+    const data = await response.json()
+    if (data.status !== 'ok') {
+      swal({
+        title: 'Failed',
+        text:
+          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+            : data.errors[0].message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
+    }
+  }
 
   const calculatePrize = async (newDevice) => {
     const prize = {
@@ -303,6 +286,10 @@ const Alternatives = () => {
       await addPrize(prize)
     }
     return prize
+  }
+
+  const handleBack = () => {
+    navigate(-1)
   }
 
   const handleChoose = async (element) => {
@@ -373,6 +360,41 @@ const Alternatives = () => {
     }
   }
 
+  const handleChangeInputBudget = (event) => {
+    const regExp = /^[1-9][0-9]*$/
+    if (event.target.value === '' || regExp.test(event.target.value)) {
+      setInputBudget(event.target.value)
+      setError(false)
+    }
+  }
+
+  const handleOK = () => {
+    if (inputBudget) {
+      setOpen(false)
+      updateUser({
+        budget: parseInt(inputBudget)
+      }).then(() => {
+        setLoading(true)
+        setBudget(parseInt(inputBudget))
+      })
+    } else {
+      setError(true)
+    }
+  }
+
+  const appBar = (
+    <AppBar position='static' style={{ backgroundColor: 'var(--very-peri)' }}>
+      <Toolbar>
+        <IconButton onClick={handleBack} color='inherit'>
+          <ArrowBackIosNewIcon />
+        </IconButton>
+        <Typography variant='h6' className='title'>
+          Alternatives
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  )
+
   const table = (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
@@ -404,28 +426,6 @@ const Alternatives = () => {
       </Table>
     </TableContainer>
   )
-
-  const handleChangeInputBudget = (event) => {
-    const regExp = /^[1-9][0-9]*$/
-    if (event.target.value === '' || regExp.test(event.target.value)) {
-      setInputBudget(event.target.value)
-      setError(false)
-    }
-  }
-
-  const handleOK = () => {
-    if (inputBudget) {
-      setOpen(false)
-      updateUser({
-        budget: parseInt(inputBudget)
-      }).then(() => {
-        setLoading(true)
-        setBudget(parseInt(inputBudget))
-      })
-    } else {
-      setError(true)
-    }
-  }
 
   const dialog = (
     <div>
@@ -478,7 +478,7 @@ const Alternatives = () => {
                     <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
                       <Typography variant='h4' gutterBottom component='div'>
                         Alternatives for device
-                    </Typography>
+                      </Typography>
                       <Typography variant='h5' gutterBottom component='div'>
                         {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''

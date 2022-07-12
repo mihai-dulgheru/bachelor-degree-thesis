@@ -26,8 +26,8 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import swal from 'sweetalert'
-import { CustomAppBar } from '.'
-import { counties, suppliers } from '../collections'
+import { CustomAppBar } from '..'
+import { counties, suppliers } from '../../collections'
 import './DeviceList.css'
 
 const columns = [
@@ -160,6 +160,77 @@ const DeviceList = () => {
   const [devices, setDevices] = useState([])
   const [filter, setFilter] = useState('')
 
+  useEffect(() => {
+    setSearchParams({ rowsPerPage, page })
+
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setUser(data.user)
+        setInvoiceUnitValue(data.user.invoiceUnitValue ? data.user.invoiceUnitValue : '')
+        setSupplier(data.user.supplier ? data.user.supplier : suppliers[0].value)
+        setCounty(data.user.county ? data.user.county : counties[0].value)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
+
+    const getDevices = async () => {
+      const response = await fetch('/api/auth/user/devices', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        setDevices(data.devices)
+        setRows(data.devices)
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
+
+    getUser()
+    getDevices()
+  }, [navigate, page, rowsPerPage, setSearchParams])
+
   const updateUser = async (user) => {
     const response = await fetch('/api/auth/user', {
       method: 'PUT',
@@ -253,77 +324,6 @@ const DeviceList = () => {
       })
     }
   }
-
-  useEffect(() => {
-    setSearchParams({ rowsPerPage, page })
-
-    const getUser = async () => {
-      const response = await fetch('/api/auth/user', {
-        method: 'GET',
-        headers: {
-          authorization: localStorage.getItem('accessToken')
-        }
-      })
-      const data = await response.json()
-      if (data.status === 'ok') {
-        setUser(data.user)
-        setInvoiceUnitValue(data.user.invoiceUnitValue ? data.user.invoiceUnitValue : '')
-        setSupplier(data.user.supplier ? data.user.supplier : suppliers[0].value)
-        setCounty(data.user.county ? data.user.county : counties[0].value)
-      } else {
-        swal({
-          title: 'Failed',
-          text:
-            data.message[0] >= 'a' && data.message[0] <= 'z'
-              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-              : data.message,
-          icon: 'error',
-          button: {
-            text: 'OK',
-            value: true,
-            visible: true,
-            closeModal: true
-          }
-        }).then(() => {
-          navigate('/login')
-        })
-      }
-    }
-
-    const getDevices = async () => {
-      const response = await fetch('/api/auth/user/devices', {
-        method: 'GET',
-        headers: {
-          authorization: localStorage.getItem('accessToken')
-        }
-      })
-      const data = await response.json()
-      if (data.status === 'ok') {
-        setDevices(data.devices)
-        setRows(data.devices)
-      } else {
-        swal({
-          title: 'Failed',
-          text:
-            data.message[0] >= 'a' && data.message[0] <= 'z'
-              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-              : data.message,
-          icon: 'error',
-          button: {
-            text: 'OK',
-            value: true,
-            visible: true,
-            closeModal: true
-          }
-        }).then(() => {
-          navigate('/login')
-        })
-      }
-    }
-
-    getUser()
-    getDevices()
-  }, [navigate, page, rowsPerPage, setSearchParams])
 
   const handleRequestSort = (_event, property) => {
     const isAsc = orderBy === property && order === 'asc'

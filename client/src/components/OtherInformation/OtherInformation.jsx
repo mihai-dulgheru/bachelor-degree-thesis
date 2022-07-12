@@ -2,7 +2,7 @@ import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/mate
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import { counties, suppliers } from '../collections'
+import { counties, suppliers } from '../../collections'
 
 const OtherInformation = () => {
   const navigate = useNavigate()
@@ -10,6 +10,51 @@ const OtherInformation = () => {
   const [county, setCounty] = useState(counties[0].value)
   const [budget, setBudget] = useState('')
   const [invoiceUnitValue, setInvoiceUnitValue] = useState('')
+
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch('/api/auth/user', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('accessToken')
+        }
+      })
+      const data = await response.json()
+      if (data.status === 'ok') {
+        if (data.user.supplier) {
+          setSupplier(data.user.supplier)
+        }
+        if (data.user.county) {
+          setCounty(data.user.county)
+        }
+        if (data.user.budget) {
+          setBudget(data.user.budget)
+        }
+        if (data.user.invoiceUnitValue) {
+          setInvoiceUnitValue(data.user.invoiceUnitValue)
+        }
+      } else {
+        swal({
+          title: 'Failed',
+          text:
+            data.message[0] >= 'a' && data.message[0] <= 'z'
+              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
+              : data.message,
+          icon: 'error',
+          button: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }).then(() => {
+          navigate('/login')
+        })
+      }
+    }
+
+    getUser()
+  }, [navigate])
 
   const handleChangeInputBudget = (event) => {
     const regExp = /^[1-9][0-9]*$/
@@ -56,51 +101,6 @@ const OtherInformation = () => {
       })
     }
   }
-
-  useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch('/api/auth/user', {
-        method: 'GET',
-        headers: {
-          authorization: localStorage.getItem('accessToken')
-        }
-      })
-      const data = await response.json()
-      if (data.status === 'ok') {
-        if (data.user.supplier) {
-          setSupplier(data.user.supplier)
-        }
-        if (data.user.county) {
-          setCounty(data.user.county)
-        }
-        if (data.user.budget) {
-          setBudget(data.user.budget)
-        }
-        if (data.user.invoiceUnitValue) {
-          setInvoiceUnitValue(data.user.invoiceUnitValue)
-        }
-      } else {
-        swal({
-          title: 'Failed',
-          text:
-            data.message[0] >= 'a' && data.message[0] <= 'z'
-              ? data.message[0].toLocaleUpperCase() + data.message.substring(1)
-              : data.message,
-          icon: 'error',
-          button: {
-            text: 'OK',
-            value: true,
-            visible: true,
-            closeModal: true
-          }
-        }).then(() => {
-          navigate('/login')
-        })
-      }
-    }
-
-    getUser()
-  }, [navigate])
 
   const handleSave = async () => {
     await updateUser({

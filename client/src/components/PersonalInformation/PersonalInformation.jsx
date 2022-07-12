@@ -29,36 +29,6 @@ const PersonalInformation = () => {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const updateUser = async (user) => {
-    const response = await fetch('/api/auth/user', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('accessToken')
-      },
-      body: JSON.stringify(user)
-    })
-    const data = await response.json()
-    if (data.status === 'ok') {
-      navigate('/profile')
-    } else {
-      swal({
-        title: 'Failed',
-        text:
-          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
-            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
-            : data.errors[0].message,
-        icon: 'error',
-        button: {
-          text: 'OK',
-          value: true,
-          visible: true,
-          closeModal: true
-        }
-      })
-    }
-  }
-
   useEffect(() => {
     const getUser = async () => {
       const response = await fetch('/api/auth/user', {
@@ -95,6 +65,36 @@ const PersonalInformation = () => {
 
     getUser()
   }, [navigate])
+
+  const updateUser = async (user) => {
+    const response = await fetch('/api/auth/user', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify(user)
+    })
+    const data = await response.json()
+    if (data.status === 'ok') {
+      navigate('/profile')
+    } else {
+      swal({
+        title: 'Failed',
+        text:
+          data.errors[0].message[0] >= 'a' && data.errors[0].message[0] <= 'z'
+            ? data.errors[0].message[0].toLocaleUpperCase() + data.errors[0].message.substring(1)
+            : data.errors[0].message,
+        icon: 'error',
+        button: {
+          text: 'OK',
+          value: true,
+          visible: true,
+          closeModal: true
+        }
+      })
+    }
+  }
 
   const validation = () => {
     setIsFirstNameValid(firstName !== '')

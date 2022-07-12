@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import { CustomAppBar, CustomBarChart, CustomPieChart, CustomStackedAreaChart, NoDeviceAdded } from '.'
-import { getEstimatedConsumptionPerYear } from '../functions'
+import { CustomAppBar, CustomBarChart, CustomPieChart, CustomStackedAreaChart, NoDeviceAdded } from '..'
+import { getEstimatedConsumptionPerYear } from '../../functions'
 
 const Charts = () => {
   const navigate = useNavigate()
