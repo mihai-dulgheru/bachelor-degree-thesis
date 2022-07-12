@@ -358,27 +358,29 @@ const Home = () => {
                 This field is required
               </span>
             </div>
-            {isSelectedPower ? (
-              <Select
-                className='select-units-measures'
-                isSearchable
-                value={unitMeasurePower}
-                onChange={(unitMeasurePower) => {
-                  setUnitMeasurementPower(unitMeasurePower)
-                }}
-                options={unitsMeasurementsPower}
-              />
-            ) : (
-              <Select
-                className='select-units-measures'
-                isSearchable
-                value={unitMeasureEnergyConsumption}
-                onChange={(unitMeasureEnergyConsumption) => {
-                  setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
-                }}
-                options={unitsMeasurementsEnergyConsumption}
-              />
-            )}
+            {isSelectedPower
+              ? (
+                <Select
+                  className='select-units-measures'
+                  isSearchable
+                  value={unitMeasurePower}
+                  onChange={(unitMeasurePower) => {
+                    setUnitMeasurementPower(unitMeasurePower)
+                  }}
+                  options={unitsMeasurementsPower}
+                />
+                )
+              : (
+                <Select
+                  className='select-units-measures'
+                  isSearchable
+                  value={unitMeasureEnergyConsumption}
+                  onChange={(unitMeasureEnergyConsumption) => {
+                    setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
+                  }}
+                  options={unitsMeasurementsEnergyConsumption}
+                />
+                )}
           </div>
         </div>
         <div className='row'>

@@ -20,6 +20,7 @@ const NoDeviceAdded = () => {
           variant='contained'
           size='large'
           onClick={() => {
+            sessionStorage.setItem('to', '/')
             navigate('/')
           }}
         >

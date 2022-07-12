@@ -464,32 +464,36 @@ const Alternatives = () => {
           <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
         </div>
       )}
-      {budget ? (
-        <>
-          {loading ? (
-            <LoadingScreen />
-          ) : (
-            <>
-              {appBar}
-              <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
-                <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
-                  <Typography variant='h4' gutterBottom component='div'>
-                    Alternatives for device
-                  </Typography>
-                  <Typography variant='h5' gutterBottom component='div'>
-                    {`${device.category}${
+      {budget
+        ? (
+          <>
+            {loading
+              ? (
+                <LoadingScreen />
+                )
+              : (
+                <>
+                  {appBar}
+                  <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
+                    <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
+                      <Typography variant='h4' gutterBottom component='div'>
+                        Alternatives for device
+                    </Typography>
+                      <Typography variant='h5' gutterBottom component='div'>
+                        {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''
                     }, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
-                  </Typography>
-                  {table}
-                </Paper>
-              </Box>
-            </>
+                      </Typography>
+                      {table}
+                    </Paper>
+                  </Box>
+                </>
+                )}
+          </>
+          )
+        : (
+            dialog
           )}
-        </>
-      ) : (
-        dialog
-      )}
     </div>
   )
 }

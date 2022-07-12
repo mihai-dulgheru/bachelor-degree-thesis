@@ -50,8 +50,8 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
 
   const handleClickMenuItem = (item) => {
     setAnchorElNav(null)
-    navigate(item.path)
     sessionStorage.setItem('to', item.path)
+    navigate(item.path)
   }
 
   const handleOpenUserMenu = (event) => {
