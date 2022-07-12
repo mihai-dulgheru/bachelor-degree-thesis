@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
+import { CustomTooltip } from '.'
 import './CustomBarChart.css'
-import CustomTooltip from './CustomTooltip'
 
 const COLORS = ['#8884d8', '#82ca9d']
 

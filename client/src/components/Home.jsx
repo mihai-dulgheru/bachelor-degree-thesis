@@ -5,13 +5,13 @@ import { forwardRef, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import swal from 'sweetalert'
+import { CustomAppBar } from '.'
 import {
   categories,
   efficiencyClasses,
   unitsMeasurementsEnergyConsumption,
   unitsMeasurementsPower
 } from '../collections'
-import CustomAppBar from './CustomAppBar'
 import './Home.css'
 
 const StyledInputElement = styled('input')(
@@ -358,29 +358,27 @@ const Home = () => {
                 This field is required
               </span>
             </div>
-            {isSelectedPower
-              ? (
-                <Select
-                  className='select-units-measures'
-                  isSearchable
-                  value={unitMeasurePower}
-                  onChange={(unitMeasurePower) => {
-                    setUnitMeasurementPower(unitMeasurePower)
-                  }}
-                  options={unitsMeasurementsPower}
-                />
-                )
-              : (
-                <Select
-                  className='select-units-measures'
-                  isSearchable
-                  value={unitMeasureEnergyConsumption}
-                  onChange={(unitMeasureEnergyConsumption) => {
-                    setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
-                  }}
-                  options={unitsMeasurementsEnergyConsumption}
-                />
-                )}
+            {isSelectedPower ? (
+              <Select
+                className='select-units-measures'
+                isSearchable
+                value={unitMeasurePower}
+                onChange={(unitMeasurePower) => {
+                  setUnitMeasurementPower(unitMeasurePower)
+                }}
+                options={unitsMeasurementsPower}
+              />
+            ) : (
+              <Select
+                className='select-units-measures'
+                isSearchable
+                value={unitMeasureEnergyConsumption}
+                onChange={(unitMeasureEnergyConsumption) => {
+                  setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
+                }}
+                options={unitsMeasurementsEnergyConsumption}
+              />
+            )}
           </div>
         </div>
         <div className='row'>

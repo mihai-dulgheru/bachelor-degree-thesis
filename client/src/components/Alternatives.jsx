@@ -24,15 +24,15 @@ import { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { useNavigate, useParams } from 'react-router-dom'
 import swal from 'sweetalert'
+import { LoadingScreen } from '.'
 import {
   convertkWhToCO2,
   convertkWhToCoal,
   convertkWhToRON,
-  convertkWhToTrees
-} from '../functions/conversion-functions'
-import { getEstimatedConsumptionPerYear } from '../functions/estimated-consumption-functions'
+  convertkWhToTrees,
+  getEstimatedConsumptionPerYear
+} from '../functions'
 import './Alternatives.css'
-import LoadingScreen from './LoadingScreen'
 
 const fractionDigits = 1
 
@@ -464,36 +464,32 @@ const Alternatives = () => {
           <ReactLoading type='spinningBubbles' color='var(--very-peri)' height={100} width={100} />
         </div>
       )}
-      {budget
-        ? (
-          <>
-            {loading
-              ? (
-                <LoadingScreen />
-                )
-              : (
-                <>
-                  {appBar}
-                  <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
-                    <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
-                      <Typography variant='h4' gutterBottom component='div'>
-                        Alternatives for device
-                      </Typography>
-                      <Typography variant='h5' gutterBottom component='div'>
-                        {`${device.category}${
+      {budget ? (
+        <>
+          {loading ? (
+            <LoadingScreen />
+          ) : (
+            <>
+              {appBar}
+              <Box sx={{ width: '90%', margin: '1rem auto 0 auto' }}>
+                <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
+                  <Typography variant='h4' gutterBottom component='div'>
+                    Alternatives for device
+                  </Typography>
+                  <Typography variant='h5' gutterBottom component='div'>
+                    {`${device.category}${
                       device.efficiencyClass ? `, Energy efficiency class: ${device.efficiencyClass}` : ''
                     }, Energy consumption: ${device.energyConsumption} ${device.unitMeasurement}`}
-                      </Typography>
-                      {table}
-                    </Paper>
-                  </Box>
-                </>
-                )}
-          </>
-          )
-        : (
-            dialog
+                  </Typography>
+                  {table}
+                </Paper>
+              </Box>
+            </>
           )}
+        </>
+      ) : (
+        dialog
+      )}
     </div>
   )
 }

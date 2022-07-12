@@ -2,15 +2,9 @@ import { Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import {
-  convertkWhToCO2,
-  convertkWhToCoal,
-  convertkWhToRON,
-  convertkWhToTrees
-} from '../functions/conversion-functions'
+import { CustomAppBar, CustomCard } from '.'
+import { convertkWhToCO2, convertkWhToCoal, convertkWhToRON, convertkWhToTrees } from '../functions'
 import { co2Icon, coalIcon, moneyIcon, treeIcon } from '../images'
-import CustomAppBar from './CustomAppBar'
-import CustomCard from './CustomCard'
 import './Prizes.css'
 
 const fractionDigits = 1

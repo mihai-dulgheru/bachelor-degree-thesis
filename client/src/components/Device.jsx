@@ -250,29 +250,27 @@ const Device = () => {
                 This field is required
               </span>
             </div>
-            {isSelectedPower
-              ? (
-                <Select
-                  className='select-units-measures'
-                  isSearchable
-                  value={unitMeasurementPower}
-                  onChange={(unitMeasurePower) => {
-                    setUnitMeasurementPower(unitMeasurePower)
-                  }}
-                  options={unitsMeasurementsPower}
-                />
-                )
-              : (
-                <Select
-                  className='select-units-measures'
-                  isSearchable
-                  value={unitMeasurementEnergyConsumption}
-                  onChange={(unitMeasureEnergyConsumption) => {
-                    setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
-                  }}
-                  options={unitsMeasurementsEnergyConsumption}
-                />
-                )}
+            {isSelectedPower ? (
+              <Select
+                className='select-units-measures'
+                isSearchable
+                value={unitMeasurementPower}
+                onChange={(unitMeasurePower) => {
+                  setUnitMeasurementPower(unitMeasurePower)
+                }}
+                options={unitsMeasurementsPower}
+              />
+            ) : (
+              <Select
+                className='select-units-measures'
+                isSearchable
+                value={unitMeasurementEnergyConsumption}
+                onChange={(unitMeasureEnergyConsumption) => {
+                  setUnitMeasurementEnergyConsumption(unitMeasureEnergyConsumption)
+                }}
+                options={unitsMeasurementsEnergyConsumption}
+              />
+            )}
           </div>
         </div>
         <div className='row'>

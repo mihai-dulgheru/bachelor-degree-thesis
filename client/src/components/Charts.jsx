@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
-import { getEstimatedConsumptionPerYear } from '../functions/estimated-consumption-functions'
-import CustomAppBar from './CustomAppBar'
-import CustomBarChart from './CustomBarChart'
-import CustomPieChart from './CustomPieChart'
-import CustomStackedAreaChart from './CustomStackedAreaChart'
-import NoDeviceAdded from './NoDeviceAdded'
+import { CustomAppBar, CustomBarChart, CustomPieChart, CustomStackedAreaChart, NoDeviceAdded } from '.'
+import { getEstimatedConsumptionPerYear } from '../functions'
 
 const Charts = () => {
   const navigate = useNavigate()
@@ -136,13 +132,13 @@ const Charts = () => {
           device.previousVersion === null
             ? parseFloat(getEstimatedConsumptionPerYear(device).toFixed(fractionDigits))
             : parseFloat(
-              getEstimatedConsumptionPerYear({
-                ...device,
-                energyConsumption: parseInt(items[0]),
-                unitMeasurement: items[1],
-                efficiencyClass: items[2]
-              }).toFixed(fractionDigits)
-            ),
+                getEstimatedConsumptionPerYear({
+                  ...device,
+                  energyConsumption: parseInt(items[0]),
+                  unitMeasurement: items[1],
+                  efficiencyClass: items[2]
+                }).toFixed(fractionDigits)
+              ),
         current: parseFloat(getEstimatedConsumptionPerYear(device).toFixed(fractionDigits))
       }
     })
@@ -165,41 +161,39 @@ const Charts = () => {
   return (
     <div>
       <CustomAppBar user={user} selectedAppBarItem='Charts' />
-      {devices.length !== 0
-        ? (
-          <>
-            <div>
-              <div className='display-flex flex-direction-column row-gap-4 mt-4'>
-                <div>
-                  <CustomPieChart
-                    title='Estimated consumption by categories'
-                    data={getEstimatedConsumptionByCategory()}
-                  />
-                </div>
-                <div>
-                  <CustomBarChart
-                    title='The average number of operating hours per day by category'
-                    data={getNoOperatingHoursByCategory()}
-                    legend={false}
-                    dataKeys={['The average number of operating hours per day']}
-                  />
-                </div>
-                <div>
-                  <CustomStackedAreaChart
-                    title='Estimated consumption history (in kWh/annum)'
-                    data={getEstimatedConsumptionHistory()}
-                    dataKeys={['previous', 'current']}
-                  />
-                </div>
+      {devices.length !== 0 ? (
+        <>
+          <div>
+            <div className='display-flex flex-direction-column row-gap-4 mt-4'>
+              <div>
+                <CustomPieChart
+                  title='Estimated consumption by categories'
+                  data={getEstimatedConsumptionByCategory()}
+                />
+              </div>
+              <div>
+                <CustomBarChart
+                  title='The average number of operating hours per day by category'
+                  data={getNoOperatingHoursByCategory()}
+                  legend={false}
+                  dataKeys={['The average number of operating hours per day']}
+                />
+              </div>
+              <div>
+                <CustomStackedAreaChart
+                  title='Estimated consumption history (in kWh/annum)'
+                  data={getEstimatedConsumptionHistory()}
+                  dataKeys={['previous', 'current']}
+                />
               </div>
             </div>
-          </>
-          )
-        : (
-          <>
-            <NoDeviceAdded />
-          </>
-          )}
+          </div>
+        </>
+      ) : (
+        <>
+          <NoDeviceAdded />
+        </>
+      )}
     </div>
   )
 }
