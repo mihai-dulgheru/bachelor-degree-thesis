@@ -6,12 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import swal from 'sweetalert'
 import { CustomAppBar } from '..'
-import {
-  categories,
-  efficiencyClasses,
-  unitsMeasurementsEnergyConsumption,
-  unitsMeasurementsPower
-} from '../../collections'
+import { categories, efficiencyClasses, unitsMeasurementsEnergyConsumption, unitsMeasurementsPower } from '../../json'
 import './Home.css'
 
 const StyledInputElement = styled('input')(

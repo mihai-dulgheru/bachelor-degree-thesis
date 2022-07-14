@@ -27,7 +27,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import swal from 'sweetalert'
 import { CustomAppBar } from '..'
-import { counties, suppliers } from '../../collections'
+import { counties, suppliers } from '../../json'
 import './DeviceList.css'
 
 const columns = [

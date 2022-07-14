@@ -6,6 +6,7 @@
   --palette-secondary-main: #f1faee;
   --very-peri: #6667ab;
   --blue-iris: #5a5b9f;
+  --amethyst-orchid: #926AA6;
   --error-color: #d32f2f;
 }
 
@@ -21,33 +22,6 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.box>button:hover {
-  opacity: 0.8;
-  background-color: var(--blue-iris);
-  transition: 0.5s;
-}
-
-.box>div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem;
-  padding-bottom: 0.25rem;
-}
-
-#root>div>div>header>div>div>div>div {
-  cursor: default;
-}
-
-#root>div>div>header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 1300;
-  opacity: 0.8;
-  backdrop-filter: saturate(180%) blur(1.25rem);
 }
 
 .display-flex {

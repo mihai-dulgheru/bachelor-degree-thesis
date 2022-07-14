@@ -5,12 +5,7 @@ import { forwardRef, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Select from 'react-select'
 import swal from 'sweetalert'
-import {
-  categories,
-  efficiencyClasses,
-  unitsMeasurementsEnergyConsumption,
-  unitsMeasurementsPower
-} from '../../collections'
+import { categories, efficiencyClasses, unitsMeasurementsEnergyConsumption, unitsMeasurementsPower } from '../../json'
 
 const StyledInputElement = styled('input')(
   () => `

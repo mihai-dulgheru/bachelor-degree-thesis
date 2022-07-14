@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import './CustomAppBar.css'
 
 const listOfAppBarItems = [
   {
@@ -135,6 +136,7 @@ const CustomAppBar = ({ user, selectedAppBarItem }) => {
                   )
                 : (
                   <Button
+                    className='menu-button'
                     key={item.name}
                     onClick={() => handleClickMenuItem(item)}
                     sx={{ py: 2, color: 'white', display: 'block' }}

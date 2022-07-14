@@ -1,4 +1,4 @@
-import counties from '../collections/counties.json'
+import counties from '../json/counties.json'
 
 const fractionDigits = 1
 

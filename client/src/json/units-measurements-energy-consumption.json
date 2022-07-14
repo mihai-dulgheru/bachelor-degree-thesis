@@ -1,0 +1,18 @@
+[
+  {
+    "value": "kWh/100 cycles",
+    "label": "kWh/100 cycles"
+  },
+  {
+    "value": "kWh/1000h",
+    "label": "kWh/1000h"
+  },
+  {
+    "value": "kWh/annum",
+    "label": "kWh/annum"
+  },
+  {
+    "value": "kWh/cycle",
+    "label": "kWh/cycle"
+  }
+]
