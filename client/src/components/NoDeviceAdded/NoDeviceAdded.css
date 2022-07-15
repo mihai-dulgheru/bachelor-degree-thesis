@@ -5,7 +5,8 @@ img {
 #info {
   font-size: 2.5rem;
   width: 80%;
-  max-width: 63rem;
+  max-width: 51rem;
+  margin-bottom: 5rem;
 }
 
 #go-homepage-button {

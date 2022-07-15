@@ -123,9 +123,9 @@ const Charts = () => {
   }
 
   const getEstimatedConsumptionHistory = () => {
+    const fractionDigits = 2
     const tempDevices = devices.map((device) => {
       const items = device.previousVersion && device.previousVersion.split(';')
-      const fractionDigits = 2
       return {
         name: device.category,
         previous:
@@ -148,14 +148,14 @@ const Charts = () => {
       if (Object.hasOwnProperty.call(object, name)) {
         object[name] = {
           name,
-          previous: object[name].previous + device.previous,
-          current: object[name].current + device.current
+          previous: parseFloat((object[name].previous + device.previous).toFixed(fractionDigits)),
+          current: parseFloat((object[name].current + device.current).toFixed(fractionDigits))
         }
       } else {
         object[name] = device
       }
     }
-    return Object.values(object).sort((a, b) => b.value - a.value)
+    return Object.values(object).sort((a, b) => a.name.localeCompare(b.name))
   }
 
   return (

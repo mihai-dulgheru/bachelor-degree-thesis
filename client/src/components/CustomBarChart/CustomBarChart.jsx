@@ -26,7 +26,7 @@ const CustomBarChart = ({ title, width, height, data, legend, dataKeys }) => {
           }}
         >
           <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='name' height={90} interval={0} angle={30} dx={20} dy={32} />
+          <XAxis dataKey='name' height={90} interval={0} angle={30} dx={0} dy={32} />
           <YAxis />
           <Tooltip content={<CustomTooltip colors={COLORS} />} />
           {legend && <Legend />}

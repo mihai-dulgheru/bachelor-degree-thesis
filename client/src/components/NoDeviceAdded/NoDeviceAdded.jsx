@@ -7,11 +7,11 @@ const NoDeviceAdded = () => {
   const navigate = useNavigate()
 
   return (
-    <div className='display-flex flex-direction-column align-items-center justify-content-center mt-4'>
+    <div className='display-flex flex-direction-column align-items-center justify-content-center'>
       <div className='display-flex justify-content-center'>
         <img src={oopsIcon} alt='comic-boom-oops-icon' />
       </div>
-      <Typography id='info' align='center' gutterBottom variant='h2'>
+      <Typography id='info' align='center' variant='h2'>
         You cannot view any charts. Please add at least one device to access this feature!
       </Typography>
       <div className='display-flex justify-content-center'>
