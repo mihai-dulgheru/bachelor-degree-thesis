@@ -375,10 +375,10 @@ const DeviceList = () => {
       let energy = 0
       switch (device.unitMeasurement) {
         case 'W':
-          energy = (device.energyConsumption * device.noOperatingHours) / 1000
+          energy = device.energyConsumption / 1000
           break
         case 'kW':
-          energy = device.energyConsumption * device.noOperatingHours
+          energy = device.energyConsumption
           break
         case 'kWh/100 cycles':
           let kWhAnnum = 0
@@ -402,7 +402,8 @@ const DeviceList = () => {
         default:
           break
       }
-      estimatedConsumptionkWh += energy
+      estimatedConsumptionkWh += (energy * device.noOperatingHours) / 24
+      console.log(device)
     }
 
     const estimatedConsumptionkWhDay = estimatedConsumptionkWh * day
